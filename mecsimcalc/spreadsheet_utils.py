@@ -150,7 +150,6 @@ def print_dataframe(
     download_file_type = download_file_type.lower()
 
     # create a buffer to store the file data
-    buf = io.BytesIO()
 
     # if the file type is an alias of excel, convert the DataFrame to an excel file
     if download_file_type in {
@@ -164,6 +163,7 @@ def print_dataframe(
         "odt",
     }:
         # convert the DataFrame to an excel file
+        buf = io.BytesIO()
         df.to_excel(buf, index=False)
         buf.seek(0)
 
@@ -174,6 +174,7 @@ def print_dataframe(
 
     # if the file type does not match an alias of excel, convert the DataFrame to a csv file
     else:
+        buf = io.BytesIO()
         df.to_csv(buf, index=False)
         buf.seek(0)
 
