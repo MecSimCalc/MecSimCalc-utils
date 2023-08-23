@@ -41,7 +41,7 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
         df = pd.read_csv(file)
     except Exception:
         try:
-            df = pd.read_excel(file)
+            df = pd.read_excel(file, engine="openpyxl")
         except Exception as e:
             raise pd.errors.ParserError("File Type Not Supported") from e
 
