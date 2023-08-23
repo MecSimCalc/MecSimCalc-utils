@@ -174,7 +174,8 @@ def print_dataframe(
 
     # if the file type does not match an alias of excel, convert the DataFrame to a csv file
     else:
-        df.to_csv(buf, index=False)
+        csv_str = df.to_csv(index=False)
+        buf.write(csv_str.encode())
         buf.seek(0)
 
         encoded_data = "data:text/csv;base64," + base64.b64encode(buf.read()).decode()
