@@ -149,8 +149,6 @@ def print_dataframe(
     # convert the download file type to lowercase
     download_file_type = download_file_type.lower()
 
-    # create a buffer to store the file data
-
     # if the file type is an alias of excel, convert the DataFrame to an excel file
     if download_file_type in {
         "excel",
@@ -174,7 +172,7 @@ def print_dataframe(
 
     # if the file type does not match an alias of excel, convert the DataFrame to a csv file
     else:
-        buf = io.BytesIO()
+        buf = io.StringIO()
         df.to_csv(buf, index=False)
         buf.seek(0)
 
