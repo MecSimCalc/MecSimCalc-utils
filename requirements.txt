@@ -1,4 +1,4 @@
 pillow
-pandas
+pandas >= 1.1.5
 matplotlib
 openpyxl
