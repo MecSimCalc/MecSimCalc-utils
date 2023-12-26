@@ -23,7 +23,7 @@ setup(
     install_requires=["Pillow", "pandas", "matplotlib", "openpyxl"],
     keywords=["python", "MecSimCalc", "Calculator", "Simple"],
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
