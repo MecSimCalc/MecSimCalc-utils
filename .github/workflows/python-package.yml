@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04 # latest version that supports python 3.6
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
