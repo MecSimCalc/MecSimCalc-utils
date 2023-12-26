@@ -80,7 +80,7 @@ def print_plot(
 
     # Convert the buffer to a base64 string
     encoded_data = (
-        "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
+        f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
     )
 
     # Create the html image tag

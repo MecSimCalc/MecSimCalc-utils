@@ -9,12 +9,12 @@ from mecsimcalc import input_to_file, metadata_to_filetype
 # Define a dictionary for file type conversions
 file_type_mappings = {
     "jpg": "jpeg",
-    "tif": "tiff",
-    "ico": "x-icon",
-    "svg": "svg+xml",
     "jpeg": "jpeg",
+    "tif": "tiff",
     "tiff": "tiff",
+    "ico": "x-icon",
     "x-icon": "x-icon",
+    "svg": "svg+xml",
     "svg+xml": "svg+xml",
     "png": "png",
 }
