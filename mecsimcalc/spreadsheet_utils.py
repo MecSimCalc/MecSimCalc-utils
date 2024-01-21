@@ -163,6 +163,7 @@ def print_dataframe(
         "odf",
         "ods",
         "odt",
+        "vnd.openxmlformats-officedocument.spreadsheetml.sheet",  # MIME type
     }:
         df.to_excel(buf, index=False, engine="openpyxl")
         encoded_file = (
