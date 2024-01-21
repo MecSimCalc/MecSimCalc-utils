@@ -36,7 +36,7 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
      1  4  5  6
     """
 
-    # try to read the file as a CSV, if that fails try to read it as an Excel file, if that fails raise an error
+    # get dataframe from file data (try csv first, then excel)
     try:
         df = pd.read_csv(file)
     except Exception:
@@ -81,10 +81,9 @@ def input_to_dataframe(
     1  4  5  6
 
     """
-    # convert the input file to a file object and metadata
+    # converts input file into a dataframe
     file_data, metadata = input_to_file(input_file, metadata=True)
 
-    # if get_file_type is True, return the file type along with the DataFrame, otherwise return just the DataFrame
     if get_file_type:
         return file_to_dataframe(file_data), metadata_to_filetype(metadata)
     else:
@@ -146,19 +145,15 @@ def print_dataframe(
         "download_link": download_link
     }
     """
-    # if download is False, return the table as a string
     if not download:
         return df.to_html()
 
     # -------- Creating Downloadable File --------#
 
-    # convert the download file type to lowercase (makes it easier to check the file type)
+    buf = io.BytesIO()
     download_file_type = download_file_type.lower()
 
-    # create a buffer to store the file data
-    buf = io.BytesIO()
-
-    # if the file type is an alias of excel, convert the DataFrame to an excel file
+    # excel
     if download_file_type in {
         "excel",
         "xlsx",
@@ -169,24 +164,19 @@ def print_dataframe(
         "ods",
         "odt",
     }:
-        # convert the DataFrame to an excel file
         df.to_excel(buf, index=False, engine="openpyxl")
-
-        encoded_data = (
+        encoded_file = (
             "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
             + base64.b64encode(buf.getvalue()).decode()
         )
-
-    # if the file type does not match an alias of excel, convert the DataFrame to a csv file
+    # csv
     else:
         csv_str = df.to_csv(index=False)
         buf.write(csv_str.encode())
 
-        encoded_data = (
+        encoded_file = (
             "data:text/csv;base64," + base64.b64encode(buf.getvalue()).decode()
         )
 
-    # create the download link
-    download_link = f"<a href='{encoded_data}' download='{download_file_name}.{download_file_type}'>{download_text}</a>"
-
+    download_link = f"<a href='{encoded_file}' download='{download_file_name}.{download_file_type}'>{download_text}</a>"
     return df.to_html(), download_link

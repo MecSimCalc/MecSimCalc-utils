@@ -18,16 +18,14 @@ from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataf
 
 
 def test_input_to_file():
-    # decode file data
+    # Simulates Mecsimcalc's input files (base64 encoded strings)
     inputCSV = get_csv()
     inputXLSX = get_xlsx()
 
-    # try decoding data with metadata
+    # convert encoded file to usable file
     fileCSV, metadataCSV = input_to_file(inputCSV, metadata=True)
     fileXLSX, metadataXLSX = input_to_file(inputXLSX, metadata=True)
 
-    # for csvFile.csv, metadata should be "data:image/csv;base64,"
-    # for xlsxFile.xlsx, metadata should be "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
     assert metadataCSV == "data:text/csv;base64,"
     assert (
         metadataXLSX

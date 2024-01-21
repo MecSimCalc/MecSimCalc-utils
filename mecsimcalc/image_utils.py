@@ -89,10 +89,8 @@ def input_to_PIL(
 
     (image is now ready to be used with Pillow functions)
     """
-    # Decode the base64 string into a binary file object and extract metadata
     file_data, metadata = input_to_file(input_file, metadata=True)
 
-    # Convert the file data into a PIL Image object
     image = file_to_PIL(file_data)
 
     if get_file_type:
@@ -170,44 +168,32 @@ def print_image(
     }
 
     """
-
-    # Create a copy for display, preserving the original image
+    # preserve original image for download
     display_image = image.copy()
 
-    # Correct file type using the mappings dictionary
-    file_type = file_type_mappings.get(
+    mime_type = file_type_mappings.get(
         download_file_type.lower().replace(".", ""), "png"
     )
-
-    # Create metadata with correct file type
-    metadata = f"data:image/{file_type};base64,"
+    metadata = f"data:image/{mime_type};base64,"
 
     if not original_size:
         display_image.thumbnail((width, height))
 
-    # Get downloadable data (Full Resolution)
+    # Get download image data (Full Resolution Image)
     buffer = io.BytesIO()
     image.save(buffer, format=image.format)
     encoded_data = metadata + base64.b64encode(buffer.getvalue()).decode()
 
-    # Get displayable data (Custom Resolution)
+    # Get display image data (Custom Resolution)
     display_buffer = io.BytesIO()
-
-    # Save the display image to the buffer
     display_image.save(display_buffer, format=image.format)
-
-    # Get the encoded display data
     encoded_display_data = (
         metadata + base64.b64encode(display_buffer.getvalue()).decode()
     )
 
-    # Convert Display image to HTML
     image_tag = f"<img src='{encoded_display_data}'>"
-
     if not download:
         return image_tag
 
-    # Convert full resolution image to an HTML download link
     download_link = f"<a href='{encoded_data}' download='{download_file_name}.{image.format}'>{download_text}</a>"
-
     return image_tag, download_link

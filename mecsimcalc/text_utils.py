@@ -49,19 +49,15 @@ def string_to_file(
     }
 
     """
-
-    # Verify that text is a string
     if not isinstance(text, str):
         raise TypeError("text must be a string")
 
-    # Remove the file extension from the filename if it exists
     if filename.endswith(".txt"):
         filename = filename[:-4]
 
-    # Encode the text
+    # Encode to a text file
     encoded_text = base64.b64encode(text.encode()).decode()
     mime_type = "data:text/plain;base64,"
-    encoded_data = mime_type + encoded_text
+    encoded_file = mime_type + encoded_text
 
-    # Return the download link
-    return f"<a href='{encoded_data}' download='{filename}.txt'>{download_text}</a>"
+    return f"<a href='{encoded_file}' download='{filename}.txt'>{download_text}</a>"

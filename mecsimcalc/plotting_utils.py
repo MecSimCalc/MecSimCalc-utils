@@ -65,34 +65,25 @@ def print_plot(
         "download_link": download_link
     }
     """
-
-    # Check if plot_obj is a matplotlib Axes object
     if isinstance(plot_obj, plt.Axes):
         plot_obj = plot_obj.get_figure()
 
-    # Save plot to a buffer in memory
     buffer = io.BytesIO()
     plot_obj.savefig(buffer, format="png", dpi=dpi)
 
-    # Close the plot
     if hasattr(plot_obj, "close"):
         plot_obj.close()
 
-    # Convert the buffer to a base64 string
-    encoded_data = (
+    encoded_image = (
         f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
     )
-
-    # Create the html image tag
-    html_img = f"<img src='{encoded_data}' width='{width}'>"
+    html_img = f"<img src='{encoded_image}' width='{width}'>"
 
     if not download:
         return html_img
 
-    # Create the download link
     download_link = (
-        f"<a href='{encoded_data}' "
+        f"<a href='{encoded_image}' "
         f"download='{download_file_name}.png'>{download_text}</a>"
     )
-
     return html_img, download_link

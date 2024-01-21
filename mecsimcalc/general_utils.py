@@ -46,6 +46,8 @@ def input_to_file(
 
     (metadata holds information about the file, such as the file type)
     """
+
+    # Check if the input string contains ';base64,' which is required to separate metadata and file data
     if ";base64," not in input_file:
         raise ValueError("Invalid input: must contain ';base64,'")
 
@@ -77,11 +79,11 @@ def metadata_to_filetype(metadata: str) -> str:
     >>> print(file_type)
     jpeg
     """
-    # Extract the file type from the metadata (e.g., "Data:image/jpeg;base64,") look into "mime types" for more info
+    # Extract mime type from metadata
     match = re.search(r"/(.+);base64,", metadata)
     file_type = match[1] if match else ""
 
-    # Converts excel's mime type to a more understandable file type
+    # Convert the file type to a more common format
     if file_type == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
         file_type = "xlsx"
 
