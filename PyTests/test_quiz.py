@@ -1,9 +1,5 @@
 import sys
 import os
-import base64
-import mimetypes
-from PIL import Image
-import io
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
