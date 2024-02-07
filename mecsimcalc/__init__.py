@@ -10,7 +10,7 @@ from .table_utils import table_to_dataframe, print_table
 
 from .text_utils import string_to_file
 
-
+from .quiz_utils import append_google_sheet, send_gmail
 __all__ = [
     "input_to_dataframe",
     "file_to_dataframe",
