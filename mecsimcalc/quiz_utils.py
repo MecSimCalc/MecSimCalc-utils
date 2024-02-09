@@ -8,91 +8,157 @@ from email.mime.text import MIMEText
 import logging
 
 
-# Function to append values to a Google Sheet
-def append_to_google_sheet(service_account_info, spreadsheet_id, values, range_name='Sheet1!A1', include_timestamp=True):
+
+def append_to_google_sheet(
+        service_account_info: dict,
+        spreadsheet_id: str,
+        values: list,
+        range_name: str = 'Sheet1!A1',
+        include_timestamp: bool = True
+) -> dict:
     """
-    Appends values to a Google Sheet, optionally including a timestamp.
+    Appends values to a specified range within a Google Sheet, with the option to include a timestamp
+    in each row appended. This function utilizes the Google Sheets API v4 for data manipulation.
 
-    Parameters:
-        service_account_info (dict): The service account credentials.
-        spreadsheet_id (str): The ID of the spreadsheet.
-        values (list of lists): The data to append.
-        range_name (str): The starting cell where appending begins.
-        include_timestamp (bool): Whether to include a timestamp in each row.
+    Parameters
+    ----------
+    service_account_info : dict
+        The credentials of the service account, including at least 'client_email', 'private_key',
+        and 'private_key_id' fields. This is used to authenticate and interact with the Google Sheets API.
+    spreadsheet_id : str
+        The unique identifier for the Google Sheets document to which data will be appended.
+    values : list of list
+        The data to be appended, organized as a list of rows, with each row being a list of values.
+    range_name : str, optional
+        The A1 notation of the starting cell where appending will begin, defaulting to 'Sheet1!A1'.
+    include_timestamp : bool, optional
+        A flag indicating whether to append a timestamp to each row of data, defaulting to True.
+        The timestamp format is 'YYYY-MM-DD HH:MM:SS'.
 
-    Returns:
-        dict: The API response.
-        The values will be appended to Google Sheet.
+    Returns
+    -------
+    dict
+        A dictionary representing the response from the Google Sheets API. This typically includes
+        information about the update, such as the range updated and the number of cells affected.
 
-    Examples:
-    >>> service_account_info = {...}
-    >>> spreadsheet_id = '...'
-    >>> values = [["name", 1811123, "correct"]]
+    Raises
+    ------
+    Exception
+        If an error occurs while obtaining the access token or appending the data to the sheet.
+
+    Examples
+    --------
+    >>> service_account_info = {'client_email': 'your_service_account_email', 'private_key': 'your_private_key', 'private_key_id': 'your_private_key_id'}
+    >>> spreadsheet_id = 'your_spreadsheet_id'
+    >>> values = [["Example Name", 42, "Example Data"]]
     >>> append_to_google_sheet(service_account_info, spreadsheet_id, values)
+    {'updates': {'spreadsheetId': 'your_spreadsheet_id', 'updatedRange': 'Sheet1!A1:C2', 'updatedRows': 1, 'updatedColumns': 3, 'updatedCells': 3}}
     """
+
     # Helper function to get an access token
-    def _get_access_token(service_account_info):
-        iat = time.time()
-        exp = iat + 3600  # Token valid for 1 hour
-        # JWT payload
-        payload = {
-            'iss': service_account_info['client_email'],
-            'scope': 'https://www.googleapis.com/auth/spreadsheets',
-            'aud': 'https://oauth2.googleapis.com/token',
-            'iat': iat,
-            'exp': exp
-        }
-        # Generate JWT
-        additional_headers = {'kid': service_account_info['private_key_id']}
-        signed_jwt = jwt.encode(
-            payload,
-            service_account_info['private_key'],
-            algorithm='RS256',
-            headers=additional_headers
-        )
-        # Exchange JWT for access token
-        params = {
-            'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-            'assertion': signed_jwt
-        }
-        response = requests.post('https://oauth2.googleapis.com/token', data=params)
-        response_data = response.json()
-        return response_data['access_token']
+    def _get_access_token(service_account_info: dict):
+        try:
+            iat = time.time()
+            exp = iat + 3600  # Token valid for 1 hour
+            # JWT payload
+            payload = {
+                'iss': service_account_info['client_email'],
+                'scope': 'https://www.googleapis.com/auth/spreadsheets',
+                'aud': 'https://oauth2.googleapis.com/token',
+                'iat': iat,
+                'exp': exp
+            }
+            # Generate JWT
+            additional_headers = {'kid': service_account_info['private_key_id']}
+            signed_jwt = jwt.encode(
+                payload,
+                service_account_info['private_key'],
+                algorithm='RS256',
+                headers=additional_headers
+            )
+            # Exchange JWT for access token
+            params = {
+                'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                'assertion': signed_jwt
+            }
+            response = requests.post('https://oauth2.googleapis.com/token', data=params)
+            response.raise_for_status()  # Raises HTTPError, if one occurred
+            response_data = response.json()
+            return response_data['access_token']
+        except Exception as e:
+            print(f"Error getting access token: {e}")
+            return None
 
     # Get an access token
     access_token = _get_access_token(service_account_info)
+    if not access_token:
+        return {"error": "Failed to get access token"}
 
     if include_timestamp:
         current_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         values = [row + [current_timestamp] for row in values]
 
-    url = f'https://sheets.googleapis.com/v4/spreadsheets/{spreadsheet_id}/values/{range_name}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS'
-    headers = {
-        'Authorization': f'Bearer {access_token}',
-        'Content-Type': 'application/json'
-    }
-    body = {'values': values}
-    response = requests.post(url, headers=headers, json=body)
-    return response.json()
+    try:
+        url = f'https://sheets.googleapis.com/v4/spreadsheets/{spreadsheet_id}/values/{range_name}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS'
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+        body = {'values': values}
+        response = requests.post(url, headers=headers, json=body)
+        response.raise_for_status()  # Raises HTTPError, if one occurred
+        return response.json()
+    except Exception as e:
+        print(f"Error appending to Google Sheet: {e}")
+        return {"error": "Failed to append to Google Sheet"}
 
 
-def send_gmail(sender_email, receiver_email, subject, app_password, values):
+
+def send_gmail(
+        sender_email: str,
+        receiver_email: str,
+        subject: str,
+        app_password: str,
+        values: list
+) -> bool:
     """
-    Sends an email with provided values formatted in the message body.
+    Sends an email from a Gmail account to a specified recipient with a list of values formatted in the message body.
 
-    Parameters:
-    - sender_email: Email address of the sender.
-    - receiver_email: Email address of the receiver.
-    - subject: Subject line of the email.
-    - password: App-specific password for the sender's email account.
-    - values: A list of tuples containing data to be included in the email body.
+    This function constructs an email message using the specified sender and receiver email addresses, subject line, and
+    formats the provided list of values into the email body. It uses an app-specific password for authentication with the
+    Gmail SMTP server to enhance security.
 
-    Examples:
+    Parameters
+    ----------
+    sender_email : str
+        The email address of the sender. This should be a valid Gmail address.
+    receiver_email : str
+        The email address of the recipient. Can be any valid email address.
+    subject : str
+        The subject line of the email.
+    app_password : str
+        The app-specific password generated for the sender's Gmail account. This is required for authentication when
+        using Gmail's SMTP server for sending emails programmatically.
+    values : list of list
+        A list of lists, where each inner list contains data (strings or numbers) that will be formatted and included in
+        the email body. Each inner list is converted to a comma-separated string and added to the email body on a new line.
+
+    Returns
+    -------
+    bool
+        Returns True if the email was sent successfully, otherwise False. Success or failure is logged using the logging
+        module.
+
+    Examples
+    --------
     >>> values = [
-        ["John Doe", "123456", 10, 2, 5.00, "This is a test message."]
-    ]
-    >>> send_email("xxx@gmail.com", "xxx@ualberta.ca", "test", "xxxx xxxx xxxx xxxx", values)
+    ...     ["John Doe", "123456", 10, 2, 5.00, "This is a test message."]
+    ... ]
+    >>> send_gmail("sender@example.com", "receiver@example.com", "Test Email", "your_app_password", values)
+    True
+
     """
+
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
     message["From"] = sender_email
@@ -109,5 +175,7 @@ def send_gmail(sender_email, receiver_email, subject, app_password, values):
             server.login(sender_email, app_password)
             server.sendmail(sender_email, receiver_email, message.as_string())
         logging.info("Email sent successfully!")
+        return True
     except Exception as e:
         logging.error(f"Failed to send email: {e}")
+        return False
