@@ -25,8 +25,7 @@ def append_to_google_sheet(
         include_timestamp: bool = True
     ) -> dict
 
-    Appends values to a specified range within a Google Sheet, with the option to include a timestamp
-    in each row appended. This function utilizes the Google Sheets API v4 for data manipulation.
+    Appends values to Google Sheet, with the option to include a timestamp in each row appended.
 
     Parameters
     ----------
@@ -137,11 +136,8 @@ def send_gmail(
         app_password: str,
         values: list
     ) -> bool
-    Sends an email from a Gmail account to a specified recipient with a list of values formatted in the message body.
 
-    This function constructs an email message using the specified sender and receiver email addresses, subject line, and
-    formats the provided list of values into the email body. It uses an app-specific password for authentication with the
-    Gmail SMTP server to enhance security.
+    Sends an email from a Gmail account to a specified recipient with a list of values formatted in the message body.
 
     Parameters
     ----------
