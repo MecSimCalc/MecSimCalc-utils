@@ -13,9 +13,9 @@ def table_to_dataframe(
     Parameters
     ----------
     column_headers : List[str]
-        A list of column headers.
+        List of column headers.
     rows : List[List[str]]
-        A list of rows where each row is a list of strings. Each row is converted into a DataFrame row.
+        List of rows to be converted into a DataFrame. Each row is a list of strings.
 
     Returns
     -------
@@ -31,7 +31,7 @@ def table_to_dataframe(
     --------
     >>> column_headers = ["A", "B", "C"]
     >>> rows = [["1", "2", "3"], ["4", "5", "6"]]
-    >>> df = table_to_dataframe(column_headers, rows)
+    >>> df = msc.table_to_dataframe(column_headers, rows)
     >>> print(df)
        A  B  C
     0  1  2  3
@@ -55,16 +55,16 @@ def print_table(
     Parameters
     ----------
     column_headers : List[str]
-        A list containing the headers for each column in the table.
+        The header for each column.
     rows : List[List[str]]
-        A list of rows, where each row is a list of strings corresponding to the values for each column.
+        A list of rows (each row is a list of strings).
     index : bool, optional
-        Whether to use the first column as the table's index. Defaults to True.
+        Whether to use the first column as the DataFrame's index. Defaults to True
 
     Returns
     -------
     str
-        A string representing the HTML table created from the provided rows and column headers.
+        HTML table.
 
     Examples
     --------

@@ -42,14 +42,15 @@ def print_plot(
         The name of the downloaded file. (Defaults to 'myplot')
 
     Returns
-    ----------
-    Union[str, Tuple[str, str]] :
-        * `download | False` : str - Returns the HTML image as a string.
-        * `download | True` : Tuple[str, str] - Returns the HTML image and the download link
+    -------
+    Union[str, Tuple[str, str]]
+        If `download` is False, returns the HTML image as a string.
+        If `download` is True, returns a tuple consisting of the HTML image as a string and the download link as a string.
+
 
     Examples
     ----------
-    **Without Download Link**
+    **Without Download Link**:
     >>> fig, ax = plt.subplots()
     >>> ax.plot([1, 2, 3], [1, 2, 3])
     >>> plot = msc.print_plot(ax)
@@ -57,7 +58,7 @@ def print_plot(
         "plot": plot
     }
 
-    **With Download Link and Custom Download Text**
+    **With Download Link and Custom Download Text**:
     >>> fig, ax = plt.subplots()
     >>> ax.plot([1, 2, 3], [1, 2, 3])
     >>> plot, download_link = msc.print_plot(ax, download=True, download_text="Download My Plot")

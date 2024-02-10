@@ -71,8 +71,8 @@ def input_to_dataframe(
     Returns
     -------
     Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
-        If `get_file_type` is False, returns a `pd.DataFrame` created from the file data.
-        If `get_file_type` is True, returns a tuple containing the `pd.DataFrame` and the file type.
+        If `get_file_type` is False, returns a DataFrame created from the file data.
+        If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
 
     Examples
     --------
@@ -127,11 +127,11 @@ def print_dataframe(
     -------
     Union[str, Tuple[str, str]]
         If `download` is False, returns the HTML table as a string.
-        If `download` is True, returns a tuple containing the HTML table as a string and the HTML download link as a string.
+        If `download` is True, returns a tuple containing the HTML table and the HTML download link as strings.
 
     Examples
     --------
-    Without Download Link:
+    **Without Download Link**:
     >>> input_file = inputs["input_file"]
     >>> df = msc.input_to_dataframe(input_file)
     >>> table = msc.print_dataframe(df)
@@ -139,7 +139,7 @@ def print_dataframe(
         "table": table
     }
 
-    With Download Link for an Excel file:
+    **With Download Link for an Excel file**:
     >>> input_file = inputs["input_file"]
     >>> df = msc.input_to_dataframe(input_file)
     >>> table, download_link = msc.print_dataframe(df, download=True, download_file_type="xlsx")

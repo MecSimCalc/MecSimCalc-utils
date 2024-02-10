@@ -18,9 +18,9 @@ def input_to_file(
     Parameters
     ----------
     input_file : str
-        A Base64 encoded string prefixed with metadata, indicating the type and encoding of the file.
+        A Base64 encoded string prefixed with metadata.
     metadata : bool, optional
-        If True, the function also returns the metadata extracted from the input string. Defaults to False.
+        If set to True, the function also returns the metadata. Default is False.
 
     Returns
     -------
@@ -39,13 +39,13 @@ def input_to_file(
 
     Examples
     --------
-    Without metadata:
+    **Without metadata**:
     >>> input_file = inputs["input_file"]
     >>> file = msc.input_to_file(input_file)
 
     (file is now ready to be used with Python file functions) (e.g., file.read())
 
-    With metadata:
+    **With metadata**:
     >>> input_file = inputs["input_file"]
     >>> file, metadata = msc.input_to_file(input_file, metadata=True)
 
@@ -72,14 +72,12 @@ def metadata_to_filetype(metadata: str) -> str:
     Parameters
     ----------
     metadata : str
-        A metadata string, typically in the form "data:<MIME type>;base64," where <MIME type> is the MIME type of the file.
+        A metadata string typically in the form "Data:<MIME type>;base64,"
 
     Returns
     -------
     str
-        The extracted file type as a string. This function simplifies common MIME types to file extensions. For example,
-        for a "data:image/jpeg;base64," metadata string, it returns 'jpeg'. For a Microsoft Excel file indicated by an
-        appropriate MIME type, it returns 'xlsx'.
+        The extracted file type (e.g., 'csv'). For a Microsoft Excel file, it returns 'xlsx'.
 
     Examples
     --------

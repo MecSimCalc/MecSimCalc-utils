@@ -13,21 +13,21 @@ def string_to_file(
         download_text: str = "Download File"
     ) -> str
 
-    Generates a downloadable text file containing the given text and provides an HTML download link.
+    Generates a downloadable text file containing the given text.
 
     Parameters
     ----------
     text : str
-        The text to be included in the download file.
+        Text to be downloaded
     filename : str, optional
-        The name of the file to be downloaded. Defaults to "myfile".
+        Name of the download file. Defaults to "myfile"
     download_text : str, optional
-        The text to be displayed as the download link. Defaults to "Download File".
+        Text to be displayed as the download link. Defaults to "Download File"
 
     Returns
     -------
     str
-        An HTML string representing the download link for the generated text file.
+        HTML download link
 
     Raises
     ------
@@ -36,13 +36,13 @@ def string_to_file(
 
     Examples
     --------
-    Default usage:
+    **Default usage**:
     >>> download_link = msc.string_to_file("Hello World")
     >>> return {
         "download_link": download_link
     }
 
-    Custom Filename and Download Text:
+    **Custom Filename and Download Text**:
     >>> download_link = msc.string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
     >>> return {
         "download_link": download_link"

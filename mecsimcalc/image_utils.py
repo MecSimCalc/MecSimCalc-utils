@@ -81,13 +81,13 @@ def input_to_PIL(
 
     Examples
     --------
-    Without file type:
+    **Without file type**:
 
     >>> input_file = inputs["input_file"]
     >>> image = msc.input_to_PIL(input_file)
     (Image is now ready to be used with Pillow functions)
 
-    With file type:
+    **With file type**:
 
     >>> input_file = inputs["input_file"]
     >>> image, file_type = msc.input_to_PIL(input_file, get_file_type=True)
@@ -158,7 +158,7 @@ def print_image(
 
     Examples
     --------
-    Without download link, with original size:
+    **Without download link, with original size**:
 
     >>> input_file = inputs["input_file"]
     >>> image = msc.input_to_PIL(input_file)
@@ -167,7 +167,7 @@ def print_image(
         "html_image": html_image
     }
 
-    With download link and specified file type:
+    **With download link and specified file type**:
 
     >>> input_file = inputs["input_file"]
     >>> image, file_type = msc.input_to_PIL(input_file, get_file_type=True)
