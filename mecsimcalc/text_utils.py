@@ -45,7 +45,7 @@ def string_to_file(
     **Custom Filename and Download Text**:
     >>> download_link = msc.string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
     >>> return {
-        "download_link": download_link"
+        "download_link": download_link
     }
     """
     if not isinstance(text, str):
