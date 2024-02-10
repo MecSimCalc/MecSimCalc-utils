@@ -35,7 +35,7 @@ def input_to_file(
 
     Notes
     -----
-    The returned file object is open and can be used with Python file functions, such as `read()`.
+    The file object is open and can be used with Python file functions (e.g., file.read()).
 
     Examples
     --------
