@@ -70,11 +70,10 @@ def print_table(
     --------
     >>> column_headers = ["A", "B", "C"]
     >>> rows = [["1", "2", "3"], ["4", "5", "6"]]
-    >>> df = msc.table_to_dataframe(column_headers, rows)
-    >>> print(df)
-       A  B  C
-    0  1  2  3
-    1  4  5  6
+    >>> table = msc.print_table(column_headers, rows)
+    >>> return {
+        "table": table
+    }
     """
 
     df = table_to_dataframe(column_headers, rows)
