@@ -26,8 +26,8 @@ def print_plot(
 
     Converts a matplotlib plot into an HTML image tag and optionally provides a download link for the image.
 
-    # Parameters
-
+    Parameters
+    ----------
     plot_obj : Union[plt.Axes, figure.Figure]
         The matplotlib plot to be converted.
     width : int, optional
@@ -41,13 +41,14 @@ def print_plot(
     download_file_name : str, optional
         The name of the downloaded file. (Defaults to 'myplot')
 
-    # Returns
-
+    Returns
+    ----------
     Union[str, Tuple[str, str]] :
         * `download | False` : str - Returns the HTML image as a string.
         * `download | True` : Tuple[str, str] - Returns the HTML image and the download link
 
-    # Examples
+    Examples
+    ----------
     **Without Download Link**
     >>> fig, ax = plt.subplots()
     >>> ax.plot([1, 2, 3], [1, 2, 3])

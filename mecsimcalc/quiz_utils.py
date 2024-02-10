@@ -17,6 +17,14 @@ def append_to_google_sheet(
         include_timestamp: bool = True
 ) -> dict:
     """
+    >>> append_to_google_sheet(
+        service_account_info: dict,
+        spreadsheet_id: str,
+        values: list,
+        range_name: str = 'Sheet1!A1',
+        include_timestamp: bool = True
+    ) -> dict
+
     Appends values to a specified range within a Google Sheet, with the option to include a timestamp
     in each row appended. This function utilizes the Google Sheets API v4 for data manipulation.
 
@@ -122,6 +130,13 @@ def send_gmail(
         values: list
 ) -> bool:
     """
+    >>> send_gmail(
+        sender_email: str,
+        receiver_email: str,
+        subject: str,
+        app_password: str,
+        values: list
+    ) -> bool
     Sends an email from a Gmail account to a specified recipient with a list of values formatted in the message body.
 
     This function constructs an email message using the specified sender and receiver email addresses, subject line, and
@@ -151,9 +166,7 @@ def send_gmail(
 
     Examples
     --------
-    >>> values = [
-    ...     ["John Doe", "123456", 10, 2, 5.00, "This is a test message."]
-    ... ]
+    >>> values = [["John Doe", "123456", 10, 2, 5.00, "This is a test message."]]
     >>> send_gmail("sender@example.com", "receiver@example.com", "Test Email", "your_app_password", values)
     True
 

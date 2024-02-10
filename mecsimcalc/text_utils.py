@@ -13,41 +13,38 @@ def string_to_file(
         download_text: str = "Download File"
     ) -> str
 
-    Generates a downloadable text file containing the given text.
+    Generates a downloadable text file containing the given text and provides an HTML download link.
 
-    # Parameters
-
+    Parameters
+    ----------
     text : str
-        Text to be downloaded
+        The text to be included in the download file.
     filename : str, optional
-        Name of the download file. (Defaults to "myfile")
+        The name of the file to be downloaded. Defaults to "myfile".
     download_text : str, optional
-        Text to be displayed as the download link. (Defaults to "Download File")
+        The text to be displayed as the download link. Defaults to "Download File".
 
-    # Returns
+    Returns
+    -------
+    str
+        An HTML string representing the download link for the generated text file.
 
-    * `str` :
-        HTML download link
-
-    # Raises
-
-    * `TypeError` :
+    Raises
+    ------
+    TypeError
         If the input text is not a string.
 
-    # Examples
+    Examples
+    --------
+    Default usage:
+    >>> download_link = string_to_file("Hello World")
+    >>> print(download_link)
+    # This will print the HTML download link with default filename and download text.
 
-    **Default**
-    >>> download_link = msc.string_to_file("Hello World")
-    >>> return {
-        "download_link": download_link
-    }
-
-    **Custom Filename and Download Text**
-    >>> download_link = msc.string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
-    >>> return {
-        "download_link": download_link"
-    }
-
+    Custom Filename and Download Text:
+    >>> download_link = string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
+    >>> print(download_link)
+    # This will print the HTML download link with a custom filename and download text.
     """
     if not isinstance(text, str):
         raise TypeError("text must be a string")

@@ -13,38 +13,41 @@ def input_to_file(
         metadata: bool = False
     ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]
 
-    Transforms a Base64 encoded string into a file object. Optionally, the file metadata can also be returned.
+    Transforms a Base64 encoded string into a file object. Optionally, returns the file metadata.
 
-    # Parameters
+    Parameters
+    ----------
     input_file : str
-        A Base64 encoded string prefixed with metadata.
+        A Base64 encoded string prefixed with metadata, indicating the type and encoding of the file.
     metadata : bool, optional
-        If set to True, the function also returns the metadata. Default is False.
+        If True, the function also returns the metadata extracted from the input string. Defaults to False.
 
-    # Raises
-    * `ValueError`:
-        If the input string does not contain ';base64,' which is required to separate metadata and file data.
+    Returns
+    -------
+    Union[io.BytesIO, Tuple[io.BytesIO, str]]
+        If `metadata` is False, returns an `io.BytesIO` object containing the decoded file data.
+        If `metadata` is True, returns a tuple containing the `io.BytesIO` object and a string representing the metadata.
 
-    # Returns
-    * `Union[io.BytesIO, Tuple[io.BytesIO, str]]` :
-        * `metadata | False` : io.BytesIO - Returns a file object containing the file data.
-        * `metadata | True` : Tuple[io.BytesIO, str] - Returns a tuple containing the file object and the metadata.
+    Raises
+    ------
+    ValueError
+        If the input string does not contain ';base64,', which is required to separate metadata from the file data.
 
-    **Note:** The file object is open and can be used with Python file functions (e.g., file.read()).
+    Notes
+    -----
+    The returned file object is open and can be used with Python file functions, such as `read()`.
 
+    Examples
+    --------
+    Without metadata:
+    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+    >>> file = input_to_file(input_file)
+    # `file` is an io.BytesIO object ready to be used with file functions, e.g., file.read()
 
-    # Examples
-    **Without metadata**
-    >>> input_file = inputs["input_file"]
-    >>> file = msc.input_to_file(input_file)
-
-    (file is now ready to be used with Python file functions) (e.g., file.read())
-
-    **With metadata**
-    >>> input_file = inputs["input_file"]
-    >>> file, metadata = msc.input_to_file(input_file, metadata=True)
-
-    (metadata holds information about the file, such as the file type)
+    With metadata:
+    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+    >>> file, metadata = input_to_file(input_file, metadata=True)
+    # `metadata` holds information about the file, such as the MIME type ('image/png')
     """
 
     # Check if the input string contains ';base64,' which is required to separate metadata and file data
@@ -64,20 +67,24 @@ def metadata_to_filetype(metadata: str) -> str:
 
     Extracts the file type from the metadata string.
 
-    # Parameters
+    Parameters
+    ----------
     metadata : str
-        A metadata string typically in the form "Data:<MIME type>;base64,"
+        A metadata string, typically in the form "data:<MIME type>;base64," where <MIME type> is the MIME type of the file.
 
-    # Returns
-    * `str` :
-        The extracted file type (e.g., 'csv'). For a Microsoft Excel file, it returns 'xlsx'.
+    Returns
+    -------
+    str
+        The extracted file type as a string. This function simplifies common MIME types to file extensions. For example,
+        for a "data:image/jpeg;base64," metadata string, it returns 'jpeg'. For a Microsoft Excel file indicated by an
+        appropriate MIME type, it returns 'xlsx'.
 
-    # Example
-    >>> input_file = inputs["input_file"]
-    >>> file, metadata = msc.input_to_file(input_file, metadata=True)
-    >>> file_type = msc.metadata_to_filetype(metadata)
+    Examples
+    --------
+    >>> metadata = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+    >>> file_type = metadata_to_filetype(metadata)
     >>> print(file_type)
-    jpeg
+    'jpeg'
     """
     # Extract mime type from metadata
     match = re.search(r"/(.+);base64,", metadata)
