@@ -83,17 +83,18 @@ def input_to_PIL(
     --------
     Without file type:
 
-    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
-    >>> image = input_to_PIL(input_file)
-    `image` is a PIL.Image.Image object ready to be used with Pillow functions.
+    >>> input_file = inputs["input_file"]
+    >>> image = msc.input_to_PIL(input_file)
+    (Image is now ready to be used with Pillow functions)
 
     With file type:
 
-    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
-    >>> image, file_type = input_to_PIL(input_file, get_file_type=True)
+    >>> input_file = inputs["input_file"]
+    >>> image, file_type = msc.input_to_PIL(input_file, get_file_type=True)
     >>> print(file_type)
     'png'
-    `image` is now ready to be used with Pillow functions, and `file_type` indicates the image format.
+
+    (image is now ready to be used with Pillow functions)
     """
     file_data, metadata = input_to_file(input_file, metadata=True)
 
@@ -159,19 +160,23 @@ def print_image(
     --------
     Without download link, with original size:
 
-    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+    >>> input_file = inputs["input_file"]
     >>> image = msc.input_to_PIL(input_file)
     >>> html_image = msc.print_image(image, original_size=True)
-    >>> print(html_image)
-    # HTML string containing the image is printed.
+    >>> return {
+        "html_image": html_image
+    }
 
     With download link and specified file type:
 
-    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+    >>> input_file = inputs["input_file"]
     >>> image, file_type = msc.input_to_PIL(input_file, get_file_type=True)
-    >>> html_image, download_link = msc.print_image(image, download=True, download_file_type=file_type)
-    >>> print(html_image, download_link)
-    # HTML string containing the image and the download link is printed.
+    >>> html_image, download_link = msc.print_image(image, download=True, download_file_type = file_type)
+    >>> return {
+        "html_image": html_image,
+        "download_link": download_link
+    }
+
     """
     # preserve original image for download
     display_image = image.copy()

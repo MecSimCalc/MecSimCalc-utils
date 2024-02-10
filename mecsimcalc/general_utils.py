@@ -40,14 +40,16 @@ def input_to_file(
     Examples
     --------
     Without metadata:
-    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
-    >>> file = input_to_file(input_file)
-    # `file` is an io.BytesIO object ready to be used with file functions, e.g., file.read()
+    >>> input_file = inputs["input_file"]
+    >>> file = msc.input_to_file(input_file)
+
+    (file is now ready to be used with Python file functions) (e.g., file.read())
 
     With metadata:
-    >>> input_file = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
-    >>> file, metadata = input_to_file(input_file, metadata=True)
-    # `metadata` holds information about the file, such as the MIME type ('image/png')
+    >>> input_file = inputs["input_file"]
+    >>> file, metadata = msc.input_to_file(input_file, metadata=True)
+
+    (metadata holds information about the file, such as the file type)
     """
 
     # Check if the input string contains ';base64,' which is required to separate metadata and file data
@@ -81,8 +83,9 @@ def metadata_to_filetype(metadata: str) -> str:
 
     Examples
     --------
-    >>> metadata = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
-    >>> file_type = metadata_to_filetype(metadata)
+    >>> input_file = inputs["input_file"]
+    >>> file, metadata = msc.input_to_file(input_file, metadata=True)
+    >>> file_type = msc.metadata_to_filetype(metadata)
     >>> print(file_type)
     'jpeg'
     """

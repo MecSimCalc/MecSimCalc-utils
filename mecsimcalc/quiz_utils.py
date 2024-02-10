@@ -59,7 +59,7 @@ def append_to_google_sheet(
     >>> service_account_info = {'client_email': 'your_service_account_email', 'private_key': 'your_private_key', 'private_key_id': 'your_private_key_id'}
     >>> spreadsheet_id = 'your_spreadsheet_id'
     >>> values = [["Example Name", 42, "Example Data"]]
-    >>> append_to_google_sheet(service_account_info, spreadsheet_id, values)
+    >>> msc.append_to_google_sheet(service_account_info, spreadsheet_id, values)
     {'updates': {'spreadsheetId': 'your_spreadsheet_id', 'updatedRange': 'Sheet1!A1:C2', 'updatedRows': 1, 'updatedColumns': 3, 'updatedCells': 3}}
     """
 
@@ -167,7 +167,7 @@ def send_gmail(
     Examples
     --------
     >>> values = [["John Doe", "123456", 10, 2, 5.00, "This is a test message."]]
-    >>> send_gmail("sender@example.com", "receiver@example.com", "Test Email", "your_app_password", values)
+    >>> msc.send_gmail("sender@example.com", "receiver@example.com", "Test Email", "your_app_password", values)
     True
 
     """

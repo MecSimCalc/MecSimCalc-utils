@@ -70,9 +70,11 @@ def print_table(
     --------
     >>> column_headers = ["A", "B", "C"]
     >>> rows = [["1", "2", "3"], ["4", "5", "6"]]
-    >>> table = print_table(column_headers, rows)
-    >>> print(table)
-    # This will print the HTML table as a string.
+    >>> df = msc.table_to_dataframe(column_headers, rows)
+    >>> print(df)
+       A  B  C
+    0  1  2  3
+    1  4  5  6
     """
 
     df = table_to_dataframe(column_headers, rows)

@@ -37,14 +37,16 @@ def string_to_file(
     Examples
     --------
     Default usage:
-    >>> download_link = string_to_file("Hello World")
-    >>> print(download_link)
-    # This will print the HTML download link with default filename and download text.
+    >>> download_link = msc.string_to_file("Hello World")
+    >>> return {
+        "download_link": download_link
+    }
 
     Custom Filename and Download Text:
-    >>> download_link = string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
-    >>> print(download_link)
-    # This will print the HTML download link with a custom filename and download text.
+    >>> download_link = msc.string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
+    >>> return {
+        "download_link": download_link"
+    }
     """
     if not isinstance(text, str):
         raise TypeError("text must be a string")

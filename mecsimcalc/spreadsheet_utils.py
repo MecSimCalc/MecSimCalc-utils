@@ -29,13 +29,13 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
 
     Examples
     --------
-    >>> input_file = "data:text/csv;base64,dGVzdCx0ZXN0Mix0ZXN0Mw=="
-    >>> file = input_to_file(input_file)
-    >>> df = file_to_dataframe(file)
+    >>> input_file = inputs["input_file"]
+    >>> file = msc.input_to_file(input_file)
+    >>> df = msc.file_to_dataframe(file)
     >>> print(df)
-       A  B  C
-    0  1  2  3
-    1  4  5  6
+        A  B  C
+     0  1  2  3
+     1  4  5  6
     """
 
     # get dataframe from file data (try csv first, then excel)
@@ -76,8 +76,8 @@ def input_to_dataframe(
 
     Examples
     --------
-    >>> input_file = "data:text/csv;base64,dGVzdCx0ZXN0Mix0ZXN0Mw=="
-    >>> df = input_to_dataframe(input_file)
+    >>> input_file = inputs["input_file"]
+    >>> df = msc.input_to_dataframe(input_file)
     >>> print(df)
        A  B  C
     0  1  2  3
@@ -132,17 +132,21 @@ def print_dataframe(
     Examples
     --------
     Without Download Link:
-    >>> df = pd.DataFrame({'A': [1, 4], 'B': [2, 5], 'C': [3, 6]})
-    >>> table = print_dataframe(df)
-    >>> print(table)
-    # Outputs the HTML table as a string.
+    >>> input_file = inputs["input_file"]
+    >>> df = msc.input_to_dataframe(input_file)
+    >>> table = msc.print_dataframe(df)
+    >>> return {
+        "table": table
+    }
 
     With Download Link for an Excel file:
-    >>> df = pd.DataFrame({'A': [1, 4], 'B': [2, 5], 'C': [3, 6]})
-    >>> table, download_link = print_dataframe(df, download=True, download_file_type="xlsx")
-    >>> print(table)
-    >>> print(download_link)
-    # Outputs the HTML table as a string and the HTML download link for the Excel file.
+    >>> input_file = inputs["input_file"]
+    >>> df = msc.input_to_dataframe(input_file)
+    >>> table, download_link = msc.print_dataframe(df, download=True, download_file_type="xlsx")
+    >>> return {
+        "table": table,
+        "download_link": download_link
+    }
     """
     if not download:
         return df.to_html()
