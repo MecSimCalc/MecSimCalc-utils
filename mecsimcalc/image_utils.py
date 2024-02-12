@@ -76,8 +76,8 @@ def input_to_PIL(
     Returns
     -------
     Union[PIL.Image.Image, Tuple[PIL.Image.Image, str]]
-        If `get_file_type` is False, returns a `PIL.Image.Image` object created from the decoded file data.
-        If `get_file_type` is True, returns a tuple containing the `PIL.Image.Image` object and a string representing the file type.
+        * If `get_file_type` is False, returns a `PIL.Image.Image` object created from the decoded file data.
+        * If `get_file_type` is True, returns a tuple containing the `PIL.Image.Image` object and a string representing the file type.
 
     Examples
     --------
@@ -153,8 +153,8 @@ def print_image(
     Returns
     -------
     Union[str, Tuple[str, str]]
-        If `download` is False, returns an HTML string containing the image.
-        If `download` is True, returns a tuple containing the HTML string of the image and the HTML string of the download link.
+        * If `download` is False, returns an HTML string containing the image.
+        * If `download` is True, returns a tuple containing the HTML string of the image and the HTML string of the download link.
 
     Examples
     --------

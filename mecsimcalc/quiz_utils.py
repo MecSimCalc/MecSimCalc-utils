@@ -157,29 +157,27 @@ def send_gmail(
     Returns
     -------
     bool
-        Returns True if the email was sent successfully, otherwise False. Success or failure is logged using the logging
-        module.
+        Returns True if the email was sent successfully, otherwise False. 
 
     Examples
     --------
     >>> values = [["John Doe", "123456", 10, 2, 5.00, "This is a test message."]]
     >>> msc.send_gmail("sender@example.com", "receiver@example.com", "Test Email", "your_app_password", values)
     True
-
     """
 
+    # Initialize email message
     message = MIMEMultipart("alternative")
     message["Subject"] = subject
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    body = ""
-    for value in values:
-        body += ", ".join(str(v) for v in value) + "\n"
-
+    # Construct the email body
+    body = "\n".join(", ".join(str(v) for v in value) for value in values)
     message.attach(MIMEText(body, "plain"))
-
+    
     try:
+        # Send the email
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(sender_email, app_password)
             server.sendmail(sender_email, receiver_email, message.as_string())
