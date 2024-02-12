@@ -613,10 +613,8 @@ Downloading Image
 ## Quiz Toolkit
 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   <h3 style={{ margin: 5, padding: 0 }}>append_to_google_sheet</h3>
-  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
+  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L12-L120" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
 </div>
-
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L12) 
 
 ```python
 append_to_google_sheet(
@@ -631,14 +629,12 @@ append_to_google_sheet(
 This function appends given values to a specified Google Sheet and optionally includes a current timestamp with each entry. It transforms data into a Google Sheets document, facilitating dynamic data entry directly from your application.
 
 
-**Click [here](../quiz-toolkit/google-sheet) to find instructions about how to find `service_account_info` and `spreadsheet_id`**
-
 #### Arguments:
 
 | Argument               | Type     | Description                                                                                                                                  |
 |------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| **`service_account_info`** | **dict** | The service account credentials used for Google Sheets API authentication. **Instruction to get it is [here](../quiz-toolkit/google-sheet#how-to-get-service-account-info)** |
-| **`spreadsheet_id`**       | **str**  | The unique identifier of the target Google Spreadsheet. **Instruction to get it is [here](../quiz-toolkit/google-sheet#how-to-get-spreadsheet-id)**                    |
+| **`service_account_info`** | **dict** | The service account credentials used for Google Sheets API authentication.  |
+| **`spreadsheet_id`**       | **str**  | The unique identifier of the target Google Spreadsheet.                     |
 | **`values`**               | **list of lists** | The data to append. Each list element represents a row of data.                                                                              |
 | **`range_name`**           | **str** (optional)  | The A1 notation of the range to start appending data (Defaults to 'Sheet1!A1').                                                              |
 | **`include_timestamp`**    | **bool** (optional) | If True, appends the current timestamp to each row of data (Defaults to True).                                                               |
@@ -655,6 +651,7 @@ This function appends given values to a specified Google Sheet and optionally in
 
 ```python
 from datetime import datetime
+from datetime import datetime
 import mecsimcalc as msc
 
 def main(inputs):
@@ -662,18 +659,18 @@ def main(inputs):
         # Your service account info here
     }
     spreadsheet_id = 'your_spreadsheet_id_here'
-    values = [inputs['input_1'], inputs['input_2'], inputs['input_3']]    
+    values = [
+    [ inputs['input_1'], inputs['input_2'], inputs['input_3'] ],
+    ]    
     result = msc.append_to_google_sheet(service_account_info, spreadsheet_id, values, include_timestamp)
-    print(result)
+
 
 ```
 
 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   <h3 style={{ margin: 5, padding: 0 }}>send_gmail</h3>
-  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
+  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L124-L190" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
 </div>
-
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L124)
 
 ```python
 send_gmail(
@@ -716,7 +713,7 @@ def main(inputs):
     receiver_email = 'receiver@example.com'
     subject = 'Test Email'
     app_password = 'your_app_password_here'
-    values = [(inputs['input_2'], inputs['input_2')]
+    values = [(inputs['input_2'], inputs['input_2'])]
 
     # Send the email
     msc.send_gmail(sender_email, receiver_email, subject, app_password, values)
