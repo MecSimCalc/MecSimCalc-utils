@@ -8,26 +8,27 @@ def table_to_dataframe(
     """
     >>> table_to_dataframe(column_headers: List[str], rows: List[List[str]]) -> pd.DataFrame
 
-    Create a DataFrame from given rows and column headers
+    Creates a DataFrame from given rows and column headers.
 
-    # Parameters
-
+    Parameters
+    ----------
     column_headers : List[str]
         List of column headers.
     rows : List[List[str]]
         List of rows to be converted into a DataFrame. Each row is a list of strings.
 
-    # Raises
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame constructed from the given rows and column headers.
 
-    * `ValueError` :
-        If length of rows is not equal to length of column headers.
+    Raises
+    ------
+    ValueError
+        If the length of any row is not equal to the length of column headers.
 
-    # Returns
-
-    * `pd.DataFrame` :
-        DataFrame constructed from rows and headers.
-
-    # Example
+    Examples
+    --------
     >>> column_headers = ["A", "B", "C"]
     >>> rows = [["1", "2", "3"], ["4", "5", "6"]]
     >>> df = msc.table_to_dataframe(column_headers, rows)
@@ -35,7 +36,6 @@ def table_to_dataframe(
        A  B  C
     0  1  2  3
     1  4  5  6
-
     """
     for row in rows:
         if len(row) != len(column_headers):
@@ -50,23 +50,24 @@ def print_table(
     """
     >>> print_table(column_headers: List[str], rows: List[List[str]]) -> str
 
-    Create an HTML table from given rows and column headers.
+    Creates an HTML table from given rows and column headers.
 
-    # Parameters
-
+    Parameters
+    ----------
     column_headers : List[str]
         The header for each column.
     rows : List[List[str]]
         A list of rows (each row is a list of strings).
-    index : bool
-        Whether to use the first column as the DataFrame's index. (Defaults to True)
+    index : bool, optional
+        Whether to use the first column as the DataFrame's index. Defaults to True
 
-    # Returns
-
-    * `str` :
+    Returns
+    -------
+    str
         HTML table.
 
-    # Example
+    Examples
+    --------
     >>> column_headers = ["A", "B", "C"]
     >>> rows = [["1", "2", "3"], ["4", "5", "6"]]
     >>> table = msc.print_table(column_headers, rows)

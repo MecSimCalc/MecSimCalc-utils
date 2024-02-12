@@ -13,34 +13,39 @@ def input_to_file(
         metadata: bool = False
     ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]
 
-    Transforms a Base64 encoded string into a file object. Optionally, the file metadata can also be returned.
+    Transforms a Base64 encoded string into a file object. Optionally, returns the file metadata.
 
-    # Parameters
+    Parameters
+    ----------
     input_file : str
         A Base64 encoded string prefixed with metadata.
     metadata : bool, optional
         If set to True, the function also returns the metadata. Default is False.
 
-    # Raises
-    * `ValueError`:
-        If the input string does not contain ';base64,' which is required to separate metadata and file data.
+    Returns
+    -------
+    Union[io.BytesIO, Tuple[io.BytesIO, str]]
+        If `metadata` is False, returns an `io.BytesIO` object containing the decoded file data.
+        If `metadata` is True, returns a tuple containing the `io.BytesIO` object and a string representing the metadata.
 
-    # Returns
-    * `Union[io.BytesIO, Tuple[io.BytesIO, str]]` :
-        * `metadata | False` : io.BytesIO - Returns a file object containing the file data.
-        * `metadata | True` : Tuple[io.BytesIO, str] - Returns a tuple containing the file object and the metadata.
+    Raises
+    ------
+    ValueError
+        If the input string does not contain ';base64,', which is required to separate metadata from the file data.
 
-    **Note:** The file object is open and can be used with Python file functions (e.g., file.read()).
+    Notes
+    -----
+    The file object is open and can be used with Python file functions (e.g., file.read()).
 
-
-    # Examples
-    **Without metadata**
+    Examples
+    --------
+    **Without metadata**:
     >>> input_file = inputs["input_file"]
     >>> file = msc.input_to_file(input_file)
 
     (file is now ready to be used with Python file functions) (e.g., file.read())
 
-    **With metadata**
+    **With metadata**:
     >>> input_file = inputs["input_file"]
     >>> file, metadata = msc.input_to_file(input_file, metadata=True)
 
@@ -64,20 +69,23 @@ def metadata_to_filetype(metadata: str) -> str:
 
     Extracts the file type from the metadata string.
 
-    # Parameters
+    Parameters
+    ----------
     metadata : str
         A metadata string typically in the form "Data:<MIME type>;base64,"
 
-    # Returns
-    * `str` :
+    Returns
+    -------
+    str
         The extracted file type (e.g., 'csv'). For a Microsoft Excel file, it returns 'xlsx'.
 
-    # Example
+    Examples
+    --------
     >>> input_file = inputs["input_file"]
     >>> file, metadata = msc.input_to_file(input_file, metadata=True)
     >>> file_type = msc.metadata_to_filetype(metadata)
     >>> print(file_type)
-    jpeg
+    'jpeg'
     """
     # Extract mime type from metadata
     match = re.search(r"/(.+);base64,", metadata)

@@ -15,39 +15,38 @@ def string_to_file(
 
     Generates a downloadable text file containing the given text.
 
-    # Parameters
-
+    Parameters
+    ----------
     text : str
         Text to be downloaded
     filename : str, optional
-        Name of the download file. (Defaults to "myfile")
+        Name of the download file. Defaults to "myfile"
     download_text : str, optional
-        Text to be displayed as the download link. (Defaults to "Download File")
+        Text to be displayed as the download link. Defaults to "Download File"
 
-    # Returns
-
-    * `str` :
+    Returns
+    -------
+    str
         HTML download link
 
-    # Raises
-
-    * `TypeError` :
+    Raises
+    ------
+    TypeError
         If the input text is not a string.
 
-    # Examples
-
-    **Default**
+    Examples
+    --------
+    **Default usage**:
     >>> download_link = msc.string_to_file("Hello World")
     >>> return {
         "download_link": download_link
     }
 
-    **Custom Filename and Download Text**
+    **Custom Filename and Download Text**:
     >>> download_link = msc.string_to_file("Hello World", filename="mytextfile", download_text="Download File Here")
     >>> return {
-        "download_link": download_link"
+        "download_link": download_link
     }
-
     """
     if not isinstance(text, str):
         raise TypeError("text must be a string")

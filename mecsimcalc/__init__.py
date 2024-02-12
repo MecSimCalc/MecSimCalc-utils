@@ -10,6 +10,7 @@ from .table_utils import table_to_dataframe, print_table
 
 from .text_utils import string_to_file
 
+from .quiz_utils import append_to_google_sheet, send_gmail
 
 __all__ = [
     "input_to_dataframe",
@@ -24,4 +25,6 @@ __all__ = [
     "print_plot",
     "metadata_to_filetype",
     "file_to_PIL",
+    "append_to_google_sheet",
+    "send_gmail"
 ]

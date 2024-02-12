@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = "0.1.5"
+VERSION = "0.1.6"
 DESCRIPTION = "Useful functions for MecSimCalc.com"
 
 # Setting up
@@ -20,7 +20,8 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=["Pillow", "pandas", "matplotlib", "openpyxl"],
+    install_requires=["Pillow", "pandas", "matplotlib", "openpyxl", "PyJWT", "cryptography",
+                      "requests"],
     keywords=["python", "MecSimCalc", "Calculator", "Simple"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

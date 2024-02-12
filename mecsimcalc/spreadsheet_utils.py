@@ -10,23 +10,25 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
     """
     >>> file_to_dataframe(file: io.BytesIO) -> pd.DataFrame
 
-    Converts a base64 encoded file data into a pandas DataFrame.
+    Converts base64 encoded file data into a pandas DataFrame.
 
-    # Parameters
-
+    Parameters
+    ----------
     file : io.BytesIO
-        Decoded file data.
+        Decoded file data as an io.BytesIO object.
 
-    # Raises
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame created from the decoded file data.
 
-    * `pd.errors.ParserError` :
-        If the file type is not supported.
+    Raises
+    ------
+    pd.errors.ParserError
+        If the file type is not supported or cannot be converted into a DataFrame.
 
-    # Returns
-    * `pd.DataFrame` :
-        Returns a DataFrame created from the file data.
-
-    # Example
+    Examples
+    --------
     >>> input_file = inputs["input_file"]
     >>> file = msc.input_to_file(input_file)
     >>> df = msc.file_to_dataframe(file)
@@ -57,29 +59,29 @@ def input_to_dataframe(
         get_file_type: bool = False
     ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
 
-    Converts a base64 encoded file data into a pandas DataFrame.
+    Converts base64 encoded file data into a pandas DataFrame.
 
-    # Parameters
-
+    Parameters
+    ----------
     input_file : str
         The base64 encoded file data.
     get_file_type : bool, optional
-        If True, the function also returns the file type (Defaults to False).
+        If True, the function also returns the file type. Defaults to False.
 
-    # Returns
+    Returns
+    -------
+    Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
+        If `get_file_type` is False, returns a DataFrame created from the file data.
+        If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
 
-    * `Union[pd.DataFrame, Tuple[pd.DataFrame, str]]` :
-        * `get_file_type | False` : pd.DataFrame - Returns a DataFrame created from the file data.
-        * `get_file_type | True` : Tuple[pd.DataFrame, str] - Returns a tuple containing the DataFrame and the file type.
-
-    # Example
+    Examples
+    --------
     >>> input_file = inputs["input_file"]
     >>> df = msc.input_to_dataframe(input_file)
     >>> print(df)
        A  B  C
     0  1  2  3
     1  4  5  6
-
     """
     # converts input file into a dataframe
     file_data, metadata = input_to_file(input_file, metadata=True)
@@ -108,27 +110,28 @@ def print_dataframe(
 
     Creates an HTML table from a pandas DataFrame and optionally provides a download link for the table.
 
-    # Parameters
-
+    Parameters
+    ----------
     df : pd.DataFrame
-        The DataFrame to be converted.
+        The DataFrame to be converted into an HTML table.
     download : bool, optional
-        If True, the function also provides a download link. (Defaults to False)
+        If True, the function also provides a download link for the table. Defaults to False.
     download_text : str, optional
-        The text to be displayed on the download link. (Defaults to "Download Table")
+        The text to be displayed on the download link. Defaults to "Download Table".
     download_file_name : str, optional
-        The name of the downloaded file. (Defaults to "myfile")
+        The name of the file to be downloaded. Defaults to "myfile".
     download_file_type : str, optional
-        The file type of the download file. xlsx or csv (Defaults to "csv")
+        The file type of the download file. Can be "xlsx" or "csv". Defaults to "csv".
 
-    # Returns
+    Returns
+    -------
+    Union[str, Tuple[str, str]]
+        If `download` is False, returns the HTML table as a string.
+        If `download` is True, returns a tuple containing the HTML table and the HTML download link as strings.
 
-    * `Union[str, Tuple[str, str]]` :
-        * `download | False` : str - Returns the HTML table as a string.
-        * `download | True` : Tuple[str, str] - Returns a tuple containing the HTML table and the HTML download link as strings.
-
-    # Examples
-    ** Without Download Link **
+    Examples
+    --------
+    **Without Download Link**:
     >>> input_file = inputs["input_file"]
     >>> df = msc.input_to_dataframe(input_file)
     >>> table = msc.print_dataframe(df)
@@ -136,7 +139,7 @@ def print_dataframe(
         "table": table
     }
 
-    ** With Download Link for excel file **
+    **With Download Link for an Excel file**:
     >>> input_file = inputs["input_file"]
     >>> df = msc.input_to_dataframe(input_file)
     >>> table, download_link = msc.print_dataframe(df, download=True, download_file_type="xlsx")
