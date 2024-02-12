@@ -70,12 +70,14 @@ def print_plot(
     if isinstance(plot_obj, plt.Axes):
         plot_obj = plot_obj.get_figure()
 
+    # Save the plot to a buffer
     buffer = io.BytesIO()
     plot_obj.savefig(buffer, format="png", dpi=dpi)
 
     if hasattr(plot_obj, "close"):
         plot_obj.close()
 
+    # generate image
     encoded_image = (
         f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
     )
