@@ -44,8 +44,8 @@ def print_plot(
     Returns
     -------
     Union[str, Tuple[str, str]]
-        If `download` is False, returns the HTML image as a string.
-        If `download` is True, returns a tuple consisting of the HTML image as a string and the download link as a string.
+        * If `download` is False, returns the HTML image as a string.
+        * If `download` is True, returns a tuple consisting of the HTML image as a string and the download link as a string.
 
 
     Examples

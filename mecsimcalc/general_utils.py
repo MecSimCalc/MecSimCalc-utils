@@ -25,8 +25,8 @@ def input_to_file(
     Returns
     -------
     Union[io.BytesIO, Tuple[io.BytesIO, str]]
-        If `metadata` is False, returns an `io.BytesIO` object containing the decoded file data.
-        If `metadata` is True, returns a tuple containing the `io.BytesIO` object and a string representing the metadata.
+        * If `metadata` is False, returns an `io.BytesIO` object containing the decoded file data.
+        * If `metadata` is True, returns a tuple containing the `io.BytesIO` object and a string representing the metadata.
 
     Raises
     ------

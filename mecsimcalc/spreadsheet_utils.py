@@ -71,8 +71,8 @@ def input_to_dataframe(
     Returns
     -------
     Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
-        If `get_file_type` is False, returns a DataFrame created from the file data.
-        If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
+        * If `get_file_type` is False, returns a DataFrame created from the file data.
+        * If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
 
     Examples
     --------
@@ -126,8 +126,8 @@ def print_dataframe(
     Returns
     -------
     Union[str, Tuple[str, str]]
-        If `download` is False, returns the HTML table as a string.
-        If `download` is True, returns a tuple containing the HTML table and the HTML download link as strings.
+        * If `download` is False, returns the HTML table as a string.
+        * If `download` is True, returns a tuple containing the HTML table and the HTML download link as strings.
 
     Examples
     --------
