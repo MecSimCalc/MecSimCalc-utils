@@ -609,3 +609,120 @@ Displaying Image
 Downloading Image
 {{ outputs.download }}
 ```
+## Quiz Toolkit
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  <h3 style={{ margin: 5, padding: 0 }}>append_to_google_sheet</h3>
+  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L12-L120" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
+</div>
+
+```python
+append_to_google_sheet(
+    service_account_info = {...},
+    spreadsheet_id = "123abc...",
+    values = [["name", 12837, ...]],
+    range_name = 'Sheet1!A1',
+    include_timestamp = True
+)
+```
+
+#### Description:
+
+This function appends given values to a specified Google Sheet and optionally includes a current timestamp with each entry. It transforms data into a Google Sheets document, facilitating dynamic data entry directly from your application.
+
+
+#### Arguments:
+
+| Argument               | Type     | Description                                                                                                                                  |
+|------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| **`service_account_info`** | **dict** | The service account credentials used for Google Sheets API authentication.  |
+| **`spreadsheet_id`**       | **str**  | The unique identifier of the target Google Spreadsheet.                     |
+| **`values`**               | **list of lists** | The data to append. Each list element represents a row of data.                                                                              |
+| **`range_name`**           | **str** (optional)  | The A1 notation of the range to start appending data (Defaults to 'Sheet1!A1').                                                              |
+| **`include_timestamp`**    | **bool** (optional) | If True, appends the current timestamp to each row of data (Defaults to True).                                                               |
+
+#### Returns:
+
+| Return Type | Description                              |
+|-------------|------------------------------------------|
+| **`dict`**  | The response from the Google Sheets API, containing details of the append operation. |
+
+#### Example:
+
+#### Code step:
+
+```python
+import mecsimcalc as msc
+
+def main(inputs):
+    service_account_info = {
+        # Your service account info here
+    }
+    spreadsheet_id = 'your_spreadsheet_id_here'
+    values = [
+    [ inputs['input_1'], inputs['input_2'], inputs['input_3'] ],
+    ]    
+    result = msc.append_to_google_sheet(service_account_info, spreadsheet_id, values)
+
+```
+
+
+<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  <h3 style={{ margin: 5, padding: 0 }}>send_gmail</h3>
+  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L124-L190" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
+</div>
+
+```python
+send_gmail(
+	sender_email='sender@example.com', 
+	receiver_email='receiver@example.com', 
+	subject="Quiz", 
+	app_password = "xxxx xxxx xxxx xxxx", 
+	values = [
+	["name", "grade"]
+	]
+)
+```
+#### Description:
+
+This function sends an email with specified values formatted in the message body, utilizing a service account for authentication.
+
+#### Arguments:
+
+| Argument            | Type     | Description                                                                |
+|---------------------|----------|----------------------------------------------------------------------------|
+| **`sender_email`**      | **str**  | The email address of the sender.                                           |
+| **`receiver_email`**    | **str**  | The email address of the receiver.                                         |
+| **`subject`**           | **str**  | The subject line of the email.                                             |
+| **`app_password`**      | **str**  | The app-specific password for the sender's email account.                  |
+| **`values`**            | **list** | A list of lists. Each list contains data to be included in the email body. |
+
+#### Returns:
+
+| Return Type | Description                     |
+|-------------|---------------------------------|
+| **`bool`**  | Returns True if the email was sent successfully, otherwise False. |
+
+#### Example Usage:
+
+```python
+# Example code to use the send_gmail function
+import mecsimcalc as msc
+
+def main(inputs):
+    # Define parameters
+    sender_email = 'sender@example.com'
+    receiver_email = 'receiver@example.com'
+    subject = 'Test Email'
+    app_password = 'your_app_password_here'
+    
+    name = inputs['name']
+    grade = inputs['grade']
+    
+    values = [
+    [name, grade]
+    ]
+
+    # Send the email
+    msc.send_gmail(sender_email, receiver_email, subject, app_password, values)
+
+```
