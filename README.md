@@ -609,18 +609,18 @@ Displaying Image
 Downloading Image
 {{ outputs.download }}
 ```
-
 ## Quiz Toolkit
-<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-  <h3 style={{ margin: 5, padding: 0 }}>append_to_google_sheet</h3>
-  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L12-L120" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
-</div>
+### append_to_google_sheet
+
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L12) 
 
 ```python
 append_to_google_sheet(
     service_account_info = {...},
     spreadsheet_id = "123abc...",
     values = [["name", 12837, ...]],
+    range_name = 'Sheet1!A1',
+    include_timestamp = True
 )
 ```
 
@@ -650,8 +650,6 @@ This function appends given values to a specified Google Sheet and optionally in
 #### Code step:
 
 ```python
-from datetime import datetime
-from datetime import datetime
 import mecsimcalc as msc
 
 def main(inputs):
@@ -662,23 +660,24 @@ def main(inputs):
     values = [
     [ inputs['input_1'], inputs['input_2'], inputs['input_3'] ],
     ]    
-    result = msc.append_to_google_sheet(service_account_info, spreadsheet_id, values, include_timestamp)
-
+    result = msc.append_to_google_sheet(service_account_info, spreadsheet_id, values)
 
 ```
 
-<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-  <h3 style={{ margin: 5, padding: 0 }}>send_gmail</h3>
-  <a href="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L124-L190" style={{ fontSize: 'larger', marginBottom: '2em', margin: 5, padding: 0 }}><strong>[Source]</strong></a>
-</div>
+
+### send_gmail
+
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/mecsimcalc/quiz_utils.py#L124)
 
 ```python
 send_gmail(
-	sender_email="123@gmail.com", 
-	receiver_email="456@xxx.ca", 
+	sender_email='sender@example.com', 
+	receiver_email='receiver@example.com', 
 	subject="Quiz", 
 	app_password = "xxxx xxxx xxxx xxxx", 
-	values = [("name", "grade")]
+	values = [
+	["name", "grade"]
+	]
 )
 ```
 #### Description:
@@ -687,13 +686,13 @@ This function sends an email with specified values formatted in the message body
 
 #### Arguments:
 
-| Argument            | Type     | Description                                                                                                          |
-|---------------------|----------|----------------------------------------------------------------------------------------------------------------------|
-| **`sender_email`**      | **str**  | The email address of the sender.                                                                                     |
-| **`receiver_email`**    | **str**  | The email address of the receiver.                                                                                   |
-| **`subject`**           | **str**  | The subject line of the email.                                                                                       |
-| **`app_password`**      | **str**  | The app-specific password for the sender's email account. **Instruction to get it is [here](../quiz-toolkit/gmail#how-to-create-a-google-app-password)** |
-| **`values`**            | **list** | A list of tuples. Each tuple contains data to be included in the email body.                                         |
+| Argument            | Type     | Description                                                                |
+|---------------------|----------|----------------------------------------------------------------------------|
+| **`sender_email`**      | **str**  | The email address of the sender.                                           |
+| **`receiver_email`**    | **str**  | The email address of the receiver.                                         |
+| **`subject`**           | **str**  | The subject line of the email.                                             |
+| **`app_password`**      | **str**  | The app-specific password for the sender's email account.                  |
+| **`values`**            | **list** | A list of lists. Each list contains data to be included in the email body. |
 
 #### Returns:
 
@@ -713,7 +712,13 @@ def main(inputs):
     receiver_email = 'receiver@example.com'
     subject = 'Test Email'
     app_password = 'your_app_password_here'
-    values = [(inputs['input_2'], inputs['input_2'])]
+    
+    name = inputs['name']
+    grade = inputs['grade']
+    
+    values = [
+    [name, grade]
+    ]
 
     # Send the email
     msc.send_gmail(sender_email, receiver_email, subject, app_password, values)
