@@ -135,11 +135,11 @@ def test_print_dataframe():
 
 # returns a base64 encoded image
 def get_csv():
-    return getSpreadsheetInput(os.path.join(THIS_DIR, "csvFile.csv"))
+    return getSpreadsheetInput(os.path.join(THIS_DIR, "./test_files/csvFile.csv"))
 
 
 def get_xlsx():
-    return getSpreadsheetInput(os.path.join(THIS_DIR, "xlsxFile.xlsx"), xlsx=True)
+    return getSpreadsheetInput(os.path.join(THIS_DIR, "./test_files/xlsxFile.xlsx"), xlsx=True)
 
 
 # returns a base64 encoded image
