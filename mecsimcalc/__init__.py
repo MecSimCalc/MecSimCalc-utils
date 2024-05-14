@@ -26,5 +26,5 @@ __all__ = [
     "metadata_to_filetype",
     "file_to_PIL",
     "append_to_google_sheet",
-    "send_gmail"
+    "send_gmail",
 ]

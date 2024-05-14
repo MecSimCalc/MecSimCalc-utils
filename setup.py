@@ -20,8 +20,15 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    install_requires=["Pillow", "pandas", "matplotlib", "openpyxl", "PyJWT", "cryptography",
-                      "requests"],
+    install_requires=[
+        "Pillow",
+        "pandas",
+        "matplotlib",
+        "openpyxl",
+        "PyJWT",
+        "cryptography",
+        "requests",
+    ],
     keywords=["python", "MecSimCalc", "Calculator", "Simple"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

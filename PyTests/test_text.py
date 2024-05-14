@@ -1,6 +1,5 @@
 import sys
 import os
-import pytest
 
 # caution: path[0] is reserved for script path (or '' in REPL)
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))

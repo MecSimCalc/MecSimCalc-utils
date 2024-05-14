@@ -1,6 +1,5 @@
 import sys
 import os
-import pytest
 import base64
 import mimetypes
 import io

@@ -13,7 +13,7 @@ from quiz_utils import append_to_google_sheet, send_gmail
 
 
 class TestAppendToGoogleSheet(unittest.TestCase):
-    @patch('mecsimcalc.quiz_utils.requests')
+    @patch("mecsimcalc.quiz_utils.requests")
     def test_append_to_google_sheet(self, mock_post):
         # mock response
         mock_response = MagicMock()
@@ -33,26 +33,28 @@ class TestAppendToGoogleSheet(unittest.TestCase):
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/xxx.com",
-            "universe_domain": "googleapis.com"
+            "universe_domain": "googleapis.com",
         }
-        spreadsheet_id = 'dummy_spreadsheet_id'
+        spreadsheet_id = "dummy_spreadsheet_id"
         values = [["dummy_data"]]
-        range_name = 'Sheet1!A1'
+        range_name = "Sheet1!A1"
 
         # execute the function
-        response = append_to_google_sheet(service_account_info, spreadsheet_id, values, range_name, False)
+        response = append_to_google_sheet(
+            service_account_info, spreadsheet_id, values, range_name, False
+        )
         assert isinstance(response, dict)
 
 
 class TestSendEmail(unittest.TestCase):
-    @patch('mecsimcalc.quiz_utils.smtplib.SMTP_SSL')
+    @patch("mecsimcalc.quiz_utils.smtplib.SMTP_SSL")
     def test_send_email_success(self, mock_smtp_ssl):
         # Setup test data
-        sender_email = 'sender@example.com'
-        receiver_email = 'receiver@example.com'
-        subject = 'Test Subject'
-        app_password = 'app-specific-password'
-        values = [('Data1', 'Data2'), ('Data3', 'Data4')]
+        sender_email = "sender@example.com"
+        receiver_email = "receiver@example.com"
+        subject = "Test Subject"
+        app_password = "app-specific-password"
+        values = [("Data1", "Data2"), ("Data3", "Data4")]
 
         # Configure the mock SMTP server
         mock_server = MagicMock()
@@ -63,7 +65,7 @@ class TestSendEmail(unittest.TestCase):
 
         # Assertions
         assert res == True
-        mock_smtp_ssl.assert_called_once_with('smtp.gmail.com', 465)
+        mock_smtp_ssl.assert_called_once_with("smtp.gmail.com", 465)
         mock_server.login.assert_called_once_with(sender_email, app_password)
         mock_server.sendmail.assert_called_once()
         args, _ = mock_server.sendmail.call_args
@@ -75,14 +77,14 @@ class TestSendEmail(unittest.TestCase):
         for value in values:
             self.assertIn(", ".join(value), email_body)
 
-    @patch('mecsimcalc.quiz_utils.smtplib.SMTP_SSL')
+    @patch("mecsimcalc.quiz_utils.smtplib.SMTP_SSL")
     def test_send_email_failure(self, mock_smtp_ssl):
         # Setup test data with same parameters as success test
-        sender_email = 'sender@example.com'
-        receiver_email = 'receiver@example.com'
-        subject = 'Test Subject'
-        app_password = 'app-specific-password'
-        values = [('Data1', 'Data2'), ('Data3', 'Data4')]
+        sender_email = "sender@example.com"
+        receiver_email = "receiver@example.com"
+        subject = "Test Subject"
+        app_password = "app-specific-password"
+        values = [("Data1", "Data2"), ("Data3", "Data4")]
 
         # Configure the mock SMTP server to raise an exception
         mock_smtp_ssl.return_value.__enter__.side_effect = Exception("SMTP Error")
@@ -92,4 +94,4 @@ class TestSendEmail(unittest.TestCase):
 
         # Assertions
         assert res == False
-        mock_smtp_ssl.assert_called_once_with('smtp.gmail.com', 465)
+        mock_smtp_ssl.assert_called_once_with("smtp.gmail.com", 465)
