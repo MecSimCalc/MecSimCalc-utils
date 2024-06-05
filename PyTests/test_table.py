@@ -1,6 +1,5 @@
 import sys
 import os
-import pytest
 import pandas as pd
 
 # caution: path[0] is reserved for script path (or '' in REPL)

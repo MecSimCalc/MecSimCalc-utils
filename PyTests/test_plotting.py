@@ -1,6 +1,5 @@
 import sys
 import os
-import pytest
 
 import matplotlib.pyplot as plt
 import numpy as np
