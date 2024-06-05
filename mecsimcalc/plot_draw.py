@@ -469,16 +469,17 @@ def plot_segment(
     end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
     plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], **line_properties, alpha=alpha)
 
-    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
-    space = max(0.1 * vec_length, min_spacing)
-    plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+    # mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
+    if text:
+        space = max(0.1 * vec_length, min_spacing)
+        plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
     return end_point
 
 def plot_segment_dashed(
     start_point: tuple, 
     trig_angle: float, 
     vec_length: float, 
-    line_properties: dict = {'color': 'blue', 'linewidth': 'dashed'}, 
+    line_properties: dict = {'color': 'blue', 'linestyle': 'dashed', 'linewidth': 1}, 
     text: str = "", 
     min_spacing: float = 150, 
     fontsize: int = 15, 
@@ -517,7 +518,12 @@ def plot_segment_dashed(
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
     end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
     plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], **line_properties, alpha=alpha)
-    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
+    # mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
+    
+    if text:
+        space = max(0.1 * vec_length, min_spacing)
+        plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+
     return end_point
 
 def draw_custom_circle(
