@@ -82,7 +82,8 @@ def calculate_midpoint(
 def draw_arc_circumference(
     radius: float, 
     initial_angle: float, 
-    final_angle: float
+    final_angle: float,
+    center: tuple = (0, 0),
 ) -> None:
     """
     Draws an arc of a circumference with a given radius between two angles.
@@ -95,10 +96,17 @@ def draw_arc_circumference(
         The starting angle of the arc in radians.
     final_angle : float
         The ending angle of the arc in radians.
+    center : tuple
+        The center of the circumference.
     """
-    angles = np.linspace(initial_angle, final_angle, 1000)
-    x = radius * np.cos(angles)
-    y = radius * np.sin(angles)
+    # prevent circle from overlapping
+    if abs(final_angle - initial_angle) > 2 * np.pi:
+        final_angle = 2 * np.pi
+        initial_angle = 0
+
+    angles = np.linspace(initial_angle, final_angle, 200)
+    x = radius * np.cos(angles) + center[0]
+    y = radius * np.sin(angles) + center[1]
     plt.plot(x, y, color='red')
     plt.axis('equal')
 
