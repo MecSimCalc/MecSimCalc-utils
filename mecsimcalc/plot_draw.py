@@ -1,13 +1,8 @@
 from typing import Union, Tuple
 
 import matplotlib.pyplot as plt
-
 import numpy as np
-
 import math
-
-# need to check figure support
-# import matplotlib.figure as figure
 
 def draw_arrow(
     start: Union[tuple, list], 
@@ -21,8 +16,20 @@ def draw_arrow(
     fontsize: int = 12
 ) -> None:
     """
-    Draws an arrow between two points on a plot.
+    >>> draw_arrow(
+        start: Union[tuple, list], 
+        end: Union[tuple, list], 
+        thickness: int = 5, 
+        color: str = 'black',
+        text: str = None, 
+        text_distance: float = 0.5, 
+        head_width: float = 0.08, 
+        head_length: float = 0.08, 
+        fontsize: int = 12
+    ) -> None
 
+    Draws an arrow between two points on a plot.
+    
     Parameters
     ----------
     start : tuple or list
@@ -58,6 +65,11 @@ def calculate_midpoint(
     coord2: tuple
 ) -> tuple:
     """
+    >>> calculate_midpoint(
+        coord1: tuple, 
+        coord2: tuple
+    ) -> tuple
+
     Calculates the midpoint between two coordinates.
 
     Parameters
@@ -86,6 +98,13 @@ def draw_arc_circumference(
     center: tuple = (0, 0),
 ) -> None:
     """
+    >>> draw_arc_circumference(
+        radius: float, 
+        initial_angle: float, 
+        final_angle: float,
+        center: tuple = (0, 0)
+    ) -> None
+
     Draws an arc of a circumference with a given radius between two angles.
 
     Parameters
@@ -115,6 +134,11 @@ def create_blank_image(
     height: int = 1000
 ) -> plt.Axes:
     """
+    >>> create_blank_image(
+        width: int = 1000, 
+        height: int = 1000
+    ) -> plt.Axes
+
     Creates a blank image with specified width and height, displaying a grid.
 
     Parameters
@@ -146,6 +170,15 @@ def draw_three_axes(
     axis_x_negative: bool
 ) -> plt.Axes:
     """
+    >>> draw_three_axes(
+        arrow_length: float, 
+        arrow_thickness: float, 
+        offset_text: float, 
+        longx: float, 
+        axis_y_negative: bool, 
+        axis_x_negative: bool
+    ) -> plt.Axes
+
     Draws a set of three axes (x, y, z) with optional negative directions for x and y.
 
     Parameters
@@ -202,6 +235,15 @@ def draw_two_inclined_axes(
     axis_x_negative: bool
 ) -> plt.Axes:
     """
+    >>> draw_two_inclined_axes(
+        arrow_length: float, 
+        arrow_thickness: float, 
+        offset_text: float, 
+        longx: float, 
+        axis_y_negative: bool, 
+        axis_x_negative: bool
+    ) -> plt.Axes
+
     Draws two inclined axes (x and y) with optional negative directions.
 
     Parameters
@@ -257,6 +299,17 @@ def plot_segment_pixels(
     alpha: float = 0.8
 ) -> tuple:
     """
+    >>> plot_segment_pixels(
+        start_point_pixels: tuple, 
+        end_point_pixels: tuple, 
+        line_properties: dict = {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'}, 
+        text: str = "", 
+        min_spacing: float = 150, 
+        fontsize: int = 15, 
+        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        alpha: float = 0.8
+    ) -> tuple
+
     Plots a line segment between two points and adds a label at the end point.
 
     Parameters
@@ -304,6 +357,21 @@ def plot_annotate_arrow(
     alpha: float = 0.8
 ) -> tuple:
     """
+    >>> plot_annotate_arrow(
+        start_point: tuple, 
+        trig_angle: float, 
+        vec_length: float, 
+        text: str = "", 
+        min_spacing: float = 150, 
+        fontsize: int = 11, 
+        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}, 
+        reverse_arrow: str = 'no', 
+        text_in_center: str = 'no', 
+        rev_text: str = 'no', 
+        alpha: float = 0.8
+    ) -> tuple
+
     Plots an annotated arrow starting from a given point and extending in a given direction.
 
     Parameters
@@ -373,6 +441,19 @@ def draw_custom_arrow(
     text: str = None
 ) -> None:
     """
+    >>> draw_custom_arrow(
+        ax: plt.Axes, 
+        start_point: tuple, 
+        point_2: tuple, 
+        factor: float, 
+        max_value: float, 
+        arrow_vector_length: float, 
+        arrow_width: float, 
+        arrow_color: str = 'blue', 
+        line_width: float = 1, 
+        text: str = None
+    ) -> None
+
     Draws a custom arrow from a start point to another point on a given axis, using pixel-based parameters.
 
     Parameters
@@ -414,6 +495,12 @@ def calculate_arrow_endpoint_pixels(
     vec_length: float
 ) -> tuple:
     """
+    >>> calculate_arrow_endpoint_pixels(
+        start_point: tuple, 
+        trig_angle: float, 
+        vec_length: float
+    ) -> tuple
+
     Calculates the end point of an arrow in pixel coordinates.
 
     Parameters
@@ -445,6 +532,18 @@ def plot_segment(
     alpha: float = 0.8
 ) -> tuple:
     """
+    >>> plot_segment(
+        start_point: tuple, 
+        trig_angle: float, 
+        vec_length: float, 
+        line_properties: dict = {'color': 'blue', 'linewidth': 1}, 
+        text: str = "", 
+        min_spacing: float = 150, 
+        fontsize: int = 15, 
+        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        alpha: float = 0.8
+    ) -> tuple
+
     Plots a line segment starting from a given point with a specific angle and length.
 
     Parameters
@@ -495,6 +594,18 @@ def plot_segment_dashed(
     alpha: float = 0.8
 ) -> tuple:
     """
+    >>> plot_segment_dashed(
+        start_point: tuple, 
+        trig_angle: float, 
+        vec_length: float, 
+        line_properties: dict = {'color': 'blue', 'linestyle': 'dashed', 'linewidth': 1}, 
+        text: str = "", 
+        min_spacing: float = 150, 
+        fontsize: int = 15, 
+        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        alpha: float = 0.8
+    ) -> tuple
+
     Plots a dashed line segment starting from a given point with a specific angle and length.
 
     Parameters
@@ -541,6 +652,13 @@ def draw_custom_circle(
     circle_color: str = 'black'
 ) -> None:
     """
+    >>> draw_custom_circle(
+        ax: plt.Axes, 
+        center_point: tuple, 
+        circle_size: float = 100, 
+        circle_color: str = 'black'
+    ) -> None
+
     Draws a custom circle on a given axis.
 
     Parameters
@@ -564,6 +682,14 @@ def draw_rounded_rectangle(
     color: str = 'black'
 ) -> None:
     """
+    >>> draw_rounded_rectangle(
+        middle_point: tuple, 
+        width: float, 
+        height: float, 
+        radius: float, 
+        color: str = 'black'
+    ) -> None
+
     Draws a rounded rectangle with specified properties.
 
     Parameters
@@ -608,6 +734,13 @@ def calculate_intersection_point(
     angle2: float
 ) -> tuple:
     """
+    >>> calculate_intersection_point(
+        point1: tuple, 
+        angle1: float, 
+        point2: tuple, 
+        angle2: float
+    ) -> tuple
+
     Calculates the intersection point of two lines defined by points and angles.
 
     Parameters
@@ -645,6 +778,13 @@ def draw_segment(
     color: str = 'black'
 ) -> None:
     """
+    >>> draw_segment(
+        start_point: tuple, 
+        final_point: tuple, 
+        line_width: float = 0.001, 
+        color: str = 'black'
+    ) -> None
+
     Draws a segment between two points with a specified line width and color.
 
     Parameters
@@ -688,6 +828,21 @@ def plot_annotate_arrow_end(
     alpha: float = 0.8
 ) -> tuple:
     """
+    >>> plot_annotate_arrow_end(
+        end_point: tuple, 
+        trig_angle: float, 
+        vec_length: float, 
+        text: str = "", 
+        text_distance: float = 0.5, 
+        fontsize: int = 12, 
+        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}, 
+        reverse_arrow: str = 'no', 
+        text_in_center: str = 'no', 
+        rev_text: str = 'no', 
+        alpha: float = 0.8
+    ) -> tuple
+
     Plots an arrow annotation at the end point of a vector.
 
     Parameters
@@ -741,7 +896,6 @@ def plot_annotate_arrow_end(
         plt.text(mid_point[0] + text_distance * np.cos(np.radians(90 + trig_angle)), mid_point[1] + text_distance * np.sin(np.radians(90 + trig_angle)), text, fontsize=fontsize, color='k', **text_loc, rotation=rot_angle)
     return start_point
 
-
 def draw_arc_with_text(
     start_point: tuple, 
     radius: float, 
@@ -750,6 +904,14 @@ def draw_arc_with_text(
     text: str
 ) -> None:
     """
+    >>> draw_arc_with_text(
+        start_point: tuple, 
+        radius: float, 
+        start_angle: float, 
+        final_angle: float, 
+        text: str
+    ) -> None
+
     Draws an arc with text annotation.
 
     Parameters
@@ -785,6 +947,15 @@ def draw_three_axes_rotated(
     negativeaxis_x: int
 ) -> plt.Axes:
     """
+    >>> draw_three_axes_rotated(
+        arrow_length: float, 
+        line_thickness: float, 
+        offset_text: float, 
+        longx: float, 
+        negativeaxis_y: int, 
+        negativeaxis_x: int
+    ) -> plt.Axes
+
     Draws three rotated axes in a 3D coordinate system.
 
     Parameters
@@ -839,6 +1010,13 @@ def draw_double_arrowhead(
     line_thickness: float = 1
 ) -> None:
     """
+    >>> draw_double_arrowhead(
+        start_point: tuple, 
+        end_point: tuple, 
+        color: str = 'black', 
+        line_thickness: float = 1
+    ) -> None
+
     Draws a double arrowhead between two points.
 
     Parameters
@@ -875,6 +1053,13 @@ def draw_custom_arrow_end(
     line_thickness: float = 1
 ) -> None:
     """
+    >>> draw_custom_arrow_end(
+        start_point: tuple, 
+        end_point: tuple, 
+        color: str = 'black', 
+        line_thickness: float = 1
+    ) -> None
+
     Draws a custom arrow at the end of a line segment.
 
     Parameters
@@ -912,6 +1097,15 @@ def draw_two_axes(
     negativeaxis_x: int
 ) -> plt.Axes:
     """
+    >>> draw_two_axes(
+        arrow_length: float, 
+        line_thickness: float, 
+        offset_text: float, 
+        longx: float, 
+        negativeaxis_y: int, 
+        negativeaxis_x: int
+    ) -> plt.Axes
+
     Draws two axes representing the x and y directions.
 
     Parameters
@@ -963,6 +1157,13 @@ def vertical_arrow_rain(
     y_origin: float
 ) -> None:
     """
+    >>> vertical_arrow_rain(
+        quantity_arrows: int, 
+        start_point: tuple, 
+        final_point: tuple, 
+        y_origin: float
+    ) -> None
+
     Draws a specific quantity of arrows from equidistant points on a segment that extends from start_point to final_point, with all arrows pointing to y_origin.
 
     Parameters
@@ -990,6 +1191,13 @@ def draw_rain_arrows_horizontal(
     final_point: tuple
 ) -> None:
     """
+    >>> draw_rain_arrows_horizontal(
+        quantity_arrows: int, 
+        x_origin: float, 
+        start_point: tuple, 
+        final_point: tuple
+    ) -> None
+
     Draws a specific quantity of arrows from a vertical line at x_origin to equidistant points on a segment that extends from start_point to final_point.
 
     Parameters
@@ -1015,6 +1223,11 @@ def calculate_angle(
     final_point: tuple
 ) -> float:
     """
+    >>> calculate_angle(
+        start_point: tuple, 
+        final_point: tuple
+    ) -> float
+
     Calculates the angle (in degrees) between two points.
 
     Parameters
@@ -1042,6 +1255,11 @@ def draw_segment_1(
     end: Union[tuple, list]
 ) -> None:
     """
+    >>> draw_segment_1(
+        start: Union[tuple, list], 
+        end: Union[tuple, list]
+    ) -> None
+
     Draws a line segment in black ('k').
 
     Parameters
@@ -1058,6 +1276,11 @@ def draw_segment_2(
     end: Union[tuple, list]
 ) -> None:
     """
+    >>> draw_segment_2(
+        start: Union[tuple, list], 
+        end: Union[tuple, list]
+    ) -> None
+
     Draws a line segment in red ('r').
 
     Parameters
@@ -1074,6 +1297,11 @@ def draw_segment_3(
     end: Union[tuple, list]
 ) -> None:
     """
+    >>> draw_segment_3(
+        start: Union[tuple, list], 
+        end: Union[tuple, list]
+    ) -> None
+
     Draws a line segment in blue ('b').
 
     Parameters
@@ -1092,6 +1320,13 @@ def get_arc_points(
     center: Union[tuple, list]
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
+    >>> get_arc_points(
+        start_angle: float, 
+        end_angle: float, 
+        radius: float, 
+        center: Union[tuple, list]
+    ) -> Tuple[np.ndarray, np.ndarray]
+
     Calculates points along a circular arc defined by a start angle and an end angle.
 
     Parameters
