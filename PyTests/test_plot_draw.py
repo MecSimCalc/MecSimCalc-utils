@@ -51,8 +51,7 @@ def run_all_functions():
     draw_arrow(start=(0.1, 0.1), end=(0.3, 0.3), text="Arrow")
 
     # Calculate the midpoint between two coordinates
-    midpoint = calculate_midpoint((0, 0), (1, 1))
-    print(f"Midpoint: {midpoint}")
+    assert calculate_midpoint((0, 0), (1, 1)) == (0.5, 0.5)
 
     # Draw an arc of a circumference
     draw_arc_circumference(radius=0.5, initial_angle=0, final_angle=np.pi / 2)
