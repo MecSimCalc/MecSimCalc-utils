@@ -1349,3 +1349,35 @@ def get_arc_points(
     x = center[0] + radius * np.cos(angles)
     y = center[1] + radius * np.sin(angles)
     return x, y
+
+__all__ = [
+    "draw_arrow",
+    "calculate_midpoint",
+    "draw_arc_circumference",
+    "create_blank_image",
+    "draw_three_axes",
+    "draw_two_inclined_axes",
+    "plot_segment_pixels",
+    "plot_annotate_arrow",
+    "draw_custom_arrow",
+    "calculate_arrow_endpoint_pixels",
+    "plot_segment",
+    "plot_segment_dashed",
+    "draw_custom_circle",
+    "draw_rounded_rectangle",
+    "calculate_intersection_point",
+    "draw_segment",
+    "plot_annotate_arrow_end",
+    "draw_arc_with_text",
+    "draw_three_axes_rotated",
+    "draw_double_arrowhead",
+    "draw_custom_arrow_end",
+    "draw_two_axes",
+    "vertical_arrow_rain",
+    "draw_rain_arrows_horizontal",
+    "calculate_angle",
+    "draw_segment_1",
+    "draw_segment_2",
+    "draw_segment_3",
+    "get_arc_points"
+]

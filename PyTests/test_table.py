@@ -6,7 +6,7 @@ import pandas as pd
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
 from table_utils import table_to_dataframe, print_table
 
