@@ -1,5 +1,4 @@
 from typing import Union, Tuple
-
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -50,6 +49,17 @@ def draw_arrow(
         Length of the arrow head. (Default is 0.08)
     fontsize : int, optional
         Font size of the text. (Default is 12)
+    
+    Returns
+    -------
+    None
+
+    Examples
+    --------
+    >>> draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_distance=0.1, head_width=0.1, head_length=0.1, fontsize=10)
+    >>> plt.xlim(-1, 2)
+    >>> plt.ylim(-1, 2)
+    >>> plt.show()
     """
     start = np.array(start)
     end = np.array(end)
@@ -58,7 +68,6 @@ def draw_arrow(
         arrow_vector = end - start
         text_position = end + text_distance * arrow_vector / np.linalg.norm(arrow_vector)
         plt.text(text_position[0], text_position[1], text, fontsize=fontsize)
-
 
 def calculate_midpoint(
     coord1: tuple, 
@@ -83,6 +92,12 @@ def calculate_midpoint(
     -------
     tuple
         The midpoint (x, y).
+
+    Examples
+    --------
+    >>> midpoint = calculate_midpoint((0, 0), (2, 2))
+    >>> print(midpoint)
+    (1.0, 1.0)
     """
     x1, y1 = coord1
     x2, y2 = coord2
@@ -95,7 +110,7 @@ def draw_arc_circumference(
     radius: float, 
     initial_angle: float, 
     final_angle: float,
-    center: tuple = (0, 0),
+    center: tuple = (0, 0)
 ) -> None:
     """
     >>> draw_arc_circumference(
@@ -117,6 +132,15 @@ def draw_arc_circumference(
         The ending angle of the arc in radians.
     center : tuple
         The center of the circumference.
+
+    Returns
+    -------
+    None
+
+    Examples
+    --------
+    >>> draw_arc_circumference(5, 0, np.pi/2)
+    >>> plt.show()
     """
     # prevent circle from overlapping
     if abs(final_angle - initial_angle) > 2 * np.pi:
@@ -152,8 +176,13 @@ def create_blank_image(
     -------
     plt.Axes
         The Axes object of the created blank image.
+
+    Examples
+    --------
+    >>> ax = create_blank_image(800, 600)
+    >>> plt.show()
     """
-    fig, ax = plt.subplots(figsize=(int(width/1000*6), int(height/1000*6)))
+    fig, ax = plt.subplots(figsize=(int(width / 1000 * 6), int(height / 1000 * 6)))
     plt.imshow(np.ones((height, width, 3)))
     plt.tick_params(axis='both', which='both', bottom=False, top=False, left=False, right=False, labelbottom=False, labelleft=False)
     plt.grid(True, alpha=0.5)
@@ -200,6 +229,11 @@ def draw_three_axes(
     -------
     plt.Axes
         The Axes object with the drawn axes.
+
+    Examples
+    --------
+    >>> ax = draw_three_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    >>> plt.show()
     """
     fig, ax = plt.subplots()
     ax.arrow(0, 0, 0, arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
@@ -210,12 +244,12 @@ def draw_three_axes(
 
     if axis_y_negative:
         ax.arrow(0, 0, -arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    
-    ax.arrow(0, 0, -arrow_length/longx, -arrow_length/longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(-arrow_length/longx - offset_text/1.5, -arrow_length/longx - offset_text/1.5, 'x', fontsize=12, ha='right', va='top')
+
+    ax.arrow(0, 0, -arrow_length / longx, -arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+    ax.text(-arrow_length / longx - offset_text / 1.5, -arrow_length / longx - offset_text / 1.5, 'x', fontsize=12, ha='right', va='top')
 
     if axis_x_negative:
-        ax.arrow(0, 0, arrow_length/longx, arrow_length/longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+        ax.arrow(0, 0, arrow_length / longx, arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
 
     ax.set_xticks([])
     ax.set_yticks([])
@@ -265,6 +299,11 @@ def draw_two_inclined_axes(
     -------
     plt.Axes
         The Axes object with the drawn axes.
+
+    Examples
+    --------
+    >>> ax = draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    >>> plt.show()
     """
     fig, ax = plt.subplots()
     ax.arrow(0, 0, arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
@@ -272,12 +311,12 @@ def draw_two_inclined_axes(
 
     if axis_x_negative:
         ax.arrow(0, 0, -arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    
-    ax.arrow(0, 0, arrow_length/longx, arrow_length/longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(arrow_length/longx + offset_text/1.5, arrow_length/longx + offset_text/1.5, 'y', fontsize=12, ha='left', va='bottom')
+
+    ax.arrow(0, 0, arrow_length / longx, arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+    ax.text(arrow_length / longx + offset_text / 1.5, arrow_length / longx + offset_text / 1.5, 'y', fontsize=12, ha='left', va='bottom')
 
     if axis_y_negative:
-        ax.arrow(0, 0, -arrow_length/longx, -arrow_length/longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+        ax.arrow(0, 0, -arrow_length / longx, -arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
 
     ax.set_xticks([])
     ax.set_yticks([])
@@ -335,6 +374,13 @@ def plot_segment_pixels(
     -------
     tuple
         The end point of the line segment (x, y).
+
+    Examples
+    --------
+    >>> start = (100, 200)
+    >>> end = (400, 500)
+    >>> plot_segment_pixels(start, end, text="Segment", min_spacing=50)
+    >>> plt.show()
     """
     plt.plot([start_point_pixels[0], end_point_pixels[0]], [start_point_pixels[1], end_point_pixels[1]], **line_properties, alpha=alpha)
     mid_point = ((start_point_pixels[0] + end_point_pixels[0]) / 2, (start_point_pixels[1] + end_point_pixels[1]) / 2)
@@ -405,6 +451,14 @@ def plot_annotate_arrow(
     -------
     tuple
         The end point of the arrow (x, y).
+
+    Examples
+    --------
+    >>> start = (100, 200)
+    >>> angle = 45
+    >>> length = 100
+    >>> plot_annotate_arrow(start, angle, length, text="Arrow", min_spacing=50)
+    >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
 
@@ -478,6 +532,12 @@ def draw_custom_arrow(
         The width of the arrow line. (Default is 1)
     text : str, optional
         The text to display near the end of the arrow.
+
+    Examples
+    --------
+    >>> fig, ax = plt.subplots()
+    >>> draw_custom_arrow(ax, (0, 0), (100, 100), factor=0.5, max_value=100, arrow_vector_length=50, arrow_width=5, text="Custom Arrow")
+    >>> plt.show()
     """
     start_point = np.array(start_point)
     point_2 = np.array(point_2)
@@ -516,9 +576,14 @@ def calculate_arrow_endpoint_pixels(
     -------
     tuple
         The end point of the arrow (x, y) in pixel coordinates.
+
+    Examples
+    --------
+    >>> calculate_arrow_endpoint_pixels((100, 200), 45, 50)
+    (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
-    return start_point[0] + vec_length * np.cos( np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle))
+    return start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle))
 
 def plot_segment(
     start_point: tuple, 
@@ -571,15 +636,20 @@ def plot_segment(
     -------
     tuple
         The end point of the line segment (x, y).
+
+    Examples
+    --------
+    >>> plot_segment((100, 200), 45, 50, text='Value')
+    (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
     end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
     plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], **line_properties, alpha=alpha)
 
-    # mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
-    if text:
-        space = max(0.1 * vec_length, min_spacing)
-        plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
+    space = max(0.1 * vec_length, min_spacing)
+    plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+
     return end_point
 
 def plot_segment_dashed(
@@ -633,12 +703,17 @@ def plot_segment_dashed(
     -------
     tuple
         The end point of the line segment (x, y).
+
+    Examples
+    --------
+    >>> plot_segment_dashed((100, 200), 45, 50, text='Value')
+    (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
     end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
     plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], **line_properties, alpha=alpha)
-    # mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
-    
+
+    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
     if text:
         space = max(0.1 * vec_length, min_spacing)
         plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
@@ -671,6 +746,12 @@ def draw_custom_circle(
         The size of the circle. (Default is 100)
     circle_color : str, optional
         The color of the circle. (Default is 'black')
+
+    Examples
+    --------
+    >>> fig, ax = plt.subplots()
+    >>> draw_custom_circle(ax, (100, 100), circle_size=200, circle_color='red')
+    >>> plt.show()
     """
     ax.scatter(center_point[0], center_point[1], s=circle_size, color=circle_color)
 
@@ -704,6 +785,10 @@ def draw_rounded_rectangle(
         The radius of the corners.
     color : str, optional
         The color of the rectangle. (Default is 'black')
+
+    Examples
+    --------
+    >>> draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
     """
     x_sup, y_sup = middle_point
     x1 = x_sup - width / 2
@@ -722,10 +807,10 @@ def draw_rounded_rectangle(
 
     angle1 = np.linspace(np.pi, 1.5 * np.pi, 50)
     angle2 = np.linspace(1.5 * np.pi, 2 * np.pi, 50)
-    plt.plot(x1 + radius + radius * np.cos(angle1), y1 + radius + radius * np.sin(angle1), color=color) # sup izq
-    plt.plot(x2 - radius + radius * np.cos(angle2), y2 + radius + radius * np.sin(angle2), color=color) # sup der
-    plt.plot(x3 - radius - radius * np.cos(angle1), y3 - radius - radius * np.sin(angle1), color=color) # inf der
-    plt.plot(x4 + radius - radius * np.cos(angle2), y4 - radius - radius * np.sin(angle2), color=color) # inf izq
+    plt.plot(x1 + radius + radius * np.cos(angle1), y1 + radius + radius * np.sin(angle1), color=color)  # top left     (sup izq)
+    plt.plot(x2 - radius + radius * np.cos(angle2), y2 + radius + radius * np.sin(angle2), color=color)  # top right    (sup der)
+    plt.plot(x3 - radius - radius * np.cos(angle1), y3 - radius - radius * np.sin(angle1), color=color)  # bottom right (inf der)
+    plt.plot(x4 + radius - radius * np.cos(angle2), y4 - radius - radius * np.sin(angle2), color=color)  # bottom left  (inf izq)
 
 def calculate_intersection_point(
     point1: tuple, 
@@ -758,6 +843,11 @@ def calculate_intersection_point(
     -------
     tuple
         The coordinates of the intersection point (x, y).
+
+    Examples
+    --------
+    >>> calculate_intersection_point((0, 0), 45, (1, 1), 135)
+    (0.5, 0.5)
     """
     angle1_rad = np.radians(angle1)
     angle2_rad = np.radians(angle2)
@@ -797,6 +887,10 @@ def draw_segment(
         The width of the segment. (Default is 0.001)
     color : str, optional
         The color of the segment. (Default is 'black')
+
+    Examples
+    --------
+    >>> draw_segment((0, 0), (1, 1), line_width=0.005, color='blue')
     """
     x_start, y_start = start_point
     x_end, y_end = final_point
@@ -876,6 +970,11 @@ def plot_annotate_arrow_end(
     -------
     tuple
         The coordinates of the start point (x, y) of the arrow.
+
+    Examples
+    --------
+    >>> plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_distance=0.5, fontsize=12, text_loc={'ha': 'center', 'va': 'top'})
+    (0.8535533905932737, 1.1464466094067263)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
 
@@ -926,6 +1025,10 @@ def draw_arc_with_text(
         The final angle of the arc in degrees.
     text : str
         The text to be displayed along the arc.
+
+    Examples
+    --------
+    >>> draw_arc_with_text((0, 0), 5, 30, 120, "Sample Text")
     """
     angles = np.linspace(np.radians(start_angle), np.radians(final_angle), 1000)
     x = start_point[0] + radius * np.cos(angles)
@@ -937,6 +1040,11 @@ def draw_arc_with_text(
     displacement_y = np.sin((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.6
     plt.text(middle_point_x + displacement_x, middle_point_y + displacement_y, text, fontsize=8, ha='center', va='center')
     plt.axis('equal')
+
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+from typing import Union, Tuple
 
 def draw_three_axes_rotated(
     arrow_length: float, 
@@ -961,22 +1069,27 @@ def draw_three_axes_rotated(
     Parameters
     ----------
     arrow_length : float
-        Length of the arrows representing the axes.
+        The length of the arrow.
     line_thickness : float
-        Thickness of the lines representing the axes.
+        The thickness of the line.
     offset_text : float
-        Offset distance for labeling the axes.
+        The offset of the text from the arrow.
     longx : float
-        Scaling factor for the length of the arrows.
+        The length of the x-axis.
     negativeaxis_y : int
-        Flag indicating whether to draw the arrow for the negative Y-axis.
+        Whether to include negative y-axis (1 for yes, 0 for no).
     negativeaxis_x : int
-        Flag indicating whether to draw the arrow for the negative X-axis.
+        Whether to include negative x-axis (1 for yes, 0 for no).
 
     Returns
     -------
     plt.Axes
         The matplotlib Axes object containing the plot.
+
+    Example
+    -------
+    >>> ax = draw_three_axes_rotated(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    >>> plt.show()
     """
     fig, ax = plt.subplots()
     ax.arrow(0, 0, 0, arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
@@ -1001,7 +1114,6 @@ def draw_three_axes_rotated(
     ax.spines['left'].set_visible(False)
     plt.axis('equal')
     return ax
-
 
 def draw_double_arrowhead(
     start_point: tuple, 
@@ -1029,6 +1141,11 @@ def draw_double_arrowhead(
         Color of the arrow and line. (Default is 'black')
     line_thickness : float, optional
         Thickness of the line. (Default is 1)
+
+    Example
+    -------
+    >>> draw_double_arrowhead(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
+    >>> plt.show()
     """
     start_point = list(start_point)
     end_point = list(end_point)
@@ -1072,6 +1189,11 @@ def draw_custom_arrow_end(
         Color of the arrow and line. (Default is 'black')
     line_thickness : float, optional
         Thickness of the line. (Default is 1)
+
+    Example
+    -------
+    >>> draw_custom_arrow_end(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
+    >>> plt.show()
     """
     start_point = list(start_point)
     end_point = list(end_point)
@@ -1127,6 +1249,11 @@ def draw_two_axes(
     -------
     plt.Axes
         Axes object.
+
+    Example
+    -------
+    >>> ax = draw_two_axes(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    >>> plt.show()
     """
     fig, ax = plt.subplots()
     ax.arrow(0, 0, 0, arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
@@ -1175,7 +1302,12 @@ def vertical_arrow_rain(
     final_point : tuple
         Tuple (x, y) representing the final point of the segment.
     y_origin : float
-        y-coordinate to which all arrows should point.
+        y-coordinate to which all arrows should point. 
+
+    Example
+    -------
+    >>> vertical_arrow_rain(quantity_arrows=5, start_point=(0, 1), final_point=(1, 1), y_origin=0)
+    >>> plt.show()
     """
     x_start, y_start = start_point
     x_final, y_final = final_point
@@ -1210,6 +1342,11 @@ def draw_rain_arrows_horizontal(
         Tuple (x, y) representing the starting point of the segment.
     final_point : tuple
         Tuple (x, y) representing the final point of the segment.
+
+    Example
+    -------
+    >>> draw_rain_arrows_horizontal(quantity_arrows=5, x_origin=0, start_point=(0, 1), final_point=(1, 1))
+    >>> plt.show()
     """
     x_start, y_start = start_point
     x_final, y_final = final_point
@@ -1241,6 +1378,13 @@ def calculate_angle(
     -------
     float
         The angle in degrees between the two points.
+
+    Example
+    -------
+    >>>
+ angle = calculate_angle(start_point=(0, 0), final_point=(1, 1))
+    >>> print(angle)
+    45.0
     """
     delta_x = final_point[0] - start_point[0]
     delta_y = final_point[1] - start_point[1]
@@ -1250,10 +1394,11 @@ def calculate_angle(
         angle_degrees += 360
     return angle_degrees
 
-def draw_segment_1(
-    start: Union[tuple, list], 
-    end: Union[tuple, list]
-) -> None:
+import matplotlib.pyplot as plt
+import numpy as np
+from typing import Union, Tuple
+
+def draw_segment_1(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     """
     >>> draw_segment_1(
         start: Union[tuple, list], 
@@ -1268,13 +1413,25 @@ def draw_segment_1(
         The coordinates of the starting point [x1, y1].
     end : tuple or list
         The coordinates of the ending point [x2, y2].
+
+    Example
+    -------
+    >>> import matplotlib.pyplot as plt
+    >>> # Define a variable for use in the segment
+    >>> cc = 10
+    >>> # Draw the segment
+    >>> def draw_segment_1(start, end):
+    >>>     plt.plot([start[0], end[0]], [start[1], end[1]], color='k')
+    >>> def draw_segments_1():
+    >>>     draw_segment_1((0, 0), (cc, 0))
+    >>> # Call the function to draw the segment
+    >>> draw_segments_1()
+    >>> # Show the plot
+    >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color='k')
 
-def draw_segment_2(
-    start: Union[tuple, list], 
-    end: Union[tuple, list]
-) -> None:
+def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     """
     >>> draw_segment_2(
         start: Union[tuple, list], 
@@ -1289,13 +1446,25 @@ def draw_segment_2(
         The coordinates of the starting point [x1, y1].
     end : tuple or list
         The coordinates of the ending point [x2, y2].
+
+    Example
+    -------
+    >>> import matplotlib.pyplot as plt
+    >>> # Define a variable for use in the segment
+    >>> cc = 10
+    >>> # Draw the segment
+    >>> def draw_segment_2(start, end):
+    >>>     plt.plot([start[0], end[0]], [start[1], end[1]], color='r')
+    >>> def draw_segments_2():
+    >>>     draw_segment_2((0, 2.6), (cc, 1))
+    >>> # Call the function to draw the segment
+    >>> draw_segments_2()
+    >>> # Show the plot
+    >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color='r')
 
-def draw_segment_3(
-    start: Union[tuple, list], 
-    end: Union[tuple, list]
-) -> None:
+def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     """
     >>> draw_segment_3(
         start: Union[tuple, list], 
@@ -1310,15 +1479,25 @@ def draw_segment_3(
         The coordinates of the starting point [x1, y1].
     end : tuple or list
         The coordinates of the ending point [x2, y2].
+
+    Example
+    -------
+    >>> import matplotlib.pyplot as plt
+    >>> # Define a variable for use in the segment
+    >>> cc = 10
+    >>> # Draw the segment
+    >>> def draw_segment_3(start, end):
+    >>>     plt.plot([start[0], end[0]], [start[1], end[1]], color='b')
+    >>> def draw_segments_3():
+    >>>     draw_segment_3((0, 2.6), (cc, 1))
+    >>> # Call the function to draw the segment
+    >>> draw_segments_3()
+    >>> # Show the plot
+    >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color='b')
 
-def get_arc_points(
-    start_angle: float, 
-    end_angle: float, 
-    radius: float, 
-    center: Union[tuple, list]
-) -> Tuple[np.ndarray, np.ndarray]:
+def get_arc_points(start_angle: float, end_angle: float, radius: float, center: Union[tuple, list]) -> Tuple[np.ndarray, np.ndarray]:
     """
     >>> get_arc_points(
         start_angle: float, 
@@ -1344,6 +1523,22 @@ def get_arc_points(
     -------
     Tuple[np.ndarray, np.ndarray]
         The x and y coordinates of the arc points.
+
+    Example
+    -------
+    >>> import matplotlib.pyplot as plt
+    >>> import numpy as np
+    >>> # Get the arc points
+    >>> def get_arc_points(start_angle, end_angle, radius, center):
+    >>>     angles = np.linspace(np.radians(start_angle), np.radians(end_angle), 100)
+    >>>     x = center[0] + radius * np.cos(angles)
+    >>>     y = center[1] + radius * np.sin(angles)
+    >>>     return x, y
+    >>> arc_points_x1, arc_points_y1 = get_arc_points(90, 240, 0.25, (0, -0.25))
+    >>> # Plot the arc
+    >>> plt.plot(arc_points_x1, arc_points_y1, 'k')
+    >>> # Show the plot
+    >>> plt.show()
     """
     angles = np.linspace(np.radians(start_angle), np.radians(end_angle), 100)
     x = center[0] + radius * np.cos(angles)
