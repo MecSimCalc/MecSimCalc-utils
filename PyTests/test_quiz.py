@@ -47,7 +47,7 @@ class TestAppendToGoogleSheet(unittest.TestCase):
 
 
 class TestSendEmail(unittest.TestCase):
-    @patch("mecsimcalc.quiz_utils.smtplib.SMTP_SSL")
+    @patch("mecsimcalc.file_utils.quiz_utils.smtplib.SMTP_SSL")
     def test_send_email_success(self, mock_smtp_ssl):
         # Setup test data
         sender_email = "sender@example.com"
@@ -77,7 +77,7 @@ class TestSendEmail(unittest.TestCase):
         for value in values:
             self.assertIn(", ".join(value), email_body)
 
-    @patch("mecsimcalc.quiz_utils.smtplib.SMTP_SSL")
+    @patch("mecsimcalc.file_utils.quiz_utils.smtplib.SMTP_SSL")
     def test_send_email_failure(self, mock_smtp_ssl):
         # Setup test data with same parameters as success test
         sender_email = "sender@example.com"
