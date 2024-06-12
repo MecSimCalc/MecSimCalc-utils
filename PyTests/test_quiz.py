@@ -13,7 +13,7 @@ from quiz_utils import append_to_google_sheet, send_gmail
 
 
 class TestAppendToGoogleSheet(unittest.TestCase):
-    @patch("mecsimcalc.quiz_utils.requests")
+    @patch("mecsimcalc.file_utils.quiz_utils.requests")
     def test_append_to_google_sheet(self, mock_post):
         # mock response
         mock_response = MagicMock()
