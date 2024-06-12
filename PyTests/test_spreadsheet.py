@@ -139,7 +139,9 @@ def get_csv():
 
 
 def get_xlsx():
-    return getSpreadsheetInput(os.path.join(THIS_DIR, "./test_files/xlsxFile.xlsx"), xlsx=True)
+    return getSpreadsheetInput(
+        os.path.join(THIS_DIR, "./test_files/xlsxFile.xlsx"), xlsx=True
+    )
 
 
 # returns a base64 encoded image

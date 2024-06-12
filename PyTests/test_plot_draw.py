@@ -34,7 +34,6 @@ def test_print_plot():
     assert downloadHTMLplt.startswith("<a href='data:image/png;base64,")
 
 
-
 def make_plt():
     x = np.linspace(0, 10, 1000)
     y = np.sin(x)
@@ -45,6 +44,7 @@ def make_plt():
     plt.legend()
     run_all_functions()
     return plt
+
 
 def run_all_functions():
     # Draw a basic arrow
@@ -57,29 +57,58 @@ def run_all_functions():
     draw_arc_circumference(radius=0.5, initial_angle=0, final_angle=np.pi / 2)
 
     # Draw three axes
-    draw_three_axes(arrow_length=0.4, arrow_thickness=2, offset_text=0.05, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    draw_three_axes(
+        arrow_length=0.4,
+        arrow_thickness=2,
+        offset_text=0.05,
+        longx=1.5,
+        axis_y_negative=True,
+        axis_x_negative=True,
+    )
 
     # Draw two inclined axes
-    draw_two_inclined_axes(arrow_length=0.4, arrow_thickness=2, offset_text=0.05, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    draw_two_inclined_axes(
+        arrow_length=0.4,
+        arrow_thickness=2,
+        offset_text=0.05,
+        longx=1.5,
+        axis_y_negative=True,
+        axis_x_negative=True,
+    )
 
     # Plot a segment in pixels
     plot_segment_pixels((100, 100), (200, 200), text="Segment", min_spacing=20)
 
     # Plot and annotate an arrow
-    plot_annotate_arrow((0.2, 0.2), trig_angle=45, vec_length=0.2, text="Annotated Arrow")
+    plot_annotate_arrow(
+        (0.2, 0.2), trig_angle=45, vec_length=0.2, text="Annotated Arrow"
+    )
 
     # Draw a custom arrow
-    draw_custom_arrow(plt, start_point=(200, 200), point_2=(300, 300), factor=0.5, max_value=400, arrow_vector_length=100, arrow_width=10, text="Custom Arrow")
+    draw_custom_arrow(
+        plt,
+        start_point=(200, 200),
+        point_2=(300, 300),
+        factor=0.5,
+        max_value=400,
+        arrow_vector_length=100,
+        arrow_width=10,
+        text="Custom Arrow",
+    )
 
     # Calculate arrow endpoint in pixels
-    arrow_endpoint = calculate_arrow_endpoint_pixels((100, 100), trig_angle=45, vec_length=50)
+    arrow_endpoint = calculate_arrow_endpoint_pixels(
+        (100, 100), trig_angle=45, vec_length=50
+    )
     print(f"Arrow endpoint: {arrow_endpoint}")
 
     # Plot a segment with properties
     plot_segment((0.1, 0.1), trig_angle=45, vec_length=0.3, text="Segment")
 
     # Plot a dashed segment
-    plot_segment_dashed((0.1, 0.1), trig_angle=135, vec_length=0.3, text="Dashed Segment")
+    plot_segment_dashed(
+        (0.1, 0.1), trig_angle=135, vec_length=0.3, text="Dashed Segment"
+    )
 
     # Draw a custom circle
     draw_custom_circle(plt, center_point=(300, 300), circle_size=50)
@@ -95,7 +124,14 @@ def run_all_functions():
     draw_segment((0.2, 0.2), (0.8, 0.8))
 
     # Draw three rotated axes
-    draw_three_axes_rotated(arrow_length=0.4, line_thickness=2, offset_text=0.05, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    draw_three_axes_rotated(
+        arrow_length=0.4,
+        line_thickness=2,
+        offset_text=0.05,
+        longx=1.5,
+        negativeaxis_y=1,
+        negativeaxis_x=1,
+    )
 
     # Draw a double arrowhead
     draw_double_arrowhead((0.1, 0.1), (0.4, 0.4))
@@ -104,13 +140,24 @@ def run_all_functions():
     draw_custom_arrow_end((0.1, 0.1), (0.4, 0.4))
 
     # Draw two axes
-    draw_two_axes(arrow_length=0.4, line_thickness=2, offset_text=0.05, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    draw_two_axes(
+        arrow_length=0.4,
+        line_thickness=2,
+        offset_text=0.05,
+        longx=1.5,
+        negativeaxis_y=1,
+        negativeaxis_x=1,
+    )
 
     # Vertical arrow rain
-    vertical_arrow_rain(quantity_arrows=5, start_point=(0.1, 0.9), final_point=(0.9, 0.9), y_origin=0.5)
+    vertical_arrow_rain(
+        quantity_arrows=5, start_point=(0.1, 0.9), final_point=(0.9, 0.9), y_origin=0.5
+    )
 
     # Horizontal arrow rain
-    draw_rain_arrows_horizontal(quantity_arrows=5, x_origin=0.5, start_point=(0.1, 0.1), final_point=(0.1, 0.9))
+    draw_rain_arrows_horizontal(
+        quantity_arrows=5, x_origin=0.5, start_point=(0.1, 0.1), final_point=(0.1, 0.9)
+    )
 
     # Calculate angle between two points
     angle = calculate_angle((0, 0), (1, 1))
@@ -123,5 +170,4 @@ def run_all_functions():
 
     # Get arc points
     x, y = get_arc_points(start_angle=0, end_angle=180, radius=0.5, center=(0.5, 0.5))
-    plt.plot(x, y, color='green')
-
+    plt.plot(x, y, color="green")

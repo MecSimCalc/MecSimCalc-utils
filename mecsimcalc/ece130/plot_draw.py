@@ -3,32 +3,33 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
+
 def draw_arrow(
-    start: Union[tuple, list], 
-    end: Union[tuple, list], 
-    thickness: int = 5, 
-    color: str = 'black',
-    text: str = None, 
-    text_distance: float = 0.5, 
-    head_width: float = 0.08, 
-    head_length: float = 0.08, 
-    fontsize: int = 12
+    start: Union[tuple, list],
+    end: Union[tuple, list],
+    thickness: int = 5,
+    color: str = "black",
+    text: str = None,
+    text_distance: float = 0.5,
+    head_width: float = 0.08,
+    head_length: float = 0.08,
+    fontsize: int = 12,
 ) -> None:
     """
     >>> draw_arrow(
-        start: Union[tuple, list], 
-        end: Union[tuple, list], 
-        thickness: int = 5, 
+        start: Union[tuple, list],
+        end: Union[tuple, list],
+        thickness: int = 5,
         color: str = 'black',
-        text: str = None, 
-        text_distance: float = 0.5, 
-        head_width: float = 0.08, 
-        head_length: float = 0.08, 
+        text: str = None,
+        text_distance: float = 0.5,
+        head_width: float = 0.08,
+        head_length: float = 0.08,
         fontsize: int = 12
     ) -> None
 
     Draws an arrow between two points on a plot.
-    
+
     Parameters
     ----------
     start : tuple or list
@@ -49,7 +50,7 @@ def draw_arrow(
         Length of the arrow head. (Default is 0.08)
     fontsize : int, optional
         Font size of the text. (Default is 12)
-    
+
     Returns
     -------
     None
@@ -63,19 +64,28 @@ def draw_arrow(
     """
     start = np.array(start)
     end = np.array(end)
-    plt.arrow(start[0], start[1], end[0] - start[0], end[1] - start[1], head_width=head_width, head_length=head_length, linewidth=thickness, color=color)
+    plt.arrow(
+        start[0],
+        start[1],
+        end[0] - start[0],
+        end[1] - start[1],
+        head_width=head_width,
+        head_length=head_length,
+        linewidth=thickness,
+        color=color,
+    )
     if text:
         arrow_vector = end - start
-        text_position = end + text_distance * arrow_vector / np.linalg.norm(arrow_vector)
+        text_position = end + text_distance * arrow_vector / np.linalg.norm(
+            arrow_vector
+        )
         plt.text(text_position[0], text_position[1], text, fontsize=fontsize)
 
-def calculate_midpoint(
-    coord1: tuple, 
-    coord2: tuple
-) -> tuple:
+
+def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
     """
     >>> calculate_midpoint(
-        coord1: tuple, 
+        coord1: tuple,
         coord2: tuple
     ) -> tuple
 
@@ -106,16 +116,14 @@ def calculate_midpoint(
     y_middle = (y1 + y2) / 2
     return (x_middle, y_middle)
 
+
 def draw_arc_circumference(
-    radius: float, 
-    initial_angle: float, 
-    final_angle: float,
-    center: tuple = (0, 0)
+    radius: float, initial_angle: float, final_angle: float, center: tuple = (0, 0)
 ) -> None:
     """
     >>> draw_arc_circumference(
-        radius: float, 
-        initial_angle: float, 
+        radius: float,
+        initial_angle: float,
         final_angle: float,
         center: tuple = (0, 0)
     ) -> None
@@ -150,16 +158,14 @@ def draw_arc_circumference(
     angles = np.linspace(initial_angle, final_angle, 200)
     x = radius * np.cos(angles) + center[0]
     y = radius * np.sin(angles) + center[1]
-    plt.plot(x, y, color='red')
-    plt.axis('equal')
+    plt.plot(x, y, color="red")
+    plt.axis("equal")
 
-def create_blank_image(
-    width: int = 1000, 
-    height: int = 1000
-) -> plt.Axes:
+
+def create_blank_image(width: int = 1000, height: int = 1000) -> plt.Axes:
     """
     >>> create_blank_image(
-        width: int = 1000, 
+        width: int = 1000,
         height: int = 1000
     ) -> plt.Axes
 
@@ -184,27 +190,37 @@ def create_blank_image(
     """
     fig, ax = plt.subplots(figsize=(int(width / 1000 * 6), int(height / 1000 * 6)))
     plt.imshow(np.ones((height, width, 3)))
-    plt.tick_params(axis='both', which='both', bottom=False, top=False, left=False, right=False, labelbottom=False, labelleft=False)
+    plt.tick_params(
+        axis="both",
+        which="both",
+        bottom=False,
+        top=False,
+        left=False,
+        right=False,
+        labelbottom=False,
+        labelleft=False,
+    )
     plt.grid(True, alpha=0.5)
     ax.minorticks_on()
-    ax.grid(which='minor', linestyle=':', linewidth='0.5', color='gray')
+    ax.grid(which="minor", linestyle=":", linewidth="0.5", color="gray")
     return ax
 
+
 def draw_three_axes(
-    arrow_length: float, 
-    arrow_thickness: float, 
-    offset_text: float, 
-    longx: float, 
-    axis_y_negative: bool, 
-    axis_x_negative: bool
+    arrow_length: float,
+    arrow_thickness: float,
+    offset_text: float,
+    longx: float,
+    axis_y_negative: bool,
+    axis_x_negative: bool,
 ) -> plt.Axes:
     """
     >>> draw_three_axes(
-        arrow_length: float, 
-        arrow_thickness: float, 
-        offset_text: float, 
-        longx: float, 
-        axis_y_negative: bool, 
+        arrow_length: float,
+        arrow_thickness: float,
+        offset_text: float,
+        longx: float,
+        axis_y_negative: bool,
         axis_x_negative: bool
     ) -> plt.Axes
 
@@ -236,45 +252,103 @@ def draw_three_axes(
     >>> plt.show()
     """
     fig, ax = plt.subplots()
-    ax.arrow(0, 0, 0, arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(0, arrow_length + offset_text, 'z', fontsize=12, ha='center', va='bottom')
+    ax.arrow(
+        0,
+        0,
+        0,
+        arrow_length,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(0, arrow_length + offset_text, "z", fontsize=12, ha="center", va="bottom")
 
-    ax.arrow(0, 0, arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(arrow_length + offset_text, 0, 'y', fontsize=12, ha='left', va='center')
+    ax.arrow(
+        0,
+        0,
+        arrow_length,
+        0,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(arrow_length + offset_text, 0, "y", fontsize=12, ha="left", va="center")
 
     if axis_y_negative:
-        ax.arrow(0, 0, -arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+        ax.arrow(
+            0,
+            0,
+            -arrow_length,
+            0,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
+        )
 
-    ax.arrow(0, 0, -arrow_length / longx, -arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(-arrow_length / longx - offset_text / 1.5, -arrow_length / longx - offset_text / 1.5, 'x', fontsize=12, ha='right', va='top')
+    ax.arrow(
+        0,
+        0,
+        -arrow_length / longx,
+        -arrow_length / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(
+        -arrow_length / longx - offset_text / 1.5,
+        -arrow_length / longx - offset_text / 1.5,
+        "x",
+        fontsize=12,
+        ha="right",
+        va="top",
+    )
 
     if axis_x_negative:
-        ax.arrow(0, 0, arrow_length / longx, arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+        ax.arrow(
+            0,
+            0,
+            arrow_length / longx,
+            arrow_length / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
+        )
 
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    plt.axis('equal')
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    plt.axis("equal")
     return ax
 
+
 def draw_two_inclined_axes(
-    arrow_length: float, 
-    arrow_thickness: float, 
-    offset_text: float, 
-    longx: float, 
-    axis_y_negative: bool, 
-    axis_x_negative: bool
+    arrow_length: float,
+    arrow_thickness: float,
+    offset_text: float,
+    longx: float,
+    axis_y_negative: bool,
+    axis_x_negative: bool,
 ) -> plt.Axes:
     """
     >>> draw_two_inclined_axes(
-        arrow_length: float, 
-        arrow_thickness: float, 
-        offset_text: float, 
-        longx: float, 
-        axis_y_negative: bool, 
+        arrow_length: float,
+        arrow_thickness: float,
+        offset_text: float,
+        longx: float,
+        axis_y_negative: bool,
         axis_x_negative: bool
     ) -> plt.Axes
 
@@ -306,46 +380,94 @@ def draw_two_inclined_axes(
     >>> plt.show()
     """
     fig, ax = plt.subplots()
-    ax.arrow(0, 0, arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(arrow_length + offset_text, 0, 'x', fontsize=12, ha='left', va='center')
+    ax.arrow(
+        0,
+        0,
+        arrow_length,
+        0,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(arrow_length + offset_text, 0, "x", fontsize=12, ha="left", va="center")
 
     if axis_x_negative:
-        ax.arrow(0, 0, -arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+        ax.arrow(
+            0,
+            0,
+            -arrow_length,
+            0,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
+        )
 
-    ax.arrow(0, 0, arrow_length / longx, arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
-    ax.text(arrow_length / longx + offset_text / 1.5, arrow_length / longx + offset_text / 1.5, 'y', fontsize=12, ha='left', va='bottom')
+    ax.arrow(
+        0,
+        0,
+        arrow_length / longx,
+        arrow_length / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(
+        arrow_length / longx + offset_text / 1.5,
+        arrow_length / longx + offset_text / 1.5,
+        "y",
+        fontsize=12,
+        ha="left",
+        va="bottom",
+    )
 
     if axis_y_negative:
-        ax.arrow(0, 0, -arrow_length / longx, -arrow_length / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=arrow_thickness)
+        ax.arrow(
+            0,
+            0,
+            -arrow_length / longx,
+            -arrow_length / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
+        )
 
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    plt.axis('equal')
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    plt.axis("equal")
     return ax
 
+
 def plot_segment_pixels(
-    start_point_pixels: tuple, 
-    end_point_pixels: tuple, 
-    line_properties: dict = {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'}, 
-    text: str = "", 
-    min_spacing: float = 150, 
-    fontsize: int = 15, 
-    text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-    alpha: float = 0.8
+    start_point_pixels: tuple,
+    end_point_pixels: tuple,
+    line_properties: dict = {"color": "k", "linewidth": 1, "linestyle": "dashed"},
+    text: str = "",
+    min_spacing: float = 150,
+    fontsize: int = 15,
+    text_loc: dict = {"ha": "center", "va": "top"},
+    alpha: float = 0.8,
 ) -> tuple:
     """
     >>> plot_segment_pixels(
-        start_point_pixels: tuple, 
-        end_point_pixels: tuple, 
-        line_properties: dict = {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'}, 
-        text: str = "", 
-        min_spacing: float = 150, 
-        fontsize: int = 15, 
-        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        start_point_pixels: tuple,
+        end_point_pixels: tuple,
+        line_properties: dict = {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'},
+        text: str = "",
+        min_spacing: float = 150,
+        fontsize: int = 15,
+        text_loc: dict = {'ha': 'center', 'va': 'top'},
         alpha: float = 0.8
     ) -> tuple
 
@@ -382,39 +504,69 @@ def plot_segment_pixels(
     >>> plot_segment_pixels(start, end, text="Segment", min_spacing=50)
     >>> plt.show()
     """
-    plt.plot([start_point_pixels[0], end_point_pixels[0]], [start_point_pixels[1], end_point_pixels[1]], **line_properties, alpha=alpha)
-    mid_point = ((start_point_pixels[0] + end_point_pixels[0]) / 2, (start_point_pixels[1] + end_point_pixels[1]) / 2)
-    space = max(0.1 * ((end_point_pixels[0] - start_point_pixels[0])**2 + (end_point_pixels[1] - start_point_pixels[1])**2)**0.5, min_spacing)
-    plt.text(end_point_pixels[0] + space, end_point_pixels[1] + space, text, fontsize=fontsize, color='k', **text_loc)
+    plt.plot(
+        [start_point_pixels[0], end_point_pixels[0]],
+        [start_point_pixels[1], end_point_pixels[1]],
+        **line_properties,
+        alpha=alpha,
+    )
+    mid_point = (
+        (start_point_pixels[0] + end_point_pixels[0]) / 2,
+        (start_point_pixels[1] + end_point_pixels[1]) / 2,
+    )
+    space = max(
+        0.1
+        * (
+            (end_point_pixels[0] - start_point_pixels[0]) ** 2
+            + (end_point_pixels[1] - start_point_pixels[1]) ** 2
+        )
+        ** 0.5,
+        min_spacing,
+    )
+    plt.text(
+        end_point_pixels[0] + space,
+        end_point_pixels[1] + space,
+        text,
+        fontsize=fontsize,
+        color="k",
+        **text_loc,
+    )
     return end_point_pixels
 
+
 def plot_annotate_arrow(
-    start_point: tuple, 
-    trig_angle: float, 
-    vec_length: float, 
-    text: str = "", 
-    min_spacing: float = 150, 
-    fontsize: int = 11, 
-    text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-    arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}, 
-    reverse_arrow: str = 'no', 
-    text_in_center: str = 'no', 
-    rev_text: str = 'no', 
-    alpha: float = 0.8
+    start_point: tuple,
+    trig_angle: float,
+    vec_length: float,
+    text: str = "",
+    min_spacing: float = 150,
+    fontsize: int = 11,
+    text_loc: dict = {"ha": "center", "va": "top"},
+    arrow_properties: dict = {
+        "width": 2,
+        "head_width": 15,
+        "head_length": 15,
+        "fc": "black",
+        "ec": "black",
+    },
+    reverse_arrow: str = "no",
+    text_in_center: str = "no",
+    rev_text: str = "no",
+    alpha: float = 0.8,
 ) -> tuple:
     """
     >>> plot_annotate_arrow(
-        start_point: tuple, 
-        trig_angle: float, 
-        vec_length: float, 
-        text: str = "", 
-        min_spacing: float = 150, 
-        fontsize: int = 11, 
-        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-        arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}, 
-        reverse_arrow: str = 'no', 
-        text_in_center: str = 'no', 
-        rev_text: str = 'no', 
+        start_point: tuple,
+        trig_angle: float,
+        vec_length: float,
+        text: str = "",
+        min_spacing: float = 150,
+        fontsize: int = 11,
+        text_loc: dict = {'ha': 'center', 'va': 'top'},
+        arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'},
+        reverse_arrow: str = 'no',
+        text_in_center: str = 'no',
+        rev_text: str = 'no',
         alpha: float = 0.8
     ) -> tuple
 
@@ -462,49 +614,94 @@ def plot_annotate_arrow(
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
 
-    end_point = (start_point[0] + (vec_length - arrow_properties['head_length']) * np.cos(np.radians(trig_angle)), start_point[1] + (vec_length - arrow_properties['head_length']) * np.sin(np.radians(trig_angle)))
-    if reverse_arrow == 'no':
-        plt.arrow(*start_point, *(end_point[0] - start_point[0], end_point[1] - start_point[1]), **arrow_properties, alpha=alpha)
+    end_point = (
+        start_point[0]
+        + (vec_length - arrow_properties["head_length"])
+        * np.cos(np.radians(trig_angle)),
+        start_point[1]
+        + (vec_length - arrow_properties["head_length"])
+        * np.sin(np.radians(trig_angle)),
+    )
+    if reverse_arrow == "no":
+        plt.arrow(
+            *start_point,
+            *(end_point[0] - start_point[0], end_point[1] - start_point[1]),
+            **arrow_properties,
+            alpha=alpha,
+        )
     else:
-        end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
-        start_point = (start_point[0] + 0 * np.cos(np.radians(trig_angle)), start_point[1] + 0 * np.sin(np.radians(trig_angle)))
-        plt.arrow(*end_point, *(start_point[0] - end_point[0], start_point[1] - end_point[1]), **arrow_properties, alpha=alpha)
+        end_point = (
+            start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
+            start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+        )
+        start_point = (
+            start_point[0] + 0 * np.cos(np.radians(trig_angle)),
+            start_point[1] + 0 * np.sin(np.radians(trig_angle)),
+        )
+        plt.arrow(
+            *end_point,
+            *(start_point[0] - end_point[0], start_point[1] - end_point[1]),
+            **arrow_properties,
+            alpha=alpha,
+        )
 
-    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
-    if text_in_center == 'no':
+    mid_point = (
+        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+    )
+    if text_in_center == "no":
         space = max(0.1 * vec_length, min_spacing)
-        plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+        plt.text(
+            end_point[0] + space * np.cos(np.radians(trig_angle)),
+            end_point[1] + space * np.sin(np.radians(trig_angle)),
+            text,
+            fontsize=fontsize,
+            color="k",
+            **text_loc,
+        )
     else:
         rot_angle = -trig_angle if trig_angle < 90 else (180 - trig_angle)
-        rot_angle = rot_angle if rev_text == 'no' else rot_angle + 180
-        plt.text(mid_point[0] + min_spacing * np.cos(np.radians(90 + trig_angle)), mid_point[1] + min_spacing * np.sin(np.radians(90 + trig_angle)), text, fontsize=fontsize, color='k', **text_loc, rotation=rot_angle)
+        rot_angle = rot_angle if rev_text == "no" else rot_angle + 180
+        plt.text(
+            mid_point[0] + min_spacing * np.cos(np.radians(90 + trig_angle)),
+            mid_point[1] + min_spacing * np.sin(np.radians(90 + trig_angle)),
+            text,
+            fontsize=fontsize,
+            color="k",
+            **text_loc,
+            rotation=rot_angle,
+        )
 
-    end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
+    end_point = (
+        start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+    )
     return end_point
 
+
 def draw_custom_arrow(
-    ax: plt.Axes, 
-    start_point: tuple, 
-    point_2: tuple, 
-    factor: float, 
-    max_value: float, 
-    arrow_vector_length: float, 
-    arrow_width: float, 
-    arrow_color: str = 'blue', 
-    line_width: float = 1, 
-    text: str = None
+    ax: plt.Axes,
+    start_point: tuple,
+    point_2: tuple,
+    factor: float,
+    max_value: float,
+    arrow_vector_length: float,
+    arrow_width: float,
+    arrow_color: str = "blue",
+    line_width: float = 1,
+    text: str = None,
 ) -> None:
     """
     >>> draw_custom_arrow(
-        ax: plt.Axes, 
-        start_point: tuple, 
-        point_2: tuple, 
-        factor: float, 
-        max_value: float, 
-        arrow_vector_length: float, 
-        arrow_width: float, 
-        arrow_color: str = 'blue', 
-        line_width: float = 1, 
+        ax: plt.Axes,
+        start_point: tuple,
+        point_2: tuple,
+        factor: float,
+        max_value: float,
+        arrow_vector_length: float,
+        arrow_width: float,
+        arrow_color: str = 'blue',
+        line_width: float = 1,
         text: str = None
     ) -> None
 
@@ -545,19 +742,35 @@ def draw_custom_arrow(
     arrow_direction = arrow_vector * arrow_vector_length / (max_value * 2)
     arrow_end = start_point + arrow_direction
     text_offset = arrow_direction * factor
-    ax.arrow(start_point[0], start_point[1], arrow_direction[0], arrow_direction[1], head_width=arrow_width, head_length=arrow_width * 2, fc=arrow_color, ec=arrow_color, lw=line_width)
+    ax.arrow(
+        start_point[0],
+        start_point[1],
+        arrow_direction[0],
+        arrow_direction[1],
+        head_width=arrow_width,
+        head_length=arrow_width * 2,
+        fc=arrow_color,
+        ec=arrow_color,
+        lw=line_width,
+    )
     if text:
-        ax.text(arrow_end[0] + text_offset[0], arrow_end[1] + text_offset[1], f"${text}$", fontsize=12, ha='center', va='top')
+        ax.text(
+            arrow_end[0] + text_offset[0],
+            arrow_end[1] + text_offset[1],
+            f"${text}$",
+            fontsize=12,
+            ha="center",
+            va="top",
+        )
+
 
 def calculate_arrow_endpoint_pixels(
-    start_point: tuple, 
-    trig_angle: float, 
-    vec_length: float
+    start_point: tuple, trig_angle: float, vec_length: float
 ) -> tuple:
     """
     >>> calculate_arrow_endpoint_pixels(
-        start_point: tuple, 
-        trig_angle: float, 
+        start_point: tuple,
+        trig_angle: float,
         vec_length: float
     ) -> tuple
 
@@ -583,29 +796,32 @@ def calculate_arrow_endpoint_pixels(
     (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
-    return start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle))
+    return start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[
+        1
+    ] + vec_length * np.sin(np.radians(trig_angle))
+
 
 def plot_segment(
-    start_point: tuple, 
-    trig_angle: float, 
-    vec_length: float, 
-    line_properties: dict = {'color': 'blue', 'linewidth': 1}, 
-    text: str = "", 
-    min_spacing: float = 150, 
-    fontsize: int = 15, 
-    text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-    alpha: float = 0.8
+    start_point: tuple,
+    trig_angle: float,
+    vec_length: float,
+    line_properties: dict = {"color": "blue", "linewidth": 1},
+    text: str = "",
+    min_spacing: float = 150,
+    fontsize: int = 15,
+    text_loc: dict = {"ha": "center", "va": "top"},
+    alpha: float = 0.8,
 ) -> tuple:
     """
     >>> plot_segment(
-        start_point: tuple, 
-        trig_angle: float, 
-        vec_length: float, 
-        line_properties: dict = {'color': 'blue', 'linewidth': 1}, 
-        text: str = "", 
-        min_spacing: float = 150, 
-        fontsize: int = 15, 
-        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        start_point: tuple,
+        trig_angle: float,
+        vec_length: float,
+        line_properties: dict = {'color': 'blue', 'linewidth': 1},
+        text: str = "",
+        min_spacing: float = 150,
+        fontsize: int = 15,
+        text_loc: dict = {'ha': 'center', 'va': 'top'},
         alpha: float = 0.8
     ) -> tuple
 
@@ -643,36 +859,55 @@ def plot_segment(
     (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
-    end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
-    plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], **line_properties, alpha=alpha)
+    end_point = (
+        start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+    )
+    plt.plot(
+        [start_point[0], end_point[0]],
+        [start_point[1], end_point[1]],
+        **line_properties,
+        alpha=alpha,
+    )
 
-    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
+    mid_point = (
+        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+    )
     space = max(0.1 * vec_length, min_spacing)
-    plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+    plt.text(
+        end_point[0] + space * np.cos(np.radians(trig_angle)),
+        end_point[1] + space * np.sin(np.radians(trig_angle)),
+        text,
+        fontsize=fontsize,
+        color="k",
+        **text_loc,
+    )
 
     return end_point
 
+
 def plot_segment_dashed(
-    start_point: tuple, 
-    trig_angle: float, 
-    vec_length: float, 
-    line_properties: dict = {'color': 'blue', 'linestyle': 'dashed', 'linewidth': 1}, 
-    text: str = "", 
-    min_spacing: float = 150, 
-    fontsize: int = 15, 
-    text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-    alpha: float = 0.8
+    start_point: tuple,
+    trig_angle: float,
+    vec_length: float,
+    line_properties: dict = {"color": "blue", "linestyle": "dashed", "linewidth": 1},
+    text: str = "",
+    min_spacing: float = 150,
+    fontsize: int = 15,
+    text_loc: dict = {"ha": "center", "va": "top"},
+    alpha: float = 0.8,
 ) -> tuple:
     """
     >>> plot_segment_dashed(
-        start_point: tuple, 
-        trig_angle: float, 
-        vec_length: float, 
-        line_properties: dict = {'color': 'blue', 'linestyle': 'dashed', 'linewidth': 1}, 
-        text: str = "", 
-        min_spacing: float = 150, 
-        fontsize: int = 15, 
-        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
+        start_point: tuple,
+        trig_angle: float,
+        vec_length: float,
+        line_properties: dict = {'color': 'blue', 'linestyle': 'dashed', 'linewidth': 1},
+        text: str = "",
+        min_spacing: float = 150,
+        fontsize: int = 15,
+        text_loc: dict = {'ha': 'center', 'va': 'top'},
         alpha: float = 0.8
     ) -> tuple
 
@@ -710,27 +945,46 @@ def plot_segment_dashed(
     (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
-    end_point = (start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[1] + vec_length * np.sin(np.radians(trig_angle)))
-    plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], **line_properties, alpha=alpha)
+    end_point = (
+        start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+    )
+    plt.plot(
+        [start_point[0], end_point[0]],
+        [start_point[1], end_point[1]],
+        **line_properties,
+        alpha=alpha,
+    )
 
-    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
+    mid_point = (
+        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+    )
     if text:
         space = max(0.1 * vec_length, min_spacing)
-        plt.text(end_point[0] + space * np.cos(np.radians(trig_angle)), end_point[1] + space * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+        plt.text(
+            end_point[0] + space * np.cos(np.radians(trig_angle)),
+            end_point[1] + space * np.sin(np.radians(trig_angle)),
+            text,
+            fontsize=fontsize,
+            color="k",
+            **text_loc,
+        )
 
     return end_point
 
+
 def draw_custom_circle(
-    ax: plt.Axes, 
-    center_point: tuple, 
-    circle_size: float = 100, 
-    circle_color: str = 'black'
+    ax: plt.Axes,
+    center_point: tuple,
+    circle_size: float = 100,
+    circle_color: str = "black",
 ) -> None:
     """
     >>> draw_custom_circle(
-        ax: plt.Axes, 
-        center_point: tuple, 
-        circle_size: float = 100, 
+        ax: plt.Axes,
+        center_point: tuple,
+        circle_size: float = 100,
         circle_color: str = 'black'
     ) -> None
 
@@ -755,19 +1009,20 @@ def draw_custom_circle(
     """
     ax.scatter(center_point[0], center_point[1], s=circle_size, color=circle_color)
 
+
 def draw_rounded_rectangle(
-    middle_point: tuple, 
-    width: float, 
-    height: float, 
-    radius: float, 
-    color: str = 'black'
+    middle_point: tuple,
+    width: float,
+    height: float,
+    radius: float,
+    color: str = "black",
 ) -> None:
     """
     >>> draw_rounded_rectangle(
-        middle_point: tuple, 
-        width: float, 
-        height: float, 
-        radius: float, 
+        middle_point: tuple,
+        width: float,
+        height: float,
+        radius: float,
         color: str = 'black'
     ) -> None
 
@@ -807,22 +1062,36 @@ def draw_rounded_rectangle(
 
     angle1 = np.linspace(np.pi, 1.5 * np.pi, 50)
     angle2 = np.linspace(1.5 * np.pi, 2 * np.pi, 50)
-    plt.plot(x1 + radius + radius * np.cos(angle1), y1 + radius + radius * np.sin(angle1), color=color)  # top left     (sup izq)
-    plt.plot(x2 - radius + radius * np.cos(angle2), y2 + radius + radius * np.sin(angle2), color=color)  # top right    (sup der)
-    plt.plot(x3 - radius - radius * np.cos(angle1), y3 - radius - radius * np.sin(angle1), color=color)  # bottom right (inf der)
-    plt.plot(x4 + radius - radius * np.cos(angle2), y4 - radius - radius * np.sin(angle2), color=color)  # bottom left  (inf izq)
+    plt.plot(
+        x1 + radius + radius * np.cos(angle1),
+        y1 + radius + radius * np.sin(angle1),
+        color=color,
+    )  # top left     (sup izq)
+    plt.plot(
+        x2 - radius + radius * np.cos(angle2),
+        y2 + radius + radius * np.sin(angle2),
+        color=color,
+    )  # top right    (sup der)
+    plt.plot(
+        x3 - radius - radius * np.cos(angle1),
+        y3 - radius - radius * np.sin(angle1),
+        color=color,
+    )  # bottom right (inf der)
+    plt.plot(
+        x4 + radius - radius * np.cos(angle2),
+        y4 - radius - radius * np.sin(angle2),
+        color=color,
+    )  # bottom left  (inf izq)
+
 
 def calculate_intersection_point(
-    point1: tuple, 
-    angle1: float, 
-    point2: tuple, 
-    angle2: float
+    point1: tuple, angle1: float, point2: tuple, angle2: float
 ) -> tuple:
     """
     >>> calculate_intersection_point(
-        point1: tuple, 
-        angle1: float, 
-        point2: tuple, 
+        point1: tuple,
+        angle1: float,
+        point2: tuple,
         angle2: float
     ) -> tuple
 
@@ -861,17 +1130,18 @@ def calculate_intersection_point(
     intersection_y = m1 * intersection_x + b1
     return (intersection_x, intersection_y)
 
+
 def draw_segment(
-    start_point: tuple, 
-    final_point: tuple, 
-    line_width: float = 0.001, 
-    color: str = 'black'
+    start_point: tuple,
+    final_point: tuple,
+    line_width: float = 0.001,
+    color: str = "black",
 ) -> None:
     """
     >>> draw_segment(
-        start_point: tuple, 
-        final_point: tuple, 
-        line_width: float = 0.001, 
+        start_point: tuple,
+        final_point: tuple,
+        line_width: float = 0.001,
         color: str = 'black'
     ) -> None
 
@@ -907,33 +1177,40 @@ def draw_segment(
     y4 = y_end - offset_y
     plt.fill([x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color=color)
 
+
 def plot_annotate_arrow_end(
-    end_point: tuple, 
-    trig_angle: float, 
-    vec_length: float, 
-    text: str = "", 
-    text_distance: float = 0.5, 
-    fontsize: int = 12, 
-    text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-    arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}, 
-    reverse_arrow: str = 'no', 
-    text_in_center: str = 'no', 
-    rev_text: str = 'no', 
-    alpha: float = 0.8
+    end_point: tuple,
+    trig_angle: float,
+    vec_length: float,
+    text: str = "",
+    text_distance: float = 0.5,
+    fontsize: int = 12,
+    text_loc: dict = {"ha": "center", "va": "top"},
+    arrow_properties: dict = {
+        "width": 2,
+        "head_width": 15,
+        "head_length": 15,
+        "fc": "black",
+        "ec": "black",
+    },
+    reverse_arrow: str = "no",
+    text_in_center: str = "no",
+    rev_text: str = "no",
+    alpha: float = 0.8,
 ) -> tuple:
     """
     >>> plot_annotate_arrow_end(
-        end_point: tuple, 
-        trig_angle: float, 
-        vec_length: float, 
-        text: str = "", 
-        text_distance: float = 0.5, 
-        fontsize: int = 12, 
-        text_loc: dict = {'ha': 'center', 'va': 'top'}, 
-        arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}, 
-        reverse_arrow: str = 'no', 
-        text_in_center: str = 'no', 
-        rev_text: str = 'no', 
+        end_point: tuple,
+        trig_angle: float,
+        vec_length: float,
+        text: str = "",
+        text_distance: float = 0.5,
+        fontsize: int = 12,
+        text_loc: dict = {'ha': 'center', 'va': 'top'},
+        arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'},
+        reverse_arrow: str = 'no',
+        text_in_center: str = 'no',
+        rev_text: str = 'no',
         alpha: float = 0.8
     ) -> tuple
 
@@ -978,36 +1255,74 @@ def plot_annotate_arrow_end(
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
 
-    start_point = (end_point[0] - (vec_length - arrow_properties['head_length']) * np.cos(np.radians(trig_angle)), end_point[1] - (vec_length - arrow_properties['head_length']) * np.sin(np.radians(trig_angle)))
-    if reverse_arrow == 'no':
-        plt.arrow(*start_point, *(end_point[0] - start_point[0], end_point[1] - start_point[1]), **arrow_properties, alpha=alpha)
+    start_point = (
+        end_point[0]
+        - (vec_length - arrow_properties["head_length"])
+        * np.cos(np.radians(trig_angle)),
+        end_point[1]
+        - (vec_length - arrow_properties["head_length"])
+        * np.sin(np.radians(trig_angle)),
+    )
+    if reverse_arrow == "no":
+        plt.arrow(
+            *start_point,
+            *(end_point[0] - start_point[0], end_point[1] - start_point[1]),
+            **arrow_properties,
+            alpha=alpha,
+        )
     else:
-        start_point = (end_point[0] - vec_length * np.cos(np.radians(trig_angle)), end_point[1] - vec_length * np.sin(np.radians(trig_angle)))
-        end_point = (end_point[0] - 0 * np.cos(np.radians(trig_angle)), end_point[1] - 0 * np.sin(np.radians(trig_angle)))
-        plt.arrow(*end_point, *(start_point[0] - end_point[0], start_point[1] - end_point[1]), **arrow_properties, alpha=alpha)
+        start_point = (
+            end_point[0] - vec_length * np.cos(np.radians(trig_angle)),
+            end_point[1] - vec_length * np.sin(np.radians(trig_angle)),
+        )
+        end_point = (
+            end_point[0] - 0 * np.cos(np.radians(trig_angle)),
+            end_point[1] - 0 * np.sin(np.radians(trig_angle)),
+        )
+        plt.arrow(
+            *end_point,
+            *(start_point[0] - end_point[0], start_point[1] - end_point[1]),
+            **arrow_properties,
+            alpha=alpha,
+        )
 
-    mid_point = (start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)), start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)))
-    if text_in_center == 'no':
-        plt.text(start_point[0] - text_distance * np.cos(np.radians(trig_angle)), start_point[1] - text_distance * np.sin(np.radians(trig_angle)), text, fontsize=fontsize, color='k', **text_loc)
+    mid_point = (
+        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
+        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+    )
+    if text_in_center == "no":
+        plt.text(
+            start_point[0] - text_distance * np.cos(np.radians(trig_angle)),
+            start_point[1] - text_distance * np.sin(np.radians(trig_angle)),
+            text,
+            fontsize=fontsize,
+            color="k",
+            **text_loc,
+        )
     else:
         rot_angle = -trig_angle if trig_angle < 90 else (180 - trig_angle)
-        rot_angle = rot_angle if rev_text == 'no' else rot_angle + 180
-        plt.text(mid_point[0] + text_distance * np.cos(np.radians(90 + trig_angle)), mid_point[1] + text_distance * np.sin(np.radians(90 + trig_angle)), text, fontsize=fontsize, color='k', **text_loc, rotation=rot_angle)
+        rot_angle = rot_angle if rev_text == "no" else rot_angle + 180
+        plt.text(
+            mid_point[0] + text_distance * np.cos(np.radians(90 + trig_angle)),
+            mid_point[1] + text_distance * np.sin(np.radians(90 + trig_angle)),
+            text,
+            fontsize=fontsize,
+            color="k",
+            **text_loc,
+            rotation=rot_angle,
+        )
     return start_point
 
+
 def draw_arc_with_text(
-    start_point: tuple, 
-    radius: float, 
-    start_angle: float, 
-    final_angle: float, 
-    text: str
+    start_point: tuple, radius: float, start_angle: float, final_angle: float, text: str
 ) -> None:
     """
     >>> draw_arc_with_text(
-        start_point: tuple, 
-        radius: float, 
-        start_angle: float, 
-        final_angle: float, 
+        start_point: tuple,
+        radius: float,
+        start_angle: float,
+        final_angle: float,
         text: str
     ) -> None
 
@@ -1033,34 +1348,51 @@ def draw_arc_with_text(
     angles = np.linspace(np.radians(start_angle), np.radians(final_angle), 1000)
     x = start_point[0] + radius * np.cos(angles)
     y = start_point[1] + radius * np.sin(angles)
-    plt.plot(x, y, color='black', linewidth=1)
-    middle_point_x = start_point[0] + radius * np.cos((np.radians(start_angle) + np.radians(final_angle)) / 2)
-    middle_point_y = start_point[1] + radius * np.sin((np.radians(start_angle) + np.radians(final_angle)) / 2)
-    displacement_x = np.cos((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.7
-    displacement_y = np.sin((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.6
-    plt.text(middle_point_x + displacement_x, middle_point_y + displacement_y, text, fontsize=8, ha='center', va='center')
-    plt.axis('equal')
+    plt.plot(x, y, color="black", linewidth=1)
+    middle_point_x = start_point[0] + radius * np.cos(
+        (np.radians(start_angle) + np.radians(final_angle)) / 2
+    )
+    middle_point_y = start_point[1] + radius * np.sin(
+        (np.radians(start_angle) + np.radians(final_angle)) / 2
+    )
+    displacement_x = (
+        np.cos((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.7
+    )
+    displacement_y = (
+        np.sin((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.6
+    )
+    plt.text(
+        middle_point_x + displacement_x,
+        middle_point_y + displacement_y,
+        text,
+        fontsize=8,
+        ha="center",
+        va="center",
+    )
+    plt.axis("equal")
+
 
 import matplotlib.pyplot as plt
 import numpy as np
 import math
 from typing import Union, Tuple
 
+
 def draw_three_axes_rotated(
-    arrow_length: float, 
-    line_thickness: float, 
-    offset_text: float, 
-    longx: float, 
-    negativeaxis_y: int, 
-    negativeaxis_x: int
+    arrow_length: float,
+    line_thickness: float,
+    offset_text: float,
+    longx: float,
+    negativeaxis_y: int,
+    negativeaxis_x: int,
 ) -> plt.Axes:
     """
     >>> draw_three_axes_rotated(
-        arrow_length: float, 
-        line_thickness: float, 
-        offset_text: float, 
-        longx: float, 
-        negativeaxis_y: int, 
+        arrow_length: float,
+        line_thickness: float,
+        offset_text: float,
+        longx: float,
+        negativeaxis_y: int,
         negativeaxis_x: int
     ) -> plt.Axes
 
@@ -1092,40 +1424,105 @@ def draw_three_axes_rotated(
     >>> plt.show()
     """
     fig, ax = plt.subplots()
-    ax.arrow(0, 0, 0, arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
-    ax.text(0, arrow_length + offset_text, 'z', fontsize=12, ha='center', va='bottom')
+    ax.arrow(
+        0,
+        0,
+        0,
+        arrow_length,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=line_thickness,
+    )
+    ax.text(0, arrow_length + offset_text, "z", fontsize=12, ha="center", va="bottom")
 
-    ax.arrow(0, 0, -arrow_length * np.cos(np.radians(30)) / longx, -arrow_length * np.sin(np.radians(30)) / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
-    ax.text(-arrow_length * np.cos(np.radians(30)) / longx - offset_text, -arrow_length * np.sin(np.radians(30)) / longx - offset_text, 'x', fontsize=12, ha='left', va='center')
+    ax.arrow(
+        0,
+        0,
+        -arrow_length * np.cos(np.radians(30)) / longx,
+        -arrow_length * np.sin(np.radians(30)) / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=line_thickness,
+    )
+    ax.text(
+        -arrow_length * np.cos(np.radians(30)) / longx - offset_text,
+        -arrow_length * np.sin(np.radians(30)) / longx - offset_text,
+        "x",
+        fontsize=12,
+        ha="left",
+        va="center",
+    )
 
     if negativeaxis_x == 1:
-        ax.arrow(0, 0, arrow_length * np.cos(np.radians(30)) / longx, arrow_length * np.sin(np.radians(30)) / longx, head_width=0, head_length=0, fc='gray', ec='gray', lw=line_thickness)
-        ax.arrow(0, 0, arrow_length * np.cos(np.radians(30)) / longx, -arrow_length * np.sin(np.radians(30)) / longx, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
-        ax.text(arrow_length * np.cos(np.radians(30)) / longx + 2 * offset_text / 1.5, -arrow_length * np.sin(np.radians(30)) / longx - offset_text / 1.5, 'y', fontsize=12, ha='right', va='top')
+        ax.arrow(
+            0,
+            0,
+            arrow_length * np.cos(np.radians(30)) / longx,
+            arrow_length * np.sin(np.radians(30)) / longx,
+            head_width=0,
+            head_length=0,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
+        ax.arrow(
+            0,
+            0,
+            arrow_length * np.cos(np.radians(30)) / longx,
+            -arrow_length * np.sin(np.radians(30)) / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
+        ax.text(
+            arrow_length * np.cos(np.radians(30)) / longx + 2 * offset_text / 1.5,
+            -arrow_length * np.sin(np.radians(30)) / longx - offset_text / 1.5,
+            "y",
+            fontsize=12,
+            ha="right",
+            va="top",
+        )
 
     if negativeaxis_y == 1:
-        ax.arrow(0, 0, -arrow_length * np.cos(np.radians(30)) / longx, arrow_length * np.sin(np.radians(30)) / longx, head_width=0, head_length=0, fc='gray', ec='gray', lw=line_thickness)
+        ax.arrow(
+            0,
+            0,
+            -arrow_length * np.cos(np.radians(30)) / longx,
+            arrow_length * np.sin(np.radians(30)) / longx,
+            head_width=0,
+            head_length=0,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
 
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    plt.axis('equal')
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    plt.axis("equal")
     return ax
 
+
 def draw_double_arrowhead(
-    start_point: tuple, 
-    end_point: tuple, 
-    color: str = 'black', 
-    line_thickness: float = 1
+    start_point: tuple,
+    end_point: tuple,
+    color: str = "black",
+    line_thickness: float = 1,
 ) -> None:
     """
     >>> draw_double_arrowhead(
-        start_point: tuple, 
-        end_point: tuple, 
-        color: str = 'black', 
+        start_point: tuple,
+        end_point: tuple,
+        color: str = 'black',
         line_thickness: float = 1
     ) -> None
 
@@ -1153,27 +1550,51 @@ def draw_double_arrowhead(
     modified_end = end_point.copy()
     dx = end_point[0] - start_point[0]
     dy = end_point[1] - start_point[1]
-    modified_start[0] += 0.08 * dx / ((dx ** 2 + dy ** 2) ** 0.5)
-    modified_start[1] += 0.08 * dy / ((dx ** 2 + dy ** 2) ** 0.5)
-    modified_end[0] -= 0.08 * dx / ((dx ** 2 + dy ** 2) ** 0.5)
-    modified_end[1] -= 0.08 * dy / ((dx ** 2 + dy ** 2) ** 0.5)
+    modified_start[0] += 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
+    modified_start[1] += 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
+    modified_end[0] -= 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
+    modified_end[1] -= 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
     dx = modified_end[0] - modified_start[0]
     dy = modified_end[1] - modified_start[1]
-    plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], color=color, linewidth=line_thickness)
-    plt.arrow(modified_start[0], modified_start[1], dx, dy, head_width=0.05, head_length=0.08, color=color, linewidth=line_thickness)
-    plt.arrow(modified_end[0], modified_end[1], -dx, -dy, head_width=0.05, head_length=0.08, color=color, linewidth=line_thickness)
+    plt.plot(
+        [start_point[0], end_point[0]],
+        [start_point[1], end_point[1]],
+        color=color,
+        linewidth=line_thickness,
+    )
+    plt.arrow(
+        modified_start[0],
+        modified_start[1],
+        dx,
+        dy,
+        head_width=0.05,
+        head_length=0.08,
+        color=color,
+        linewidth=line_thickness,
+    )
+    plt.arrow(
+        modified_end[0],
+        modified_end[1],
+        -dx,
+        -dy,
+        head_width=0.05,
+        head_length=0.08,
+        color=color,
+        linewidth=line_thickness,
+    )
+
 
 def draw_custom_arrow_end(
-    start_point: tuple, 
-    end_point: tuple, 
-    color: str = 'black', 
-    line_thickness: float = 1
+    start_point: tuple,
+    end_point: tuple,
+    color: str = "black",
+    line_thickness: float = 1,
 ) -> None:
     """
     >>> draw_custom_arrow_end(
-        start_point: tuple, 
-        end_point: tuple, 
-        color: str = 'black', 
+        start_point: tuple,
+        end_point: tuple,
+        color: str = 'black',
         line_thickness: float = 1
     ) -> None
 
@@ -1201,30 +1622,45 @@ def draw_custom_arrow_end(
     modified_end = end_point.copy()
     dx = end_point[0] - start_point[0]
     dy = end_point[1] - start_point[1]
-    modified_start[0] += 10 * dx / ((dx ** 2 + dy ** 2) ** 0.5)
-    modified_start[1] += 10 * dy / ((dx ** 2 + dy ** 2) ** 0.5)
-    modified_end[0] -= 10 * dx / ((dx ** 2 + dy ** 2) ** 0.5)
-    modified_end[1] -= 10 * dy / ((dx ** 2 + dy ** 2) ** 0.5)
+    modified_start[0] += 10 * dx / ((dx**2 + dy**2) ** 0.5)
+    modified_start[1] += 10 * dy / ((dx**2 + dy**2) ** 0.5)
+    modified_end[0] -= 10 * dx / ((dx**2 + dy**2) ** 0.5)
+    modified_end[1] -= 10 * dy / ((dx**2 + dy**2) ** 0.5)
     dx = modified_end[0] - modified_start[0]
     dy = modified_end[1] - modified_start[1]
-    plt.plot([start_point[0], end_point[0]], [start_point[1], end_point[1]], color=color, linewidth=line_thickness)
-    plt.arrow(modified_start[0], modified_start[1], dx, dy, head_width=10, head_length=10, color=color, linewidth=line_thickness)
+    plt.plot(
+        [start_point[0], end_point[0]],
+        [start_point[1], end_point[1]],
+        color=color,
+        linewidth=line_thickness,
+    )
+    plt.arrow(
+        modified_start[0],
+        modified_start[1],
+        dx,
+        dy,
+        head_width=10,
+        head_length=10,
+        color=color,
+        linewidth=line_thickness,
+    )
+
 
 def draw_two_axes(
-    arrow_length: float, 
-    line_thickness: float, 
-    offset_text: float, 
-    longx: float, 
-    negativeaxis_y: int, 
-    negativeaxis_x: int
+    arrow_length: float,
+    line_thickness: float,
+    offset_text: float,
+    longx: float,
+    negativeaxis_y: int,
+    negativeaxis_x: int,
 ) -> plt.Axes:
     """
     >>> draw_two_axes(
-        arrow_length: float, 
-        line_thickness: float, 
-        offset_text: float, 
-        longx: float, 
-        negativeaxis_y: int, 
+        arrow_length: float,
+        line_thickness: float,
+        offset_text: float,
+        longx: float,
+        negativeaxis_y: int,
         negativeaxis_x: int
     ) -> plt.Axes
 
@@ -1256,38 +1692,78 @@ def draw_two_axes(
     >>> plt.show()
     """
     fig, ax = plt.subplots()
-    ax.arrow(0, 0, 0, arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
-    ax.text(0, arrow_length + offset_text, 'y', fontsize=12, ha='center', va='bottom')
+    ax.arrow(
+        0,
+        0,
+        0,
+        arrow_length,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=line_thickness,
+    )
+    ax.text(0, arrow_length + offset_text, "y", fontsize=12, ha="center", va="bottom")
 
     if negativeaxis_y == 1:
-        ax.arrow(0, 0, 0, -arrow_length, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
+        ax.arrow(
+            0,
+            0,
+            0,
+            -arrow_length,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
 
-    ax.arrow(0, 0, 1.5 * arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
-    ax.text(1.5 * arrow_length + offset_text, 0, 'x', fontsize=12, ha='left', va='center')
+    ax.arrow(
+        0,
+        0,
+        1.5 * arrow_length,
+        0,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=line_thickness,
+    )
+    ax.text(
+        1.5 * arrow_length + offset_text, 0, "x", fontsize=12, ha="left", va="center"
+    )
 
     if negativeaxis_x == 1:
-        ax.arrow(0, 0, -arrow_length, 0, head_width=0.05, head_length=0.1, fc='gray', ec='gray', lw=line_thickness)
+        ax.arrow(
+            0,
+            0,
+            -arrow_length,
+            0,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
 
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    plt.axis('equal')
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    plt.axis("equal")
     return ax
 
+
 def vertical_arrow_rain(
-    quantity_arrows: int, 
-    start_point: tuple, 
-    final_point: tuple, 
-    y_origin: float
+    quantity_arrows: int, start_point: tuple, final_point: tuple, y_origin: float
 ) -> None:
     """
     >>> vertical_arrow_rain(
-        quantity_arrows: int, 
-        start_point: tuple, 
-        final_point: tuple, 
+        quantity_arrows: int,
+        start_point: tuple,
+        final_point: tuple,
         y_origin: float
     ) -> None
 
@@ -1302,7 +1778,7 @@ def vertical_arrow_rain(
     final_point : tuple
         Tuple (x, y) representing the final point of the segment.
     y_origin : float
-        y-coordinate to which all arrows should point. 
+        y-coordinate to which all arrows should point.
 
     Example
     -------
@@ -1311,22 +1787,28 @@ def vertical_arrow_rain(
     """
     x_start, y_start = start_point
     x_final, y_final = final_point
-    x_points = [x_start + i * (x_final - x_start) / (quantity_arrows - 1) for i in range(quantity_arrows)]
-    y_points = [y_start + i * (y_final - y_start) / (quantity_arrows - 1) for i in range(quantity_arrows)]
+    x_points = [
+        x_start + i * (x_final - x_start) / (quantity_arrows - 1)
+        for i in range(quantity_arrows)
+    ]
+    y_points = [
+        y_start + i * (y_final - y_start) / (quantity_arrows - 1)
+        for i in range(quantity_arrows)
+    ]
     for x, y in zip(x_points, y_points):
-        plt.arrow(x, y, 0, y_origin - y, head_width=5, head_length=10, fc='blue', ec='blue')
+        plt.arrow(
+            x, y, 0, y_origin - y, head_width=5, head_length=10, fc="blue", ec="blue"
+        )
+
 
 def draw_rain_arrows_horizontal(
-    quantity_arrows: int, 
-    x_origin: float, 
-    start_point: tuple, 
-    final_point: tuple
+    quantity_arrows: int, x_origin: float, start_point: tuple, final_point: tuple
 ) -> None:
     """
     >>> draw_rain_arrows_horizontal(
-        quantity_arrows: int, 
-        x_origin: float, 
-        start_point: tuple, 
+        quantity_arrows: int,
+        x_origin: float,
+        start_point: tuple,
         final_point: tuple
     ) -> None
 
@@ -1350,41 +1832,54 @@ def draw_rain_arrows_horizontal(
     """
     x_start, y_start = start_point
     x_final, y_final = final_point
-    x_points = [x_start + i * (x_final - x_start) / (quantity_arrows - 1) for i in range(quantity_arrows - 1)]
-    y_points = [y_start + i * (y_final - y_start) / (quantity_arrows - 1) for i in range(quantity_arrows - 1)]
+    x_points = [
+        x_start + i * (x_final - x_start) / (quantity_arrows - 1)
+        for i in range(quantity_arrows - 1)
+    ]
+    y_points = [
+        y_start + i * (y_final - y_start) / (quantity_arrows - 1)
+        for i in range(quantity_arrows - 1)
+    ]
     for x, y in zip(x_points, y_points):
-        plt.arrow(x_origin, y, x - x_origin, 0, head_width=5, head_length=10, fc='blue', ec='blue')
+        plt.arrow(
+            x_origin,
+            y,
+            x - x_origin,
+            0,
+            head_width=5,
+            head_length=10,
+            fc="blue",
+            ec="blue",
+        )
 
-def calculate_angle(
-    start_point: tuple, 
-    final_point: tuple
-) -> float:
+
+def calculate_angle(start_point: tuple, final_point: tuple) -> float:
     """
-    >>> calculate_angle(
-        start_point: tuple, 
-        final_point: tuple
-    ) -> float
+       >>> calculate_angle(
+           start_point: tuple,
+           final_point: tuple
+       ) -> float
 
-    Calculates the angle (in degrees) between two points.
+       Calculates the angle (in degrees) between two points.
 
-    Parameters
-    ----------
-    start_point : tuple
-        Tuple (x, y) representing the starting point.
-    final_point : tuple
-        Tuple (x, y) representing the final point.
+       Parameters
+       ----------
+       start_point : tuple
+           Tuple (x, y) representing the starting point.
+       final_point : tuple
+           Tuple (x, y) representing the final point.
 
-    Returns
-    -------
-    float
-        The angle in degrees between the two points.
+       Returns
+       -------
+       float
+           The angle in degrees between the two points.
 
-    Example
-    -------
-    >>>
- angle = calculate_angle(start_point=(0, 0), final_point=(1, 1))
-    >>> print(angle)
-    45.0
+       Example
+       -------
+       >>>
+    angle = calculate_angle(start_point=(0, 0), final_point=(1, 1))
+       >>> print(angle)
+       45.0
     """
     delta_x = final_point[0] - start_point[0]
     delta_y = final_point[1] - start_point[1]
@@ -1394,14 +1889,16 @@ def calculate_angle(
         angle_degrees += 360
     return angle_degrees
 
+
 import matplotlib.pyplot as plt
 import numpy as np
 from typing import Union, Tuple
 
+
 def draw_segment_1(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     """
     >>> draw_segment_1(
-        start: Union[tuple, list], 
+        start: Union[tuple, list],
         end: Union[tuple, list]
     ) -> None
 
@@ -1429,12 +1926,13 @@ def draw_segment_1(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     >>> # Show the plot
     >>> plt.show()
     """
-    plt.plot([start[0], end[0]], [start[1], end[1]], color='k')
+    plt.plot([start[0], end[0]], [start[1], end[1]], color="k")
+
 
 def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     """
     >>> draw_segment_2(
-        start: Union[tuple, list], 
+        start: Union[tuple, list],
         end: Union[tuple, list]
     ) -> None
 
@@ -1462,12 +1960,13 @@ def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     >>> # Show the plot
     >>> plt.show()
     """
-    plt.plot([start[0], end[0]], [start[1], end[1]], color='r')
+    plt.plot([start[0], end[0]], [start[1], end[1]], color="r")
+
 
 def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     """
     >>> draw_segment_3(
-        start: Union[tuple, list], 
+        start: Union[tuple, list],
         end: Union[tuple, list]
     ) -> None
 
@@ -1495,14 +1994,17 @@ def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     >>> # Show the plot
     >>> plt.show()
     """
-    plt.plot([start[0], end[0]], [start[1], end[1]], color='b')
+    plt.plot([start[0], end[0]], [start[1], end[1]], color="b")
 
-def get_arc_points(start_angle: float, end_angle: float, radius: float, center: Union[tuple, list]) -> Tuple[np.ndarray, np.ndarray]:
+
+def get_arc_points(
+    start_angle: float, end_angle: float, radius: float, center: Union[tuple, list]
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     >>> get_arc_points(
-        start_angle: float, 
-        end_angle: float, 
-        radius: float, 
+        start_angle: float,
+        end_angle: float,
+        radius: float,
         center: Union[tuple, list]
     ) -> Tuple[np.ndarray, np.ndarray]
 
@@ -1545,6 +2047,7 @@ def get_arc_points(start_angle: float, end_angle: float, radius: float, center: 
     y = center[1] + radius * np.sin(angles)
     return x, y
 
+
 __all__ = [
     "draw_arrow",
     "calculate_midpoint",
@@ -1574,5 +2077,5 @@ __all__ = [
     "draw_segment_1",
     "draw_segment_2",
     "draw_segment_3",
-    "get_arc_points"
+    "get_arc_points",
 ]
