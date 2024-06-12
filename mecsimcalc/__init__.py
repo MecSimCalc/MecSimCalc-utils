@@ -1,16 +1,18 @@
-from .general_utils import input_to_file, metadata_to_filetype
+from mecsimcalc.file_utils.general_utils import input_to_file, metadata_to_filetype
 
-from .image_utils import input_to_PIL, file_to_PIL, print_image
+from mecsimcalc.file_utils.image_utils import input_to_PIL, file_to_PIL, print_image
 
-from .plotting_utils import print_plot
+from mecsimcalc.file_utils.plotting_utils import print_plot
 
-from .spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
+from mecsimcalc.file_utils.spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
 
-from .table_utils import table_to_dataframe, print_table
+from mecsimcalc.file_utils.table_utils import table_to_dataframe, print_table
 
-from .text_utils import string_to_file
+from mecsimcalc.file_utils.text_utils import string_to_file
 
-from .quiz_utils import append_to_google_sheet, send_gmail
+from mecsimcalc.file_utils.quiz_utils import append_to_google_sheet, send_gmail
+
+from mecsimcalc.ece130.plot_draw import *
 
 __all__ = [
     "input_to_dataframe",

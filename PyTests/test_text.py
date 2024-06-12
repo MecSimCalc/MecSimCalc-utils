@@ -5,7 +5,7 @@ import os
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
 from text_utils import string_to_file
 

@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
 from quiz_utils import append_to_google_sheet, send_gmail
 

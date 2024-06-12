@@ -9,7 +9,7 @@ import io
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
 from general_utils import input_to_file, metadata_to_filetype
 from image_utils import input_to_PIL, file_to_PIL, print_image
