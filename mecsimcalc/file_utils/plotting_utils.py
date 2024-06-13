@@ -5,6 +5,7 @@ from typing import Union, Tuple
 
 import matplotlib.pyplot as plt
 import matplotlib.figure as figure
+from matplotlib.animation import FuncAnimation
 
 
 def print_plot(
@@ -94,15 +95,15 @@ def print_plot(
     return html_img, download_link
 
 
-def print_animation(ani: plt.animation.FuncAnimation, fps: int = 60) -> str:
+def print_animation(ani: FuncAnimation, fps: int = 60) -> str:
     """
-    >>> print_ani(ani: plt.animation.FuncAnimation) -> str
+    >>> print_ani(ani: FuncAnimation) -> str
 
     Converts a matplotlib animation into an HTML image tag.
 
     Parameters
     ----------
-    ani : plt.animation.FuncAnimation
+    ani : FuncAnimation
         The matplotlib animation to be converted.
 
     Returns
