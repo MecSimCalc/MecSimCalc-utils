@@ -1,4 +1,5 @@
 import io
+import os
 import base64
 from typing import Union, Tuple
 
@@ -91,3 +92,49 @@ def print_plot(
         f"download='{download_file_name}.png'>{download_text}</a>"
     )
     return html_img, download_link
+
+
+def print_animation(ani: plt.animation.FuncAnimation, fps: int = 60) -> str:
+    """
+    >>> print_ani(ani: plt.animation.FuncAnimation) -> str
+
+    Converts a matplotlib animation into an HTML image tag.
+
+    Parameters
+    ----------
+    ani : plt.animation.FuncAnimation
+        The matplotlib animation to be converted.
+
+    Returns
+    -------
+    str
+        The HTML image tag as a string.
+
+    Examples
+    --------
+    >>> fig, ax = plt.subplots()
+    >>> x = np.linspace(0, 10, 1000)
+    >>> y = np.sin(x)
+    >>> line, = ax.plot(x, y)
+    >>> def update(frame):
+    >>>     line.set_ydata(np.sin(x + frame / 100))
+    >>> ani = FuncAnimation(fig, update, frames=100)
+    >>> animation = msc.print_ani(ani)
+    >>> return {
+        "animation": animation
+    }
+    """
+    # Save the animation to a temporary file
+    temp_file = "/tmp/temp_animation.gif"
+    ani.save(temp_file, writer="pillow", fps=fps)
+
+    # Read the file back into a bytes buffer
+    with open(temp_file, "rb") as f:
+        gif_bytes = f.read()
+
+    # Remove the temporary file (but will get deleted when the execution of the app is finished anyway bc it is in the /tmp folder)
+    os.remove(temp_file)
+
+    # Convert the bytes buffer to a base64 string and return it as an image tag
+    gif_base64 = base64.b64encode(gif_bytes).decode("utf-8")
+    return f"<img src='data:image/gif;base64,{gif_base64}' />"
