@@ -34,10 +34,9 @@ black .
 ## Docstrings
 Please include a docstring for each function you add. Also include type hints and return type hints.
 
-Docstrings should follow the [numpydoc format](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html). But make sure to include the function with the `>>>` symbol. Here is an example of a docstring:
+Docstrings should follow the [numpydoc format](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html) with some changes to the returns section(since it doesn't display properly on mecsimcalc). Also make sure to include the function with the `>>>` symbol in the first line. Here is an example of a docstring:
 
-(Docstrings are shown when users hover over the function. This helps users understand what the function does and how to use it without having to look at the source code.)
-
+(Docstrings are shown when users hover over the function. This helps users understand what the function does and how to use it without having to look at the source code. To see how it looks on mecsimcalc, paste the code into mecsimcalc and hover over the function.)
 ```python
 def my_function(arg1 : int, arg2 : int) -> int:
     """
@@ -54,8 +53,15 @@ def my_function(arg1 : int, arg2 : int) -> int:
 
     Returns
     -------
-    int
+    * `int` :
         This is a description of the return value.
+    * `Union[int, float]` :
+        * This is another description of the return value.
+    
+    Raises
+    ------
+    * `ValueError` :
+        This is a description of the error that is raised if the function fails.
 
     Examples
     --------
@@ -64,6 +70,14 @@ def my_function(arg1 : int, arg2 : int) -> int:
     """
     return arg1 + arg2
 ```
+
+Returns & Raises sections:
+- Use `*` to start a new line for each return type or error
+- Use \`backticks\` to highlight the return type or error
+- If you have multiple types, use `Union` to list them
+- If you use `Union`, make sure to add a `*` before each type
+
+Not doing this will clump all the return types together in the hover-over text
 
 
 ## Release process

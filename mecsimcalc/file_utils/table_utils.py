@@ -19,12 +19,12 @@ def table_to_dataframe(
 
     Returns
     -------
-    pd.DataFrame
+    * `pd.DataFrame` :
         A DataFrame constructed from the given rows and column headers.
 
     Raises
     ------
-    ValueError
+    * `ValueError` :
         If the length of any row is not equal to the length of column headers.
 
     Examples
@@ -59,11 +59,11 @@ def print_table(
     rows : List[List[str]]
         A list of rows (each row is a list of strings).
     index : bool, optional
-        Whether to use the first column as the DataFrame's index. Defaults to True
+        Whether to use the first column as the DataFrame's index. Defaults to `True`.
 
     Returns
     -------
-    str
+    * `str` :
         HTML table.
 
     Examples
