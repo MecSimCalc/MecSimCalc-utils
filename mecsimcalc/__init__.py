@@ -3,7 +3,11 @@ from mecsimcalc.file_utils.general_utils import input_to_file, metadata_to_filet
 
 from mecsimcalc.file_utils.image_utils import input_to_PIL, file_to_PIL, print_image
 
-from mecsimcalc.file_utils.plotting_utils import print_plot
+from mecsimcalc.file_utils.plotting_utils import (
+    print_plot,
+    print_animation,
+    animate_plot,
+)
 
 from mecsimcalc.file_utils.spreadsheet_utils import (
     input_to_dataframe,
@@ -36,4 +40,6 @@ __all__ = [
     "file_to_PIL",
     "append_to_google_sheet",
     "send_gmail",
+    "print_animation",
+    "animate_plot",
 ]

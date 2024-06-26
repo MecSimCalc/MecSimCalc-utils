@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.figure as figure
 from matplotlib.animation import FuncAnimation
 
+import numpy as np
+
 
 def print_plot(
     plot_obj: Union[plt.Axes, figure.Figure],
@@ -33,19 +35,19 @@ def print_plot(
     plot_obj : Union[plt.Axes, figure.Figure]
         The matplotlib plot to be converted.
     width : int, optional
-        The width of the image in pixels. (Defaults to 500)
+        The width of the image in pixels. Defaults to `500`.
     dpi : int, optional
-        The DPI of the image. (Defaults to 100)
+        The DPI of the image. Defaults to `100`.
     download : bool, optional
-        If set to True, a download link will be provided. (Defaults to False)
+        If set to True, a download link will be provided. Defaults to `False`.
     download_text : str, optional
-        The text to be displayed for the download link. (Defaults to "Download Plot")
+        The text to be displayed for the download link. Defaults to `"Download Plot"`.
     download_file_name : str, optional
-        The name of the downloaded file. (Defaults to 'myplot')
+        The name of the downloaded file. Defaults to `"myplot"`
 
     Returns
     -------
-    Union[str, Tuple[str, str]]
+    * `Union[str, Tuple[str, str]]` :
         * If `download` is False, returns the HTML image as a string.
         * If `download` is True, returns a tuple consisting of the HTML image as a string and the download link as a string.
 
@@ -95,9 +97,9 @@ def print_plot(
     return html_img, download_link
 
 
-def print_animation(ani: FuncAnimation, fps: int = 60) -> str:
+def print_animation(ani: FuncAnimation, fps: int = 30) -> str:
     """
-    >>> print_ani(ani: FuncAnimation) -> str
+    >>> print_ani(ani: FuncAnimation, fps: int = 30) -> str
 
     Converts a matplotlib animation into an HTML image tag.
 
@@ -105,10 +107,12 @@ def print_animation(ani: FuncAnimation, fps: int = 60) -> str:
     ----------
     ani : FuncAnimation
         The matplotlib animation to be converted.
+    fps : int, optional
+        Frames per second for the animation. Defaults to `30`.
 
     Returns
     -------
-    str
+    * `str` :
         The HTML image tag as a string.
 
     Examples
@@ -120,7 +124,7 @@ def print_animation(ani: FuncAnimation, fps: int = 60) -> str:
     >>> def update(frame):
     >>>     line.set_ydata(np.sin(x + frame / 100))
     >>> ani = FuncAnimation(fig, update, frames=100)
-    >>> animation = msc.print_ani(ani)
+    >>> animation = msc.print_animation(ani)
     >>> return {
         "animation": animation
     }
@@ -139,3 +143,94 @@ def print_animation(ani: FuncAnimation, fps: int = 60) -> str:
     # Convert the bytes buffer to a base64 string and return it as an image tag
     gif_base64 = base64.b64encode(gif_bytes).decode("utf-8")
     return f"<img src='data:image/gif;base64,{gif_base64}' />"
+
+
+def animate_plot(
+    x: np.ndarray,
+    y: np.ndarray,
+    duration: int = 5,
+    fps: int = None,
+    title: str = "y = f(x)",
+    show_axes: bool = True,
+) -> str:
+    """
+    >>> def animate_plot(
+        x: np.ndarray,
+        y: np.ndarray,
+        duration: int = 5,
+        fps: int = None,
+        title: str = "y = f(x)",
+        show_axes: bool = True,
+    ) -> str:
+    Creates an animated plot from given x and y data and returns it as an HTML image tag.
+
+    Parameters
+    ----------
+    x : np.ndarray
+        The x-coordinates of the data points.
+    y : np.ndarray
+        The y-coordinates of the data points.
+    duration : int, optional
+        The duration of the animation in seconds. Defaults to `5`.
+    fps : int, optional
+        Frames per second for the animation. Defaults to `None`.
+    title : str, optional
+        Title of the plot. Defaults to `"y = f(x)"`.
+    show_axes : bool, optional
+        Whether to show the x and y axes. Defaults to `True`.
+
+    Returns
+    -------
+    * `str` :
+        The HTML image tag containing the animated plot.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> x = np.linspace(0, 10, 1000)
+    >>> y = np.sin(x)
+    >>> animation_html = animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
+    >>> return {
+        "animation": animation_html
+    }
+    """
+
+    fig, ax = plt.subplots()
+    (line,) = ax.plot([], [])  # line being drawn on the plot
+    fps = len(x) / duration if fps is None else fps
+
+    ax.set_xlim(np.min(x) * 1.1, np.max(x) * 1.1)
+    ax.set_ylim(np.min(y) * 1.1, np.max(y) * 1.1)
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_title(title)
+
+    if show_axes:
+        plt.axhline(0, color="grey", linestyle="--", alpha=0.5)
+        plt.axvline(0, color="grey", linestyle="--", alpha=0.5)
+
+    # Initialize the plot (optimize performance by not redrawing the plot every frame)
+    def init():
+        line.set_data([], [])
+        return (line,)
+
+    # Function to update the plot
+    def update(frame):
+        frame_idx = int(frame)
+
+        # shift the line by frame_idx (update the line data with the new x and y data)
+        x_shift = x[:frame_idx]
+        y_shift = y[:frame_idx]
+        line.set_data(x_shift, y_shift)
+
+        # Adjust x-axis limits based on the current frame (follow the line as it moves along the x-axis)
+        if frame_idx < len(x):
+            current_x = np.interp(frame, np.arange(len(x)), x)
+            ax.set_xlim(current_x - max(x) / duration, current_x + max(x) / duration)
+        return (line,)
+
+    frames = np.linspace(0, len(x), int(duration * fps))
+    ani = FuncAnimation(fig, update, init_func=init, frames=frames, blit=True)
+
+    plt.close()
+    return print_animation(ani, fps=fps)  # return the animation as an HTML image tag
