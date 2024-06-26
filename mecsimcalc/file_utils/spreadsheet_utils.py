@@ -19,12 +19,12 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
 
     Returns
     -------
-    pd.DataFrame
+    * `pd.DataFrame` :
         A DataFrame created from the decoded file data.
 
     Raises
     ------
-    pd.errors.ParserError
+    * `pd.errors.ParserError` :
         If the file type is not supported or cannot be converted into a DataFrame.
 
     Examples
@@ -66,11 +66,11 @@ def input_to_dataframe(
     input_file : str
         The base64 encoded file data.
     get_file_type : bool, optional
-        If True, the function also returns the file type. Defaults to False.
+        If True, the function also returns the file type. Defaults to `False`.
 
     Returns
     -------
-    Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
+    * `Union[pd.DataFrame, Tuple[pd.DataFrame, str]]` :
         * If `get_file_type` is False, returns a DataFrame created from the file data.
         * If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
 
@@ -115,17 +115,17 @@ def print_dataframe(
     df : pd.DataFrame
         The DataFrame to be converted into an HTML table.
     download : bool, optional
-        If True, the function also provides a download link for the table. Defaults to False.
+        If True, the function also provides a download link for the table. Defaults to `False`.
     download_text : str, optional
-        The text to be displayed on the download link. Defaults to "Download Table".
+        The text to be displayed on the download link. Defaults to `"Download Table"`.
     download_file_name : str, optional
-        The name of the file to be downloaded. Defaults to "myfile".
+        The name of the file to be downloaded. Defaults to `"myfile"`.
     download_file_type : str, optional
-        The file type of the download file. Can be "xlsx" or "csv". Defaults to "csv".
+        The file type of the download file. Can be "xlsx" or "csv". Defaults to `"csv"`.
 
     Returns
     -------
-    Union[str, Tuple[str, str]]
+    * `Union[str, Tuple[str, str]]` :
         * If `download` is False, returns the HTML table as a string.
         * If `download` is True, returns a tuple containing the HTML table and the HTML download link as strings.
 

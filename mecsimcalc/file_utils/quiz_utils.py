@@ -36,29 +36,42 @@ def append_to_google_sheet(
     values : list of list
         The data to be appended, organized as a list of rows, with each row being a list of values.
     range_name : str, optional
-        The A1 notation of the starting cell where appending will begin, defaulting to 'Sheet1!A1'.
+        The A1 notation of the starting cell where appending will begin. Defaults to `"Sheet1!A1"`.
     include_timestamp : bool, optional
-        A flag indicating whether to append a timestamp to each row of data, defaulting to True.
-        The timestamp format is 'YYYY-MM-DD HH:MM:SS'.
+        A flag indicating whether to append a timestamp to each row of data. Defaults to `True`.
+        The timestamp format is `YYYY-MM-DD HH:MM:SS`.
 
     Returns
     -------
-    dict
+    * `dict` :
         A dictionary representing the response from the Google Sheets API. This typically includes
         information about the update, such as the range updated and the number of cells affected.
 
     Raises
     ------
-    Exception
+    * `Exception` :
         If an error occurs while obtaining the access token or appending the data to the sheet.
 
     Examples
     --------
-    >>> service_account_info = {'client_email': 'your_service_account_email', 'private_key': 'your_private_key', 'private_key_id': 'your_private_key_id'}
+    >>> service_account_info = {
+        "client_email": "your_service_account_email",
+        "private_key": "your_private_key",
+        "private_key_id": "your_private_key_id",
+    }
     >>> spreadsheet_id = 'your_spreadsheet_id'
     >>> values = [["Example Name", 42, "Example Data"]]
     >>> msc.append_to_google_sheet(service_account_info, spreadsheet_id, values)
-    {'updates': {'spreadsheetId': 'your_spreadsheet_id', 'updatedRange': 'Sheet1!A1:C2', 'updatedRows': 1, 'updatedColumns': 3, 'updatedCells': 3}}
+    >>> # Output
+    >>> {
+        "updates": {
+            "spreadsheetId": "your_spreadsheet_id",
+            "updatedRange": "Sheet1!A1:C2",
+            "updatedRows": 1,
+            "updatedColumns": 3,
+            "updatedCells": 3,
+        }
+    }
     """
 
     # Helper function to get an access token
@@ -154,14 +167,21 @@ def send_gmail(
 
     Returns
     -------
-    bool
+    * `bool` :
         Returns True if the email was sent successfully, otherwise False.
 
     Examples
     --------
     >>> values = [["John Doe", "123456", 10, 2, 5.00, "This is a test message."]]
-    >>> msc.send_gmail("sender@example.com", "receiver@example.com", "Test Email", "your_app_password", values)
-    True
+    >>> msc.send_gmail(
+        "sender@example.com",
+        "receiver@example.com",
+        "Test Email",
+        "your_app_password",
+        values,
+    )
+    >>> # Output
+    >>> True
     """
 
     # Initialize email message

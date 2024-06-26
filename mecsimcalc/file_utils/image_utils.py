@@ -31,15 +31,15 @@ def file_to_PIL(file: io.BytesIO) -> Image.Image:
     file : io.BytesIO
         A binary file object containing image data.
 
-    Raises
-    ----------
-    ValueError:
-        If the file object does not contain valid image data.
-
     Returns
     ----------
-    PIL.Image.Image
+    * `PIL.Image.Image` :
         An image object created from the file data.
+
+    Raises
+    --------
+    * `ValueError` :
+        If the file object does not contain valid image data.
 
     Examples
     ----------
@@ -71,13 +71,13 @@ def input_to_PIL(
     input_file : str
         A Base64 encoded string containing image data.
     get_file_type : bool, optional
-        If set to True, the function also returns the file type of the image. Default is False.
+        If set to True, the function also returns the file type of the image. Defaults to `False`.
 
     Returns
     -------
-    Union[PIL.Image.Image, Tuple[PIL.Image.Image, str]]
-        * If `get_file_type` is False, returns a `PIL.Image.Image` object created from the decoded file data.
-        * If `get_file_type` is True, returns a tuple containing the `PIL.Image.Image` object and a string representing the file type.
+    * `Union[PIL.Image.Image, Tuple[PIL.Image.Image, str]]` :
+        * If `get_file_type` is False, returns a PIL.Image.Image object created from the decoded file data.
+        * If `get_file_type` is True, returns a tuple containing the PIL.Image.Image object and a string representing the file type.
 
     Examples
     --------
@@ -136,23 +136,23 @@ def print_image(
     image : PIL.Image.Image
         A Pillow image object.
     width : int, optional
-        The width for the displayed image, in pixels. Defaults to 200.
+        The width for the displayed image, in pixels. Defaults to `200`.
     height : int, optional
-        The height for the displayed image, in pixels. Defaults to 200.
+        The height for the displayed image, in pixels. Defaults to `200`.
     original_size : bool, optional
-        If True, the image will retain its original size. Defaults to False.
+        If True, the image will retain its original size. Defaults to `False`.
     download : bool, optional
-        If True, a download link will be provided below the image. Defaults to False.
+        If True, a download link will be provided below the image. Defaults to `False`.
     download_text : str, optional
-        The text for the download link. Defaults to "Download Image".
+        The text for the download link. Defaults to `"Download Image"`.
     download_file_name : str, optional
-        The name for the downloaded file, without file extension. Defaults to "myimg".
+        The name for the downloaded file, without file extension. Defaults to `"myimg"`.
     download_file_type : str, optional
-        The file type for the downloaded file. Defaults to "png".
+        The file type for the downloaded file. Defaults to `"png"`.
 
     Returns
     -------
-    Union[str, Tuple[str, str]]
+    * `Union[str, Tuple[str, str]]` :
         * If `download` is False, returns an HTML string containing the image.
         * If `download` is True, returns a tuple containing the HTML string of the image and the HTML string of the download link.
 
