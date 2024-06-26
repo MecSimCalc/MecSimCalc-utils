@@ -97,7 +97,7 @@ def print_plot(
     return html_img, download_link
 
 
-def print_animation(ani: FuncAnimation, fps: int = 30) -> str:
+def print_animation(ani: FuncAnimation, fps: int = 30, save_dir: str = "/tmp/temp_animation.gif") -> str:
     """
     >>> print_ani(ani: FuncAnimation, fps: int = 30) -> str
 
@@ -109,6 +109,8 @@ def print_animation(ani: FuncAnimation, fps: int = 30) -> str:
         The matplotlib animation to be converted.
     fps : int, optional
         Frames per second for the animation. Defaults to `30`.
+    save_dir : str, optional
+        The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.)
 
     Returns
     -------
@@ -130,7 +132,10 @@ def print_animation(ani: FuncAnimation, fps: int = 30) -> str:
     }
     """
     # Save the animation to a temporary file
-    temp_file = "/tmp/temp_animation.gif"
+    temp_file = save_dir
+    if not temp_file.endswith(".gif"):
+        temp_file += "temp_animation.gif"
+    
     ani.save(temp_file, writer="pillow", fps=fps)
 
     # Read the file back into a bytes buffer
@@ -152,6 +157,7 @@ def animate_plot(
     fps: int = None,
     title: str = "y = f(x)",
     show_axes: bool = True,
+    save_dir: str = "/tmp/temp_animation.gif",
 ) -> str:
     """
     >>> def animate_plot(
@@ -178,6 +184,8 @@ def animate_plot(
         Title of the plot. Defaults to `"y = f(x)"`.
     show_axes : bool, optional
         Whether to show the x and y axes. Defaults to `True`.
+    save_dir : str, optional
+        The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.)
 
     Returns
     -------
@@ -233,4 +241,4 @@ def animate_plot(
     ani = FuncAnimation(fig, update, init_func=init, frames=frames, blit=True)
 
     plt.close()
-    return print_animation(ani, fps=fps)  # return the animation as an HTML image tag
+    return print_animation(ani, fps=fps, save_dir=save_dir)  # return the animation as an HTML image tag
