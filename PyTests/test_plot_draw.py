@@ -8,7 +8,7 @@ import numpy as np
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
-sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/ece130")
+sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/eng130")
 
 from plotting_utils import print_plot
 from plot_draw import *

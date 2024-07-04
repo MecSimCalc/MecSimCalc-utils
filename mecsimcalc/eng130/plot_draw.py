@@ -58,7 +58,7 @@ def draw_arrow(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_distance=0.1, head_width=0.1, head_length=0.1, fontsize=10)
     >>> plt.xlim(-1, 2)
     >>> plt.ylim(-1, 2)
@@ -107,7 +107,7 @@ def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
 
     Examples
     --------
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> midpoint = pltdraw.calculate_midpoint((0, 0), (2, 2))
     >>> print(midpoint)
     (1.0, 1.0)
@@ -151,7 +151,7 @@ def draw_arc_circumference(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.draw_arc_circumference(5, 0, np.pi/2)
     >>> plt.show()
     """
@@ -191,7 +191,7 @@ def create_blank_image(width: int = 1000, height: int = 1000) -> plt.Axes:
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> ax = pltdraw.create_blank_image(800, 600)
     >>> plt.show()
     """
@@ -386,7 +386,7 @@ def draw_two_inclined_axes(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> ax = pltdraw.draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
     >>> plt.show()
     """
@@ -511,7 +511,7 @@ def plot_segment_pixels(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> start = (100, 200)
     >>> end = (400, 500)
     >>> pltdraw.plot_segment_pixels(start, end, text="Segment", min_spacing=50)
@@ -620,7 +620,7 @@ def plot_annotate_arrow(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> start = (100, 200)
     >>> angle = 45
     >>> length = 100
@@ -748,7 +748,7 @@ def draw_custom_arrow(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> fig, ax = plt.subplots()
     >>> pltdraw.draw_custom_arrow(ax, (0, 0), (100, 100), factor=0.5, max_value=100, arrow_vector_length=50, arrow_width=5, text="Custom Arrow")
     >>> plt.show()
@@ -809,7 +809,7 @@ def calculate_arrow_endpoint_pixels(
 
     Examples
     --------
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.calculate_arrow_endpoint_pixels((100, 200), 45, 50)
     (135.35533905932738, 235.35533905932738)
     """
@@ -874,7 +874,7 @@ def plot_segment(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.plot_segment((100, 200), 45, 50, text='Value')
     (135.35533905932738, 235.35533905932738)
     >>> plt.show()
@@ -963,7 +963,7 @@ def plot_segment_dashed(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> mecismcalc.plot_draw as pltdraw
+    >>> mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.plot_segment_dashed((100, 200), 45, 50, text='Value')
     (135.35533905932738, 235.35533905932738)
     >>> plt.show()
@@ -1070,7 +1070,7 @@ def draw_rounded_rectangle(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
     >>> plt.show()
     """
@@ -1194,7 +1194,7 @@ def draw_segment(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.draw_segment((0, 0), (1, 1), line_width=0.005, color='blue')
     >>> plt.show()
     """
@@ -1287,7 +1287,7 @@ def plot_annotate_arrow_end(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_distance=0.5, fontsize=12, text_loc={'ha': 'center', 'va': 'top'})
     (0.8535533905932737, 1.1464466094067263)
     >>> plt.show()

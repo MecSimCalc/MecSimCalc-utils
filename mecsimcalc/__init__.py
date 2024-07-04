@@ -26,7 +26,7 @@ from mecsimcalc.file_utils.text_utils import string_to_file
 from mecsimcalc.file_utils.quiz_utils import append_to_google_sheet, send_gmail
 
 # not included in __all__: import using "from mecsimcalc.plot_draw import *" or "import mecsimcalc.plot_draw"
-from mecsimcalc.ece130.plot_draw import *
+from mecsimcalc.eng130.plot_draw import *
 
 
 __all__ = [
