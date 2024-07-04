@@ -44,6 +44,7 @@ def append_to_google_sheet(
     Returns
     -------
     * `dict` :
+
         A dictionary representing the response from the Google Sheets API. This typically includes
         information about the update, such as the range updated and the number of cells affected.
 

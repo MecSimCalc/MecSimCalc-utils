@@ -43,11 +43,13 @@ def input_to_file(
     >>> input_file = inputs["input_file"]
     >>> open_file = msc.input_to_file(input_file)
 
+
     (file is now ready to be used with Python file functions) (e.g., file.read())
 
     **With metadata**:
     >>> input_file = inputs["input_file"]
     >>> open_file, metadata = msc.input_to_file(input_file, metadata=True)
+
 
     (metadata holds information about the file, such as the file type)
     """

@@ -1,13 +1,17 @@
+
 # included in __all__: import using "from mecsimcalc import *" or "import mecsimcalc"
+
 from mecsimcalc.file_utils.general_utils import input_to_file, metadata_to_filetype
 
 from mecsimcalc.file_utils.image_utils import input_to_PIL, file_to_PIL, print_image
+
 
 from mecsimcalc.file_utils.plotting_utils import (
     print_plot,
     print_animation,
     animate_plot,
 )
+
 
 from mecsimcalc.file_utils.spreadsheet_utils import (
     input_to_dataframe,

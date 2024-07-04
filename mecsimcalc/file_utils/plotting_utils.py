@@ -96,7 +96,6 @@ def print_plot(
     )
     return html_img, download_link
 
-
 def print_animation(ani: FuncAnimation, fps: int = 30, save_dir: str = "/tmp/temp_animation.gif") -> str:
     """
     >>> print_ani(ani: FuncAnimation, fps: int = 30) -> str

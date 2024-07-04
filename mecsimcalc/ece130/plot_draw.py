@@ -1067,16 +1067,19 @@ def draw_rounded_rectangle(
         y1 + radius + radius * np.sin(angle1),
         color=color,
     )  # top left  (sup izq)
+
     plt.plot(
         x2 - radius + radius * np.cos(angle2),
         y2 + radius + radius * np.sin(angle2),
         color=color,
     )  # top right (sup der)
+
     plt.plot(
         x3 - radius - radius * np.cos(angle1),
         y3 - radius - radius * np.sin(angle1),
         color=color,
     )  # bottom right (inf der)
+    
     plt.plot(
         x4 + radius - radius * np.cos(angle2),
         y4 - radius - radius * np.sin(angle2),
