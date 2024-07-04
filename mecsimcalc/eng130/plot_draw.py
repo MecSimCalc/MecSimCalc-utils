@@ -59,7 +59,7 @@ def draw_arrow(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_distance=0.1, head_width=0.1, head_length=0.1, fontsize=10)
+    >>> pltdraw.draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_distance=0.1, head_width=0.1, head_length=0.1, fontsize=10)
     >>> plt.xlim(-1, 2)
     >>> plt.ylim(-1, 2)
     >>> plt.show()
@@ -256,7 +256,7 @@ def draw_three_axes(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> mecsimcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> ax = pltdraw.draw_three_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
     >>> plt.show()
     """
@@ -515,6 +515,7 @@ def plot_segment_pixels(
     >>> start = (100, 200)
     >>> end = (400, 500)
     >>> pltdraw.plot_segment_pixels(start, end, text="Segment", min_spacing=50)
+    (400, 500)
     >>> plt.show()
     """
     plt.plot(
@@ -625,6 +626,7 @@ def plot_annotate_arrow(
     >>> angle = 45
     >>> length = 100
     >>> pltdraw.plot_annotate_arrow(start, angle, length, text="Arrow", min_spacing=50)
+    (170.71067811865476, 270.71067811865476)
     >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
@@ -691,6 +693,7 @@ def plot_annotate_arrow(
         start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
         start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
     )
+    
     return end_point
 
 
@@ -963,7 +966,7 @@ def plot_segment_dashed(
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> mecsimcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.plot_segment_dashed((100, 200), 45, 50, text='Value')
     (135.35533905932738, 235.35533905932738)
     >>> plt.show()
@@ -1117,7 +1120,7 @@ def draw_rounded_rectangle(
 
 
 def calculate_intersection_point(
-    point1: tuple, angle1: float, point2: tuple, angle2: float, precision: int = 6
+    point1: tuple, angle1: float, point2: tuple, angle2: float
 ) -> tuple[float, float]:
     """
     >>> calculate_intersection_point(
@@ -1125,7 +1128,6 @@ def calculate_intersection_point(
         angle1: float,
         point2: tuple,
         angle2: float,
-        precision: int = 6
     ) -> tuple
 
     Calculates the intersection point of two lines defined by points and angles.
@@ -1140,8 +1142,6 @@ def calculate_intersection_point(
         The coordinates of the second point (x, y) through which the second line passes.
     angle2 : float
         The angle of the second line in degrees.
-    precision : int, optional
-        The number of decimal places to round the intersection point. (Default is 6)
 
     Returns
     -------
@@ -1152,7 +1152,7 @@ def calculate_intersection_point(
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.calculate_intersection_point((0, 0), 45, (1, 1), 135)
-    (1.0, 1.0)
+    (1.0, 0.9999999999999999)
     """
     # Convert angles to radians
     angle1_rad = np.radians(angle1)
@@ -1174,9 +1174,6 @@ def calculate_intersection_point(
     
     intersection_x = (b2 - b1) / (m1 - m2)
     intersection_y = m1 * intersection_x + b1
-    
-    intersection_x = round(intersection_x, precision)
-    intersection_y = round(intersection_y, precision)
     
     return (intersection_x, intersection_y)
 
@@ -1249,7 +1246,7 @@ def plot_annotate_arrow_end(
     reverse_arrow: str = "no",
     text_in_center: str = "no",
     rev_text: str = "no",
-    alpha: float = 0.8,
+    alpha: float = 0.8
 ) -> tuple:
     """
     >>> plot_annotate_arrow_end(
@@ -1294,7 +1291,7 @@ def plot_annotate_arrow_end(
     rev_text : str, optional
         Whether to reverse the text. (Default is 'no')
     alpha : float, optional
-        The transparency of the arrow and text. (Default is 0.8)
+        The transparency of the arrow and text. (Default is 0.8)\
 
     Returns
     -------
@@ -1306,7 +1303,7 @@ def plot_annotate_arrow_end(
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_distance=0.5, fontsize=12, text_loc={'ha': 'center', 'va': 'top'})
-    (0.8535533905932737, 1.1464466094067263)
+    (10.899494936611665, 10.899494936611665)
     >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
@@ -1367,6 +1364,7 @@ def plot_annotate_arrow_end(
             **text_loc,
             rotation=rot_angle,
         )
+    
     return start_point
 
 
@@ -1999,7 +1997,7 @@ def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     Examples
     --------
     >>> import matplotlib.pyplot as pltdraw
-    >>> import mecsimcalc.plot_draw as pd
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.draw_segment_2((0, 2.6), (10, 1))
     >>> plt.show()
     """
@@ -2026,7 +2024,7 @@ def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pd.draw_segment_3((0, 2.6), (10, 1))
+    >>> pltdraw.draw_segment_3((0, 2.6), (10, 1))
     >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color="b")
