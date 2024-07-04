@@ -1117,14 +1117,15 @@ def draw_rounded_rectangle(
 
 
 def calculate_intersection_point(
-    point1: tuple, angle1: float, point2: tuple, angle2: float
-) -> tuple:
+    point1: tuple, angle1: float, point2: tuple, angle2: float, precision: int = 6
+) -> tuple[float, float]:
     """
     >>> calculate_intersection_point(
         point1: tuple,
         angle1: float,
         point2: tuple,
-        angle2: float
+        angle2: float,
+        precision: int = 6
     ) -> tuple
 
     Calculates the intersection point of two lines defined by points and angles.
@@ -1139,28 +1140,44 @@ def calculate_intersection_point(
         The coordinates of the second point (x, y) through which the second line passes.
     angle2 : float
         The angle of the second line in degrees.
+    precision : int, optional
+        The number of decimal places to round the intersection point. (Default is 6)
 
     Returns
     -------
     * `tuple` :
-        The coordinates of the intersection point (x, y).
+        The coordinates of the intersection point (x, y). (None, None) if the lines are parallel.
 
     Examples
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.calculate_intersection_point((0, 0), 45, (1, 1), 135)
-    (0.5, 0.5)
+    (1.0, 1.0)
     """
+    # Convert angles to radians
     angle1_rad = np.radians(angle1)
     angle2_rad = np.radians(angle2)
+    
     x1, y1 = point1
     x2, y2 = point2
+    
+    # Calculate the slopes of the lines
     m1 = np.tan(angle1_rad)
     m2 = np.tan(angle2_rad)
+    
+    # lines are parallel so they don't intersect
+    if m1 == m2:
+        return None, None
+    
     b1 = y1 - m1 * x1
     b2 = y2 - m2 * x2
+    
     intersection_x = (b2 - b1) / (m1 - m2)
     intersection_y = m1 * intersection_x + b1
+    
+    intersection_x = round(intersection_x, precision)
+    intersection_y = round(intersection_y, precision)
+    
     return (intersection_x, intersection_y)
 
 
