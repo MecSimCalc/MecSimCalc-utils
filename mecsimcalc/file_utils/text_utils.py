@@ -48,7 +48,7 @@ def string_to_file(
     )
     >>> return {"download_link": download_link}
     """
-    
+
     if not isinstance(text, str):
         raise TypeError("text must be a string")
 

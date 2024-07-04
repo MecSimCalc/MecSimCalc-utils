@@ -46,10 +46,12 @@ def test_print_plot():
     assert downloadHTMLplt.startswith("<a href='data:image/png;base64,")
     assert downloadHTMLax.startswith("<a href='data:image/png;base64,")
 
+
 def test_print_animation():
     ani = make_animation()
     ani_html = print_animation(ani, fps=1, save_dir=THIS_DIR)
     assert ani_html.startswith("<img src='data:image/gif;base64,")
+
 
 def test_animate_plot():
     x = np.linspace(0, 10, 1000)
@@ -90,12 +92,15 @@ def make_ax():
     ax.legend()
     return ax
 
+
 def make_animation():
     fig, ax = plt.subplots()
     x = np.linspace(0, 10, 1000)
     y = np.sin(x)
-    line, = ax.plot(x, y)
+    (line,) = ax.plot(x, y)
+
     def update(frame):
         line.set_ydata(np.sin(x + frame / 100))
+
     ani = FuncAnimation(fig, update, frames=100)
     return ani

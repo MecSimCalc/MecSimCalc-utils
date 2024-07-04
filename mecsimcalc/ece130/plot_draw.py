@@ -57,6 +57,8 @@ def draw_arrow(
 
     Examples
     --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
     >>> draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_distance=0.1, head_width=0.1, head_length=0.1, fontsize=10)
     >>> plt.xlim(-1, 2)
     >>> plt.ylim(-1, 2)
@@ -100,12 +102,13 @@ def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The midpoint (x, y).
 
     Examples
     --------
-    >>> midpoint = calculate_midpoint((0, 0), (2, 2))
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> midpoint = pltdraw.calculate_midpoint((0, 0), (2, 2))
     >>> print(midpoint)
     (1.0, 1.0)
     """
@@ -147,7 +150,9 @@ def draw_arc_circumference(
 
     Examples
     --------
-    >>> draw_arc_circumference(5, 0, np.pi/2)
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_arc_circumference(5, 0, np.pi/2)
     >>> plt.show()
     """
     # prevent circle from overlapping
@@ -180,12 +185,14 @@ def create_blank_image(width: int = 1000, height: int = 1000) -> plt.Axes:
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes` :
         The Axes object of the created blank image.
 
     Examples
     --------
-    >>> ax = create_blank_image(800, 600)
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.create_blank_image(800, 600)
     >>> plt.show()
     """
     fig, ax = plt.subplots(figsize=(int(width / 1000 * 6), int(height / 1000 * 6)))
@@ -243,12 +250,14 @@ def draw_three_axes(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes` :
         The Axes object with the drawn axes.
 
     Examples
     --------
-    >>> ax = draw_three_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    >>> import matplotlib.pyplot as plt
+    >>> mecsimcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.draw_three_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
     >>> plt.show()
     """
     fig, ax = plt.subplots()
@@ -371,12 +380,14 @@ def draw_two_inclined_axes(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes` :
         The Axes object with the drawn axes.
 
     Examples
     --------
-    >>> ax = draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
     >>> plt.show()
     """
     fig, ax = plt.subplots()
@@ -494,14 +505,16 @@ def plot_segment_pixels(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The end point of the line segment (x, y).
 
     Examples
     --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
     >>> start = (100, 200)
     >>> end = (400, 500)
-    >>> plot_segment_pixels(start, end, text="Segment", min_spacing=50)
+    >>> pltdraw.plot_segment_pixels(start, end, text="Segment", min_spacing=50)
     >>> plt.show()
     """
     plt.plot(
@@ -601,15 +614,17 @@ def plot_annotate_arrow(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The end point of the arrow (x, y).
 
     Examples
     --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
     >>> start = (100, 200)
     >>> angle = 45
     >>> length = 100
-    >>> plot_annotate_arrow(start, angle, length, text="Arrow", min_spacing=50)
+    >>> pltdraw.plot_annotate_arrow(start, angle, length, text="Arrow", min_spacing=50)
     >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
@@ -732,8 +747,10 @@ def draw_custom_arrow(
 
     Examples
     --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
     >>> fig, ax = plt.subplots()
-    >>> draw_custom_arrow(ax, (0, 0), (100, 100), factor=0.5, max_value=100, arrow_vector_length=50, arrow_width=5, text="Custom Arrow")
+    >>> pltdraw.draw_custom_arrow(ax, (0, 0), (100, 100), factor=0.5, max_value=100, arrow_vector_length=50, arrow_width=5, text="Custom Arrow")
     >>> plt.show()
     """
     start_point = np.array(start_point)
@@ -787,12 +804,13 @@ def calculate_arrow_endpoint_pixels(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The end point of the arrow (x, y) in pixel coordinates.
 
     Examples
     --------
-    >>> calculate_arrow_endpoint_pixels((100, 200), 45, 50)
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.calculate_arrow_endpoint_pixels((100, 200), 45, 50)
     (135.35533905932738, 235.35533905932738)
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
@@ -850,13 +868,16 @@ def plot_segment(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The end point of the line segment (x, y).
 
     Examples
     --------
-    >>> plot_segment((100, 200), 45, 50, text='Value')
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.plot_segment((100, 200), 45, 50, text='Value')
     (135.35533905932738, 235.35533905932738)
+    >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
     end_point = (
@@ -936,13 +957,16 @@ def plot_segment_dashed(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The end point of the line segment (x, y).
 
     Examples
     --------
-    >>> plot_segment_dashed((100, 200), 45, 50, text='Value')
+    >>> import matplotlib.pyplot as plt
+    >>> mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.plot_segment_dashed((100, 200), 45, 50, text='Value')
     (135.35533905932738, 235.35533905932738)
+    >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
     end_point = (
@@ -1003,8 +1027,10 @@ def draw_custom_circle(
 
     Examples
     --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> fig, ax = plt.subplots()
-    >>> draw_custom_circle(ax, (100, 100), circle_size=200, circle_color='red')
+    >>> pltdraw.draw_custom_circle(ax, (100, 100), circle_size=200, circle_color='red')
     >>> plt.show()
     """
     ax.scatter(center_point[0], center_point[1], s=circle_size, color=circle_color)
@@ -1043,7 +1069,10 @@ def draw_rounded_rectangle(
 
     Examples
     --------
-    >>> draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
+    >>> plt.show()
     """
     x_sup, y_sup = middle_point
     x1 = x_sup - width / 2
@@ -1079,7 +1108,7 @@ def draw_rounded_rectangle(
         y3 - radius - radius * np.sin(angle1),
         color=color,
     )  # bottom right (inf der)
-    
+
     plt.plot(
         x4 + radius - radius * np.cos(angle2),
         y4 - radius - radius * np.sin(angle2),
@@ -1113,12 +1142,13 @@ def calculate_intersection_point(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The coordinates of the intersection point (x, y).
 
     Examples
     --------
-    >>> calculate_intersection_point((0, 0), 45, (1, 1), 135)
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.calculate_intersection_point((0, 0), 45, (1, 1), 135)
     (0.5, 0.5)
     """
     angle1_rad = np.radians(angle1)
@@ -1163,7 +1193,10 @@ def draw_segment(
 
     Examples
     --------
-    >>> draw_segment((0, 0), (1, 1), line_width=0.005, color='blue')
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_segment((0, 0), (1, 1), line_width=0.005, color='blue')
+    >>> plt.show()
     """
     x_start, y_start = start_point
     x_end, y_end = final_point
@@ -1248,13 +1281,16 @@ def plot_annotate_arrow_end(
 
     Returns
     -------
-    tuple
+    * `tuple` :
         The coordinates of the start point (x, y) of the arrow.
 
     Examples
     --------
-    >>> plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_distance=0.5, fontsize=12, text_loc={'ha': 'center', 'va': 'top'})
+    >>> import matplotlib.pyplot as plt
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_distance=0.5, fontsize=12, text_loc={'ha': 'center', 'va': 'top'})
     (0.8535533905932737, 1.1464466094067263)
+    >>> plt.show()
     """
     trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
 
@@ -1346,7 +1382,10 @@ def draw_arc_with_text(
 
     Examples
     --------
-    >>> draw_arc_with_text((0, 0), 5, 30, 120, "Sample Text")
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_arc_with_text((0, 0), 5, 30, 120, "Sample Text")
+    >>> plt.show()
     """
     angles = np.linspace(np.radians(start_angle), np.radians(final_angle), 1000)
     x = start_point[0] + radius * np.cos(angles)
@@ -1373,12 +1412,6 @@ def draw_arc_with_text(
         va="center",
     )
     plt.axis("equal")
-
-
-import matplotlib.pyplot as plt
-import numpy as np
-import math
-from typing import Union, Tuple
 
 
 def draw_three_axes_rotated(
@@ -1418,12 +1451,14 @@ def draw_three_axes_rotated(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes` :
         The matplotlib Axes object containing the plot.
 
-    Example
-    -------
-    >>> ax = draw_three_axes_rotated(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
     >>> plt.show()
     """
     fig, ax = plt.subplots()
@@ -1542,9 +1577,11 @@ def draw_double_arrowhead(
     line_thickness : float, optional
         Thickness of the line. (Default is 1)
 
-    Example
-    -------
-    >>> draw_double_arrowhead(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_double_arrowhead(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
     >>> plt.show()
     """
     start_point = list(start_point)
@@ -1614,9 +1651,11 @@ def draw_custom_arrow_end(
     line_thickness : float, optional
         Thickness of the line. (Default is 1)
 
-    Example
-    -------
-    >>> draw_custom_arrow_end(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_custom_arrow_end(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
     >>> plt.show()
     """
     start_point = list(start_point)
@@ -1686,12 +1725,14 @@ def draw_two_axes(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes` :
         Axes object.
 
-    Example
-    -------
-    >>> ax = draw_two_axes(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
     >>> plt.show()
     """
     fig, ax = plt.subplots()
@@ -1783,9 +1824,11 @@ def vertical_arrow_rain(
     y_origin : float
         y-coordinate to which all arrows should point.
 
-    Example
-    -------
-    >>> vertical_arrow_rain(quantity_arrows=5, start_point=(0, 1), final_point=(1, 1), y_origin=0)
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.vertical_arrow_rain(quantity_arrows=5, start_point=(0, 1), final_point=(1, 1), y_origin=0)
     >>> plt.show()
     """
     x_start, y_start = start_point
@@ -1828,9 +1871,11 @@ def draw_rain_arrows_horizontal(
     final_point : tuple
         Tuple (x, y) representing the final point of the segment.
 
-    Example
-    -------
-    >>> draw_rain_arrows_horizontal(quantity_arrows=5, x_origin=0, start_point=(0, 1), final_point=(1, 1))
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_rain_arrows_horizontal(quantity_arrows=5, x_origin=0, start_point=(0, 1), final_point=(1, 1))
     >>> plt.show()
     """
     x_start, y_start = start_point
@@ -1858,31 +1903,30 @@ def draw_rain_arrows_horizontal(
 
 def calculate_angle(start_point: tuple, final_point: tuple) -> float:
     """
-       >>> calculate_angle(
-           start_point: tuple,
-           final_point: tuple
-       ) -> float
+    >>> calculate_angle(
+        start_point: tuple,
+        final_point: tuple
+    ) -> float
 
-       Calculates the angle (in degrees) between two points.
+    Calculates the angle (in degrees) between two points.
 
-       Parameters
-       ----------
-       start_point : tuple
-           Tuple (x, y) representing the starting point.
-       final_point : tuple
-           Tuple (x, y) representing the final point.
+    Parameters
+    ----------
+    start_point : tuple
+        Tuple (x, y) representing the starting point.
+    final_point : tuple
+        Tuple (x, y) representing the final point.
 
-       Returns
-       -------
-       float
-           The angle in degrees between the two points.
+    Returns
+    -------
+    * `float` :
+        The angle in degrees between the two points.
 
-       Example
-       -------
-       >>>
-    angle = calculate_angle(start_point=(0, 0), final_point=(1, 1))
-       >>> print(angle)
-       45.0
+    Examples
+    --------
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.calculate_angle(start_point=(0, 0), final_point=(1, 1))
+    45.0
     """
     delta_x = final_point[0] - start_point[0]
     delta_y = final_point[1] - start_point[1]
@@ -1891,11 +1935,6 @@ def calculate_angle(start_point: tuple, final_point: tuple) -> float:
     if angle_degrees < 0:
         angle_degrees += 360
     return angle_degrees
-
-
-import matplotlib.pyplot as plt
-import numpy as np
-from typing import Union, Tuple
 
 
 def draw_segment_1(start: Union[tuple, list], end: Union[tuple, list]) -> None:
@@ -1914,19 +1953,11 @@ def draw_segment_1(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     end : tuple or list
         The coordinates of the ending point [x2, y2].
 
-    Example
-    -------
+    Examples
+    --------
     >>> import matplotlib.pyplot as plt
-    >>> # Define a variable for use in the segment
-    >>> cc = 10
-    >>> # Draw the segment
-    >>> def draw_segment_1(start, end):
-    >>>     plt.plot([start[0], end[0]], [start[1], end[1]], color='k')
-    >>> def draw_segments_1():
-    >>>     draw_segment_1((0, 0), (cc, 0))
-    >>> # Call the function to draw the segment
-    >>> draw_segments_1()
-    >>> # Show the plot
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_segment_1((0, 0), (10, 0))
     >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color="k")
@@ -1948,19 +1979,11 @@ def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     end : tuple or list
         The coordinates of the ending point [x2, y2].
 
-    Example
-    -------
-    >>> import matplotlib.pyplot as plt
-    >>> # Define a variable for use in the segment
-    >>> cc = 10
-    >>> # Draw the segment
-    >>> def draw_segment_2(start, end):
-    >>>     plt.plot([start[0], end[0]], [start[1], end[1]], color='r')
-    >>> def draw_segments_2():
-    >>>     draw_segment_2((0, 2.6), (cc, 1))
-    >>> # Call the function to draw the segment
-    >>> draw_segments_2()
-    >>> # Show the plot
+    Examples
+    --------
+    >>> import matplotlib.pyplot as pltdraw
+    >>> import mecsimcalc.plot_draw as pd
+    >>> pltdraw.draw_segment_2((0, 2.6), (10, 1))
     >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color="r")
@@ -1982,19 +2005,11 @@ def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     end : tuple or list
         The coordinates of the ending point [x2, y2].
 
-    Example
-    -------
+    Examples
+    --------
     >>> import matplotlib.pyplot as plt
-    >>> # Define a variable for use in the segment
-    >>> cc = 10
-    >>> # Draw the segment
-    >>> def draw_segment_3(start, end):
-    >>>     plt.plot([start[0], end[0]], [start[1], end[1]], color='b')
-    >>> def draw_segments_3():
-    >>>     draw_segment_3((0, 2.6), (cc, 1))
-    >>> # Call the function to draw the segment
-    >>> draw_segments_3()
-    >>> # Show the plot
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pd.draw_segment_3((0, 2.6), (10, 1))
     >>> plt.show()
     """
     plt.plot([start[0], end[0]], [start[1], end[1]], color="b")
@@ -2026,23 +2041,16 @@ def get_arc_points(
 
     Returns
     -------
-    Tuple[np.ndarray, np.ndarray]
+    * `Tuple[np.ndarray, np.ndarray]` :
         The x and y coordinates of the arc points.
 
-    Example
-    -------
+    Examples
+    --------
     >>> import matplotlib.pyplot as plt
     >>> import numpy as np
-    >>> # Get the arc points
-    >>> def get_arc_points(start_angle, end_angle, radius, center):
-    >>>     angles = np.linspace(np.radians(start_angle), np.radians(end_angle), 100)
-    >>>     x = center[0] + radius * np.cos(angles)
-    >>>     y = center[1] + radius * np.sin(angles)
-    >>>     return x, y
-    >>> arc_points_x1, arc_points_y1 = get_arc_points(90, 240, 0.25, (0, -0.25))
-    >>> # Plot the arc
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> arc_points_x1, arc_points_y1 = pltdraw.get_arc_points(90, 240, 0.25, (0, -0.25))
     >>> plt.plot(arc_points_x1, arc_points_y1, 'k')
-    >>> # Show the plot
     >>> plt.show()
     """
     angles = np.linspace(np.radians(start_angle), np.radians(end_angle), 100)

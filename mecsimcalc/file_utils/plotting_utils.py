@@ -159,7 +159,7 @@ def animate_plot(
     save_dir: str = "/tmp/temp_animation.gif",
 ) -> str:
     """
-    >>> def animate_plot(
+    >>> animate_plot(
         x: np.ndarray,
         y: np.ndarray,
         duration: int = 5,
