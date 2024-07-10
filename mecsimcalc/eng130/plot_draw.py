@@ -1121,7 +1121,7 @@ def draw_rounded_rectangle(
 
 def calculate_intersection_point(
     point1: tuple, angle1: float, point2: tuple, angle2: float
-) -> tuple[float, float]:
+) -> Tuple[float, float]:
     """
     >>> calculate_intersection_point(
         point1: tuple,
