@@ -921,7 +921,7 @@ def plot_segment_dashed(
     fontsize: int = 15,
     text_loc: dict = {"ha": "center", "va": "top"},
     alpha: float = 0.8,
-) -> tuple:
+) -> Tuple[float, float]:
     """
     >>> plot_segment_dashed(
         start_point: tuple,
@@ -960,7 +960,7 @@ def plot_segment_dashed(
 
     Returns
     -------
-    * `tuple` :
+    * `Tuple[float,float]` :
         The end point of the line segment (x, y).
 
     Examples
