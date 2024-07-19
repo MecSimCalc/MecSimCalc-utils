@@ -693,7 +693,7 @@ def plot_annotate_arrow(
         start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
         start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
     )
-    
+
     return end_point
 
 
@@ -1157,24 +1157,24 @@ def calculate_intersection_point(
     # Convert angles to radians
     angle1_rad = np.radians(angle1)
     angle2_rad = np.radians(angle2)
-    
+
     x1, y1 = point1
     x2, y2 = point2
-    
+
     # Calculate the slopes of the lines
     m1 = np.tan(angle1_rad)
     m2 = np.tan(angle2_rad)
-    
+
     # lines are parallel so they don't intersect
     if m1 == m2:
         return None, None
-    
+
     b1 = y1 - m1 * x1
     b2 = y2 - m2 * x2
-    
+
     intersection_x = (b2 - b1) / (m1 - m2)
     intersection_y = m1 * intersection_x + b1
-    
+
     return (intersection_x, intersection_y)
 
 
@@ -1246,7 +1246,7 @@ def plot_annotate_arrow_end(
     reverse_arrow: str = "no",
     text_in_center: str = "no",
     rev_text: str = "no",
-    alpha: float = 0.8
+    alpha: float = 0.8,
 ) -> tuple:
     """
     >>> plot_annotate_arrow_end(
@@ -1364,7 +1364,7 @@ def plot_annotate_arrow_end(
             **text_loc,
             rotation=rot_angle,
         )
-    
+
     return start_point
 
 

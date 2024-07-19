@@ -1,4 +1,3 @@
-
 # included in __all__: import using "from mecsimcalc import *" or "import mecsimcalc"
 
 from .file_utils.general_utils import input_to_file, metadata_to_filetype
