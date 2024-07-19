@@ -153,10 +153,14 @@ def animate_plot(
     x: np.ndarray,
     y: np.ndarray,
     duration: int = 5,
-    fps: int = None,
+    fps: int = 30,
+    x_label: str = "x",
+    y_label: str = "y",
     title: str = "y = f(x)",
     show_axes: bool = True,
     save_dir: str = "/tmp/temp_animation.gif",
+    follow_tip: bool = False,
+    hold_last_frame: float = 1.0,
 ) -> str:
     """
     >>> animate_plot(
@@ -178,7 +182,7 @@ def animate_plot(
     duration : int, optional
         The duration of the animation in seconds. Defaults to `5`.
     fps : int, optional
-        Frames per second for the animation. Defaults to `None`.
+        Frames per second for the animation. Defaults to 30.
     title : str, optional
         Title of the plot. Defaults to `"y = f(x)"`.
     show_axes : bool, optional
@@ -194,9 +198,10 @@ def animate_plot(
     Examples
     --------
     >>> import numpy as np
-    >>> x = np.linspace(0, 10, 1000)
+    >>> import mecsimcalc as msc
+    >>> x = np.linspace(0, 10, 100)
     >>> y = np.sin(x)
-    >>> animation_html = animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
+    >>> animation_html = msc.animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
     >>> return {
         "animation": animation_html
     }
@@ -204,12 +209,18 @@ def animate_plot(
 
     fig, ax = plt.subplots()
     (line,) = ax.plot([], [])  # line being drawn on the plot
-    fps = len(x) / duration if fps is None else fps
+    
+    if fps > len(x) / duration:
+        fps = len(x) / duration
 
-    ax.set_xlim(np.min(x) * 1.1, np.max(x) * 1.1)
-    ax.set_ylim(np.min(y) * 1.1, np.max(y) * 1.1)
-    ax.set_xlabel("x")
-    ax.set_ylabel("y")
+    # Set the x and y limits of the plot (with some padding for y-axis)
+    min_y = np.min(y) * (1.1 - .2 * (np.min(y) > 0)) 
+    max_y = np.max(y) * (1.1 - .2 * (np.max(y) < 0))
+    ax.set_ylim(min_y, max_y)
+    ax.set_xlim(np.min(x), np.max(x))
+    
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
     ax.set_title(title)
 
     if show_axes:
@@ -231,12 +242,14 @@ def animate_plot(
         line.set_data(x_shift, y_shift)
 
         # Adjust x-axis limits based on the current frame (follow the line as it moves along the x-axis)
-        if frame_idx < len(x):
+        if follow_tip and frame_idx < len(x):
             current_x = np.interp(frame, np.arange(len(x)), x)
             ax.set_xlim(current_x - max(x) / duration, current_x + max(x) / duration)
         return (line,)
 
     frames = np.linspace(0, len(x), int(duration * fps))
+    frames = np.concatenate([frames, np.full(int(fps * hold_last_frame), len(x))]) # holds the last frame for a while
+    
     ani = FuncAnimation(fig, update, init_func=init, frames=frames, blit=True)
 
     plt.close()
