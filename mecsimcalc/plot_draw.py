@@ -563,9 +563,9 @@ def plot_annotate_arrow(
         "fc": "black",
         "ec": "black",
     },
-    reverse_arrow: str = "no",
-    text_in_center: str = "no",
-    rev_text: str = "no",
+    reverse_arrow: bool = False,
+    text_in_center: bool = False,
+    rev_text: bool = False,
     alpha: float = 0.8,
 ) -> tuple:
     """
@@ -578,9 +578,9 @@ def plot_annotate_arrow(
         fontsize: int = 11,
         text_loc: dict = {'ha': 'center', 'va': 'top'},
         arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'},
-        reverse_arrow: str = 'no',
-        text_in_center: str = 'no',
-        rev_text: str = 'no',
+        reverse_arrow: str = False,
+        text_in_center: str = False,
+        rev_text: str = False,
         alpha: float = 0.8
     ) -> tuple
 
@@ -605,11 +605,11 @@ def plot_annotate_arrow(
     arrow_properties : dict, optional
         Properties for the arrow, including width, head_width, head_length, fill color (fc), and edge color (ec).
     reverse_arrow : str, optional
-        Whether to reverse the direction of the arrow. (Default is 'no')
+        Whether to reverse the direction of the arrow. (Default is False)
     text_in_center : str, optional
-        Whether to place the text in the center of the arrow. (Default is 'no')
+        Whether to place the text in the center of the arrow. (Default is False)
     rev_text : str, optional
-        Whether to reverse the text orientation. (Default is 'no')
+        Whether to reverse the text orientation. (Default is False)
     alpha : float, optional
         Transparency level of the arrow.
 
@@ -639,7 +639,7 @@ def plot_annotate_arrow(
         + (vec_length - arrow_properties["head_length"])
         * np.sin(np.radians(trig_angle)),
     )
-    if reverse_arrow == "no":
+    if reverse_arrow == False:
         plt.arrow(
             *start_point,
             *(end_point[0] - start_point[0], end_point[1] - start_point[1]),
@@ -666,7 +666,7 @@ def plot_annotate_arrow(
         start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
         start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
     )
-    if text_in_center == "no":
+    if text_in_center == False:
         space = max(0.1 * vec_length, min_spacing)
         plt.text(
             end_point[0] + space * np.cos(np.radians(trig_angle)),
@@ -678,7 +678,7 @@ def plot_annotate_arrow(
         )
     else:
         rot_angle = -trig_angle if trig_angle < 90 else (180 - trig_angle)
-        rot_angle = rot_angle if rev_text == "no" else rot_angle + 180
+        rot_angle = rot_angle if rev_text == False else rot_angle + 180
         plt.text(
             mid_point[0] + min_spacing * np.cos(np.radians(90 + trig_angle)),
             mid_point[1] + min_spacing * np.sin(np.radians(90 + trig_angle)),
@@ -1243,9 +1243,9 @@ def plot_annotate_arrow_end(
         "fc": "black",
         "ec": "black",
     },
-    reverse_arrow: str = "no",
-    text_in_center: str = "no",
-    rev_text: str = "no",
+    reverse_arrow: bool = False,
+    text_in_center: bool = False,
+    rev_text: bool = False,
     alpha: float = 0.8,
 ) -> tuple:
     """
@@ -1258,9 +1258,9 @@ def plot_annotate_arrow_end(
         fontsize: int = 12,
         text_loc: dict = {'ha': 'center', 'va': 'top'},
         arrow_properties: dict = {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'},
-        reverse_arrow: str = 'no',
-        text_in_center: str = 'no',
-        rev_text: str = 'no',
+        reverse_arrow: str = False,
+        text_in_center: str = False,
+        rev_text: str = False,
         alpha: float = 0.8
     ) -> tuple
 
@@ -1285,11 +1285,11 @@ def plot_annotate_arrow_end(
     arrow_properties : dict, optional
         The properties of the arrow. (Default is {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'})
     reverse_arrow : str, optional
-        Whether to reverse the arrow. (Default is 'no')
+        Whether to reverse the arrow. (Default is False)
     text_in_center : str, optional
-        Whether to place the text in the center. (Default is 'no')
+        Whether to place the text in the center. (Default is False)
     rev_text : str, optional
-        Whether to reverse the text. (Default is 'no')
+        Whether to reverse the text. (Default is False)
     alpha : float, optional
         The transparency of the arrow and text. (Default is 0.8)\
 
@@ -1316,7 +1316,7 @@ def plot_annotate_arrow_end(
         - (vec_length - arrow_properties["head_length"])
         * np.sin(np.radians(trig_angle)),
     )
-    if reverse_arrow == "no":
+    if not reverse_arrow:
         plt.arrow(
             *start_point,
             *(end_point[0] - start_point[0], end_point[1] - start_point[1]),
@@ -1343,7 +1343,7 @@ def plot_annotate_arrow_end(
         start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
         start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
     )
-    if text_in_center == "no":
+    if not text_in_center:
         plt.text(
             start_point[0] - text_distance * np.cos(np.radians(trig_angle)),
             start_point[1] - text_distance * np.sin(np.radians(trig_angle)),
@@ -1354,7 +1354,7 @@ def plot_annotate_arrow_end(
         )
     else:
         rot_angle = -trig_angle if trig_angle < 90 else (180 - trig_angle)
-        rot_angle = rot_angle if rev_text == "no" else rot_angle + 180
+        rot_angle = rot_angle + 180 if rev_text else rot_angle
         plt.text(
             mid_point[0] + text_distance * np.cos(np.radians(90 + trig_angle)),
             mid_point[1] + text_distance * np.sin(np.radians(90 + trig_angle)),
