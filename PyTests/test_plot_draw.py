@@ -77,7 +77,7 @@ def run_all_functions():
     )
 
     # Plot a segment in pixels
-    plot_segment_pixels((100, 100), (200, 200), text="Segment", min_spacing=20)
+    plot_line_segment((100, 100), (200, 200), text="Segment", min_spacing=20)
 
     # Plot and annotate an arrow
     plot_annotate_arrow(
