@@ -222,12 +222,12 @@ Draws two inclined axes (x and y) with optional negative directions.
 
 ## Segments
 
-### plot_segment_pixels
+### plot_line_segment
 
 [**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/plot_draw.py#L463C1-L549C1)
 
 ```python
-plot_segment_pixels(
+plot_line_segment(
     start_point_pixels: tuple,
     end_point_pixels: tuple,
     line_properties: dict = {"color": "k", "linewidth": 1, "linestyle": "dashed"},
@@ -264,7 +264,7 @@ Plots a line segment between two points and adds a label at the end point.
 >>> import matplotlib.pyplot as plt
 >>> start = (100, 200)
 >>> end = (400, 500)
->>> plot_segment_pixels(start, end, text="Segment", min_spacing=50)
+>>> plot_line_segment(start, end, text="Segment", min_spacing=50)
 >>> plt.show()
 ```
 

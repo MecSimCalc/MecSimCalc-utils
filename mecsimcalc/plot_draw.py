@@ -460,8 +460,8 @@ def draw_two_inclined_axes(
     return ax
 
 
-def plot_segment_pixels(
-    start_point_pixels: tuple,
+def plot_line_segment(
+    start_point: tuple,
     end_point_pixels: tuple,
     line_properties: dict = {"color": "k", "linewidth": 1, "linestyle": "dashed"},
     text: str = "",
@@ -471,8 +471,8 @@ def plot_segment_pixels(
     alpha: float = 0.8,
 ) -> tuple:
     """
-    >>> plot_segment_pixels(
-        start_point_pixels: tuple,
+    >>> plot_line_segment(
+        start_point: tuple,
         end_point_pixels: tuple,
         line_properties: dict = {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'},
         text: str = "",
@@ -486,7 +486,7 @@ def plot_segment_pixels(
 
     Parameters
     ----------
-    start_point_pixels : tuple
+    start_point : tuple
         The starting point of the line segment (x, y).
     end_point_pixels : tuple
         The ending point of the line segment (x, y).
@@ -514,25 +514,25 @@ def plot_segment_pixels(
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> start = (100, 200)
     >>> end = (400, 500)
-    >>> pltdraw.plot_segment_pixels(start, end, text="Segment", min_spacing=50)
+    >>> pltdraw.plot_line_segment(start, end, text="Segment", min_spacing=50)
     (400, 500)
     >>> plt.show()
     """
     plt.plot(
-        [start_point_pixels[0], end_point_pixels[0]],
-        [start_point_pixels[1], end_point_pixels[1]],
+        [start_point[0], end_point_pixels[0]],
+        [start_point[1], end_point_pixels[1]],
         **line_properties,
         alpha=alpha,
     )
     mid_point = (
-        (start_point_pixels[0] + end_point_pixels[0]) / 2,
-        (start_point_pixels[1] + end_point_pixels[1]) / 2,
+        (start_point[0] + end_point_pixels[0]) / 2,
+        (start_point[1] + end_point_pixels[1]) / 2,
     )
     space = max(
         0.1
         * (
-            (end_point_pixels[0] - start_point_pixels[0]) ** 2
-            + (end_point_pixels[1] - start_point_pixels[1]) ** 2
+            (end_point_pixels[0] - start_point[0]) ** 2
+            + (end_point_pixels[1] - start_point[1]) ** 2
         )
         ** 0.5,
         min_spacing,
@@ -2081,7 +2081,7 @@ __all__ = [
     "create_blank_image",
     "draw_three_axes",
     "draw_two_inclined_axes",
-    "plot_segment_pixels",
+    "plot_line_segment",
     "plot_annotate_arrow",
     "draw_custom_arrow",
     "calculate_arrow_endpoint_pixels",
