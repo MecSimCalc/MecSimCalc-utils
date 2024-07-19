@@ -153,7 +153,7 @@ def animate_plot(
     x: np.ndarray,
     y: np.ndarray,
     duration: int = 5,
-    fps: int = 30,
+    fps: int = 15,
     x_label: str = "x",
     y_label: str = "y",
     title: str = "y = f(x)",
@@ -214,8 +214,9 @@ def animate_plot(
         fps = len(x) / duration
 
     # Set the x and y limits of the plot (with some padding for y-axis)
-    min_y = np.min(y) * (1.1 - .2 * (np.min(y) > 0)) 
-    max_y = np.max(y) * (1.1 - .2 * (np.max(y) < 0))
+    min_y = np.min(y) - 0.1 * (np.max(y)- np.min(y))
+    max_y = np.max(y) + 0.1 * (np.max(y)- np.min(y))
+    
     ax.set_ylim(min_y, max_y)
     ax.set_xlim(np.min(x), np.max(x))
     
@@ -247,7 +248,7 @@ def animate_plot(
             ax.set_xlim(current_x - max(x) / duration, current_x + max(x) / duration)
         return (line,)
 
-    frames = np.linspace(0, len(x), int(duration * fps))
+    frames = np.linspace(0, len(x), int(duration * fps)) 
     frames = np.concatenate([frames, np.full(int(fps * hold_last_frame), len(x))]) # holds the last frame for a while
     
     ani = FuncAnimation(fig, update, init_func=init, frames=frames, blit=True)
