@@ -9,6 +9,7 @@ from .file_utils.plotting_utils import (
     print_plot,
     print_animation,
     animate_plot,
+    plot_slider
 )
 
 
@@ -45,4 +46,5 @@ __all__ = [
     "send_gmail",
     "print_animation",
     "animate_plot",
+    "plot_slider",
 ]

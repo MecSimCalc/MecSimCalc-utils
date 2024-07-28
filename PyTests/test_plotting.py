@@ -12,7 +12,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
-from plotting_utils import print_plot, print_animation, animate_plot
+from plotting_utils import print_plot, print_animation, animate_plot, plot_slider
 
 
 def test_print_plot():
@@ -57,6 +57,12 @@ def test_animate_plot():
     x = np.linspace(0, 10, 1000)
     y = np.sin(x)
     ani_html = animate_plot(x, y, duration=1, fps=1, save_dir=THIS_DIR)
+    assert type(ani_html) == str
+
+def test_plot_slider():
+    f_x = lambda a,x: a*np.sin(x)
+    ani_html = plot_slider(f_x, (0, 10), (0, 10))
+    assert type(ani_html) == str
 
 
 def make_fig():
