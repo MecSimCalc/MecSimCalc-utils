@@ -1,13 +1,16 @@
 import io
 import os
 import base64
-from typing import Union, Tuple
+from typing import Union, Tuple, Callable
 
 import matplotlib.pyplot as plt
 import matplotlib.figure as figure
 from matplotlib.animation import FuncAnimation
 
 import numpy as np
+import plotly.graph_objects as go
+import plotly.io as pio
+
 
 
 def print_plot(
@@ -262,3 +265,116 @@ def animate_plot(
     return print_animation(
         ani, fps=fps, save_dir=save_dir
     )  # return the animation as an HTML image tag
+
+
+def plot_slider(
+    f_x: Callable[[float, np.ndarray], np.ndarray], 
+    x_range: Tuple[float, float], 
+    y_range: Tuple[float, float] = None,  
+    num_points: int = 500, 
+    initial_value: float = 1, 
+    step_size: float = 0.1, 
+    slider_range: Tuple[float, float] = (-10, 10)
+) -> str:
+    """
+    >>> def plot_slider(
+        f_x: Callable[[float, np.ndarray], np.ndarray], 
+        x_range: Tuple[float, float], 
+        y_range: Tuple[float, float] = None,  
+        num_points: int = 500, 
+        initial_value: float = 0, 
+        step_size: float = 0.1, 
+        slider_range: Tuple[float, float] = (-10, 10)
+    ) -> str:
+
+    Creates an interactive plot with a slider using Plotly, which allows the user to dynamically update the plot based on a parameter.
+
+    Parameters
+    ----------
+    f_x : Callable[[float, np.ndarray], np.ndarray]
+        A function that takes a float and an array of x-values, and returns an array of y-values.
+    x_range : Tuple[float, float]
+        A tuple defining the range of x-values (start, end) for the plot.
+    y_range : Tuple[float, float], optional
+        A tuple defining the range of y-values (start, end) for the plot. Defaults to None.
+    num_points : int, optional
+        Number of points to plot. Defaults to `500`.
+    initial_value : float, optional
+        Initial value of the parameter for the function. Defaults to `1`.
+    step_size : float, optional
+        Step size for the slider. Defaults to `0.1`.
+    slider_range : Tuple[float, float], optional
+        Range for the slider values (start, end). Defaults to `(-10, 10)`.
+
+    Returns
+    -------
+    * `str` :
+        The HTML string containing the Plotly interactive plot.
+
+    Examples
+    --------
+    >>> import mecsimcalc as msc
+    >>> def parabola(a, x):
+    >>>     return a * x ** 2
+    >>> plot_html = msc.plot_slider(parabola, x_range=(-10, 10), y_range = (-100, 100))
+    >>> return {
+    >>>     "plot": plot_html
+    >>> }
+    """
+    # Generate x values from the given range
+    x = np.linspace(x_range[0], x_range[1], num_points)
+
+    # Compute initial y values
+    y = f_x(initial_value, x)
+
+    # Create a Plotly figure
+    fig = go.Figure()
+
+    # Add initial plot
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'a={initial_value}', line=dict(color='#1f77b4')))
+
+    # Generate slider steps
+    slider_steps = [
+        {
+            'method': 'update',
+            'label': str(a),
+        } for a in np.arange(slider_range[0], slider_range[1] + step_size, step_size)
+    ]
+
+    # Find the closest index to initial_value in the slider steps
+    initial_value_index = min(range(len(slider_steps)), key=lambda i: abs(float(slider_steps[i]['label']) - initial_value))
+
+    # Add slider for 'a'
+    sliders = [
+        {
+            'active': initial_value_index,
+            'currentvalue': {'prefix': 'a='},
+            'pad': {"t": 50},
+            'steps': [
+                {
+                    'method': 'update',
+                    'label': str(round(a, 1)),
+                    'args': [{'y': [f_x(a, x)]}],
+                } for a in np.arange(slider_range[0], slider_range[1] + step_size, step_size)
+            ]
+        }
+    ]
+
+    # Define layout for a color scheme that works on both light and dark themes
+    layout = {
+        'plot_bgcolor': '#2b2b2b',  # Neutral dark background
+        'paper_bgcolor': '#2b2b2b',  # Neutral dark background
+        'font': {'color': '#ffffff'},  # White font color for good contrast
+        'xaxis': {'title': 'x', 'range': [x_range[0], x_range[1]], 'color': '#ffffff'},  # White axis color
+        'yaxis': {'title': 'y', 'color': '#ffffff'},  # White axis color
+    }
+    
+    if y_range:
+        layout['yaxis']['range'] = y_range
+
+    fig.update_layout(layout)
+    fig.update_layout(sliders=sliders)
+
+    # Convert Plotly figure to HTML
+    return pio.to_html(fig, full_html=False)
+
