@@ -552,6 +552,7 @@ def plot_annotate_arrow(
     start_point: tuple,
     trig_angle: float,
     vec_length: float,
+    radians: bool = True,
     text: str = "",
     min_spacing: float = 150,
     fontsize: int = 11,
@@ -573,6 +574,7 @@ def plot_annotate_arrow(
         start_point: tuple,
         trig_angle: float,
         vec_length: float,
+        radians: bool = True,
         text: str = "",
         min_spacing: float = 150,
         fontsize: int = 11,
@@ -591,9 +593,11 @@ def plot_annotate_arrow(
     start_point : tuple
         The starting point of the arrow (x, y).
     trig_angle : float
-        The angle of the arrow in degrees.
+        The angle of the arrow in radians or degrees
     vec_length : float
         The length of the arrow.
+    radians : bool, optional
+        Whether the angle is given in radians. (Default is True)
     text : str, optional
         The text to display near the arrow.
     min_spacing : float, optional
@@ -625,21 +629,25 @@ def plot_annotate_arrow(
     >>> start = (100, 200)
     >>> angle = 45
     >>> length = 100
-    >>> pltdraw.plot_annotate_arrow(start, angle, length, text="Arrow", min_spacing=50)
+    >>> pltdraw.plot_annotate_arrow(start, angle, length, text="Arrow", min_spacing=50, radians=False)
     (170.71067811865476, 270.71067811865476)
     >>> plt.show()
     """
-    trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
+    if not radians:
+        trig_angle = np.radians(trig_angle)
+
+    # normalize angle to [0, 2*pi)
+    trig_angle = trig_angle % (2 * np.pi)
 
     end_point = (
         start_point[0]
         + (vec_length - arrow_properties["head_length"])
-        * np.cos(np.radians(trig_angle)),
+        * np.cos(trig_angle),
         start_point[1]
         + (vec_length - arrow_properties["head_length"])
-        * np.sin(np.radians(trig_angle)),
+        * np.sin(trig_angle),
     )
-    if reverse_arrow == False:
+    if not reverse_arrow:
         plt.arrow(
             *start_point,
             *(end_point[0] - start_point[0], end_point[1] - start_point[1]),
@@ -648,12 +656,12 @@ def plot_annotate_arrow(
         )
     else:
         end_point = (
-            start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
-            start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+            start_point[0] + vec_length * np.cos(trig_angle),
+            start_point[1] + vec_length * np.sin(trig_angle),
         )
         start_point = (
-            start_point[0] + 0 * np.cos(np.radians(trig_angle)),
-            start_point[1] + 0 * np.sin(np.radians(trig_angle)),
+            start_point[0] + 0 * np.cos(trig_angle),
+            start_point[1] + 0 * np.sin(trig_angle),
         )
         plt.arrow(
             *end_point,
@@ -663,25 +671,25 @@ def plot_annotate_arrow(
         )
 
     mid_point = (
-        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + 0.5 * vec_length * np.cos(trig_angle),
+        start_point[1] + 0.5 * vec_length * np.sin(trig_angle),
     )
-    if text_in_center == False:
+    if not text_in_center:
         space = max(0.1 * vec_length, min_spacing)
         plt.text(
-            end_point[0] + space * np.cos(np.radians(trig_angle)),
-            end_point[1] + space * np.sin(np.radians(trig_angle)),
+            end_point[0] + space * np.cos(trig_angle),
+            end_point[1] + space * np.sin(trig_angle),
             text,
             fontsize=fontsize,
             color="k",
             **text_loc,
         )
     else:
-        rot_angle = -trig_angle if trig_angle < 90 else (180 - trig_angle)
-        rot_angle = rot_angle if rev_text == False else rot_angle + 180
+        rot_angle = -trig_angle if trig_angle < np.pi/2 else (np.pi - trig_angle)
+        rot_angle = rot_angle + np.pi if rev_text else rot_angle
         plt.text(
-            mid_point[0] + min_spacing * np.cos(np.radians(90 + trig_angle)),
-            mid_point[1] + min_spacing * np.sin(np.radians(90 + trig_angle)),
+            mid_point[0] + min_spacing * np.cos(np.pi/2 + trig_angle),
+            mid_point[1] + min_spacing * np.sin(np.pi/2 + trig_angle),
             text,
             fontsize=fontsize,
             color="k",
@@ -690,8 +698,8 @@ def plot_annotate_arrow(
         )
 
     end_point = (
-        start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + vec_length * np.cos(trig_angle),
+        start_point[1] + vec_length * np.sin(trig_angle),
     )
 
     return end_point
@@ -785,13 +793,14 @@ def draw_custom_arrow(
 
 
 def calculate_arrow_endpoint_pixels(
-    start_point: tuple, trig_angle: float, vec_length: float
+    start_point: tuple, trig_angle: float, vec_length: float, radians: bool = True
 ) -> tuple:
     """
     >>> calculate_arrow_endpoint_pixels(
         start_point: tuple,
         trig_angle: float,
         vec_length: float
+        radians: bool = True
     ) -> tuple
 
     Calculates the end point of an arrow in pixel coordinates.
@@ -804,6 +813,8 @@ def calculate_arrow_endpoint_pixels(
         The angle of the arrow in degrees.
     vec_length : float
         The length of the arrow.
+    radians : bool, optional
+        Whether the angle is given in radians. (Default is True)
 
     Returns
     -------
@@ -813,31 +824,37 @@ def calculate_arrow_endpoint_pixels(
     Examples
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.calculate_arrow_endpoint_pixels((100, 200), 45, 50)
+    >>> pltdraw.calculate_arrow_endpoint_pixels((100, 200), 45, 50, radians=False)
     (135.35533905932738, 235.35533905932738)
     """
-    trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
-    return start_point[0] + vec_length * np.cos(np.radians(trig_angle)), start_point[
-        1
-    ] + vec_length * np.sin(np.radians(trig_angle))
+    if not radians:
+        trig_angle = np.radians(trig_angle)
+    
+    # normalize angle to [0, 2*pi)
+    trig_angle = trig_angle % (2 * np.pi)
+    
+    return start_point[0] + vec_length * np.cos(trig_angle), start_point[1] + vec_length * np.sin(trig_angle)
 
 
 def plot_segment(
     start_point: tuple,
     trig_angle: float,
     vec_length: float,
+    radians: bool = True,
     line_properties: dict = {"color": "blue", "linewidth": 1},
     text: str = "",
     min_spacing: float = 150,
     fontsize: int = 15,
     text_loc: dict = {"ha": "center", "va": "top"},
     alpha: float = 0.8,
+    
 ) -> tuple:
     """
     >>> plot_segment(
         start_point: tuple,
         trig_angle: float,
         vec_length: float,
+        radians: bool = True
         line_properties: dict = {'color': 'blue', 'linewidth': 1},
         text: str = "",
         min_spacing: float = 150,
@@ -856,6 +873,8 @@ def plot_segment(
         The angle of the line segment in degrees.
     vec_length : float
         The length of the line segment.
+    radians : bool, optional
+        Whether the angle is given in radians. (Default is True)
     line_properties : dict, optional
         Properties of the line segment such as color and linewidth.
     text : str, optional
@@ -878,14 +897,19 @@ def plot_segment(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.plot_segment((100, 200), 45, 50, text='Value')
+    >>> pltdraw.plot_segment((100, 200), 45, 50, text='Value', radians=False)
     (135.35533905932738, 235.35533905932738)
     >>> plt.show()
     """
-    trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
+    if not radians:
+        trig_angle = np.radians(trig_angle)
+    
+    # normalize angle to [0, 2*pi)
+    trig_angle = trig_angle % (2 * np.pi)
+    
     end_point = (
-        start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + vec_length * np.cos(trig_angle),
+        start_point[1] + vec_length * np.sin(trig_angle),
     )
     plt.plot(
         [start_point[0], end_point[0]],
@@ -895,13 +919,13 @@ def plot_segment(
     )
 
     mid_point = (
-        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + 0.5 * vec_length * np.cos(trig_angle),
+        start_point[1] + 0.5 * vec_length * np.sin(trig_angle),
     )
     space = max(0.1 * vec_length, min_spacing)
     plt.text(
-        end_point[0] + space * np.cos(np.radians(trig_angle)),
-        end_point[1] + space * np.sin(np.radians(trig_angle)),
+        end_point[0] + space * np.cos(trig_angle),
+        end_point[1] + space * np.sin(trig_angle),
         text,
         fontsize=fontsize,
         color="k",
@@ -915,6 +939,7 @@ def plot_segment_dashed(
     start_point: tuple,
     trig_angle: float,
     vec_length: float,
+    radians: bool = True,
     line_properties: dict = {"color": "blue", "linestyle": "dashed", "linewidth": 1},
     text: str = "",
     min_spacing: float = 150,
@@ -927,6 +952,7 @@ def plot_segment_dashed(
         start_point: tuple,
         trig_angle: float,
         vec_length: float,
+        radians: bool = True,
         line_properties: dict = {'color': 'blue', 'linestyle': 'dashed', 'linewidth': 1},
         text: str = "",
         min_spacing: float = 150,
@@ -945,6 +971,8 @@ def plot_segment_dashed(
         The angle of the line segment in degrees.
     vec_length : float
         The length of the line segment.
+    radians : bool, optional
+        Whether the angle is given in radians. (Default is True)
     line_properties : dict, optional
         Properties of the line segment such as color and linewidth.
     text : str, optional
@@ -967,14 +995,19 @@ def plot_segment_dashed(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.plot_segment_dashed((100, 200), 45, 50, text='Value')
+    >>> pltdraw.plot_segment_dashed((100, 200), 45, 50, text='Value', radians=False)
     (135.35533905932738, 235.35533905932738)
     >>> plt.show()
     """
-    trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
+    if not radians:
+        trig_angle = np.radians(trig_angle)
+    
+    # normalize angle to [0, 2*pi)
+    trig_angle = trig_angle % (2 * np.pi)
+    
     end_point = (
-        start_point[0] + vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + vec_length * np.cos(trig_angle),
+        start_point[1] + vec_length * np.sin(trig_angle),
     )
     plt.plot(
         [start_point[0], end_point[0]],
@@ -984,14 +1017,14 @@ def plot_segment_dashed(
     )
 
     mid_point = (
-        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + 0.5 * vec_length * np.cos(trig_angle),
+        start_point[1] + 0.5 * vec_length * np.sin(trig_angle),
     )
     if text:
         space = max(0.1 * vec_length, min_spacing)
         plt.text(
-            end_point[0] + space * np.cos(np.radians(trig_angle)),
-            end_point[1] + space * np.sin(np.radians(trig_angle)),
+            end_point[0] + space * np.cos(trig_angle),
+            end_point[1] + space * np.sin(trig_angle),
             text,
             fontsize=fontsize,
             color="k",
@@ -1232,6 +1265,7 @@ def plot_annotate_arrow_end(
     end_point: tuple,
     trig_angle: float,
     vec_length: float,
+    radians: bool = True,
     text: str = "",
     text_distance: float = 0.5,
     fontsize: int = 12,
@@ -1253,6 +1287,7 @@ def plot_annotate_arrow_end(
         end_point: tuple,
         trig_angle: float,
         vec_length: float,
+        radians: bool = True,
         text: str = "",
         text_distance: float = 0.5,
         fontsize: int = 12,
@@ -1274,6 +1309,8 @@ def plot_annotate_arrow_end(
         The trigonometric angle of the vector in degrees.
     vec_length : float
         The length of the vector.
+    radians : bool, optional
+        Whether the angle is given in radians. (Default is True)
     text : str, optional
         The text to be displayed near the arrow. (Default is "")
     text_distance : float, optional
@@ -1306,15 +1343,19 @@ def plot_annotate_arrow_end(
     (10.899494936611665, 10.899494936611665)
     >>> plt.show()
     """
-    trig_angle = trig_angle if trig_angle > 0 else 360 + trig_angle
+    if not radians:
+        trig_angle = np.radians(trig_angle)
+    
+    # normalize angle to [0, 2*pi)
+    trig_angle = trig_angle % (2 * np.pi)
 
     start_point = (
         end_point[0]
         - (vec_length - arrow_properties["head_length"])
-        * np.cos(np.radians(trig_angle)),
+        * np.cos(trig_angle),
         end_point[1]
         - (vec_length - arrow_properties["head_length"])
-        * np.sin(np.radians(trig_angle)),
+        * np.sin(trig_angle),
     )
     if not reverse_arrow:
         plt.arrow(
@@ -1325,12 +1366,12 @@ def plot_annotate_arrow_end(
         )
     else:
         start_point = (
-            end_point[0] - vec_length * np.cos(np.radians(trig_angle)),
-            end_point[1] - vec_length * np.sin(np.radians(trig_angle)),
+            end_point[0] - vec_length * np.cos(trig_angle),
+            end_point[1] - vec_length * np.sin(trig_angle),
         )
         end_point = (
-            end_point[0] - 0 * np.cos(np.radians(trig_angle)),
-            end_point[1] - 0 * np.sin(np.radians(trig_angle)),
+            end_point[0] - 0 * np.cos(trig_angle),
+            end_point[1] - 0 * np.sin(trig_angle),
         )
         plt.arrow(
             *end_point,
@@ -1340,24 +1381,24 @@ def plot_annotate_arrow_end(
         )
 
     mid_point = (
-        start_point[0] + 0.5 * vec_length * np.cos(np.radians(trig_angle)),
-        start_point[1] + 0.5 * vec_length * np.sin(np.radians(trig_angle)),
+        start_point[0] + 0.5 * vec_length * np.cos(trig_angle),
+        start_point[1] + 0.5 * vec_length * np.sin(trig_angle),
     )
     if not text_in_center:
         plt.text(
-            start_point[0] - text_distance * np.cos(np.radians(trig_angle)),
-            start_point[1] - text_distance * np.sin(np.radians(trig_angle)),
+            start_point[0] - text_distance * np.cos(trig_angle),
+            start_point[1] - text_distance * np.sin(trig_angle),
             text,
             fontsize=fontsize,
             color="k",
             **text_loc,
         )
     else:
-        rot_angle = -trig_angle if trig_angle < 90 else (180 - trig_angle)
-        rot_angle = rot_angle + 180 if rev_text else rot_angle
+        rot_angle = -trig_angle if trig_angle < np.pi/2 else (np.pi - trig_angle)
+        rot_angle = rot_angle + np.pi if rev_text else rot_angle
         plt.text(
-            mid_point[0] + text_distance * np.cos(np.radians(90 + trig_angle)),
-            mid_point[1] + text_distance * np.sin(np.radians(90 + trig_angle)),
+            mid_point[0] + text_distance * np.cos(np.pi/2 + trig_angle),
+            mid_point[1] + text_distance * np.sin(np.pi/2 + trig_angle),
             text,
             fontsize=fontsize,
             color="k",
@@ -1369,7 +1410,7 @@ def plot_annotate_arrow_end(
 
 
 def draw_arc_with_text(
-    start_point: tuple, radius: float, start_angle: float, final_angle: float, text: str
+    start_point: tuple, radius: float, start_angle: float, final_angle: float, text: str, radians: bool = True
 ) -> None:
     """
     >>> draw_arc_with_text(
@@ -1378,6 +1419,7 @@ def draw_arc_with_text(
         start_angle: float,
         final_angle: float,
         text: str
+        radians: bool = True
     ) -> None
 
     Draws an arc with text annotation.
@@ -1394,29 +1436,40 @@ def draw_arc_with_text(
         The final angle of the arc in degrees.
     text : str
         The text to be displayed along the arc.
+    radians : bool, optional
+        Whether the angles are given in radians. (Default is True)
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_arc_with_text((0, 0), 5, 30, 120, "Sample Text")
+    >>> pltdraw.draw_arc_with_text((0, 0), 5, 30, 120, "Sample Text", radians=False)
     >>> plt.show()
     """
-    angles = np.linspace(np.radians(start_angle), np.radians(final_angle), 1000)
+    if not radians:
+        start_angle = np.radians(start_angle)
+        final_angle = np.radians(final_angle)
+    
+    # normalize angle to [0, 2*pi)
+    start_angle = start_angle % (2 * np.pi)
+    final_angle = final_angle % (2 * np.pi)
+    
+    
+    angles = np.linspace(start_angle, final_angle, 1000)
     x = start_point[0] + radius * np.cos(angles)
     y = start_point[1] + radius * np.sin(angles)
     plt.plot(x, y, color="black", linewidth=1)
     middle_point_x = start_point[0] + radius * np.cos(
-        (np.radians(start_angle) + np.radians(final_angle)) / 2
+        (start_angle + final_angle) / 2
     )
     middle_point_y = start_point[1] + radius * np.sin(
-        (np.radians(start_angle) + np.radians(final_angle)) / 2
+        (start_angle + final_angle) / 2
     )
     displacement_x = (
-        np.cos((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.7
+        np.cos((start_angle + final_angle) / 2) * radius * 0.7
     )
     displacement_y = (
-        np.sin((np.radians(start_angle) + np.radians(final_angle)) / 2) * radius * 0.6
+        np.sin((start_angle + final_angle) / 2) * radius * 0.6
     )
     plt.text(
         middle_point_x + displacement_x,
@@ -1434,8 +1487,8 @@ def draw_three_axes_rotated(
     line_thickness: float,
     offset_text: float,
     longx: float,
-    negativeaxis_y: int,
-    negativeaxis_x: int,
+    negativeaxis_y: bool = False,
+    negativeaxis_x: bool = False,
 ) -> plt.Axes:
     """
     >>> draw_three_axes_rotated(
@@ -1443,8 +1496,9 @@ def draw_three_axes_rotated(
         line_thickness: float,
         offset_text: float,
         longx: float,
-        negativeaxis_y: int,
-        negativeaxis_x: int
+        negativeaxis_y: bool = False,
+        negativeaxis_x: bool = False
+        
     ) -> plt.Axes
 
     Draws three rotated axes in a 3D coordinate system.
@@ -1459,10 +1513,10 @@ def draw_three_axes_rotated(
         The offset of the text from the arrow.
     longx : float
         The length of the x-axis.
-    negativeaxis_y : int
-        Whether to include negative y-axis (1 for yes, 0 for no).
-    negativeaxis_x : int
-        Whether to include negative x-axis (1 for yes, 0 for no).
+    negativeaxis_y : bool
+        Whether to include negative y-axis (default is False).
+    negativeaxis_x : bool
+        Whether to include negative x-axis (default is False).
 
     Returns
     -------
@@ -1473,10 +1527,13 @@ def draw_three_axes_rotated(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=True, negativeaxis_x=True)
     >>> plt.show()
     """
     fig, ax = plt.subplots()
+    
+    angle = np.radians(30)
+    
     ax.arrow(
         0,
         0,
@@ -1493,8 +1550,8 @@ def draw_three_axes_rotated(
     ax.arrow(
         0,
         0,
-        -arrow_length * np.cos(np.radians(30)) / longx,
-        -arrow_length * np.sin(np.radians(30)) / longx,
+        -arrow_length * np.cos(angle) / longx,
+        -arrow_length * np.sin(angle) / longx,
         head_width=0.05,
         head_length=0.1,
         fc="gray",
@@ -1502,20 +1559,20 @@ def draw_three_axes_rotated(
         lw=line_thickness,
     )
     ax.text(
-        -arrow_length * np.cos(np.radians(30)) / longx - offset_text,
-        -arrow_length * np.sin(np.radians(30)) / longx - offset_text,
+        -arrow_length * np.cos(angle) / longx - offset_text,
+        -arrow_length * np.sin(angle) / longx - offset_text,
         "x",
         fontsize=12,
         ha="left",
         va="center",
     )
 
-    if negativeaxis_x == 1:
+    if negativeaxis_x:
         ax.arrow(
             0,
             0,
-            arrow_length * np.cos(np.radians(30)) / longx,
-            arrow_length * np.sin(np.radians(30)) / longx,
+            arrow_length * np.cos(angle) / longx,
+            arrow_length * np.sin(angle) / longx,
             head_width=0,
             head_length=0,
             fc="gray",
@@ -1525,8 +1582,8 @@ def draw_three_axes_rotated(
         ax.arrow(
             0,
             0,
-            arrow_length * np.cos(np.radians(30)) / longx,
-            -arrow_length * np.sin(np.radians(30)) / longx,
+            arrow_length * np.cos(angle) / longx,
+            -arrow_length * np.sin(angle) / longx,
             head_width=0.05,
             head_length=0.1,
             fc="gray",
@@ -1534,20 +1591,20 @@ def draw_three_axes_rotated(
             lw=line_thickness,
         )
         ax.text(
-            arrow_length * np.cos(np.radians(30)) / longx + 2 * offset_text / 1.5,
-            -arrow_length * np.sin(np.radians(30)) / longx - offset_text / 1.5,
+            arrow_length * np.cos(angle) / longx + 2 * offset_text / 1.5,
+            -arrow_length * np.sin(angle) / longx - offset_text / 1.5,
             "y",
             fontsize=12,
             ha="right",
             va="top",
         )
 
-    if negativeaxis_y == 1:
+    if negativeaxis_y:
         ax.arrow(
             0,
             0,
-            -arrow_length * np.cos(np.radians(30)) / longx,
-            arrow_length * np.sin(np.radians(30)) / longx,
+            -arrow_length * np.cos(angle) / longx,
+            arrow_length * np.sin(angle) / longx,
             head_width=0,
             head_length=0,
             fc="gray",
@@ -1708,8 +1765,8 @@ def draw_two_axes(
     line_thickness: float,
     offset_text: float,
     longx: float,
-    negativeaxis_y: int,
-    negativeaxis_x: int,
+    negativeaxis_y: bool = False,
+    negativeaxis_x: bool = False,
 ) -> plt.Axes:
     """
     >>> draw_two_axes(
@@ -1717,8 +1774,8 @@ def draw_two_axes(
         line_thickness: float,
         offset_text: float,
         longx: float,
-        negativeaxis_y: int,
-        negativeaxis_x: int
+        negativeaxis_y: bool = False,
+        negativeaxis_x: bool = False,
     ) -> plt.Axes
 
     Draws two axes representing the x and y directions.
@@ -1733,10 +1790,10 @@ def draw_two_axes(
         Offset for the axis labels.
     longx : float
         Length factor for the x-axis.
-    negativeaxis_y : int
-        Flag indicating whether to draw the negative y-axis.
-    negativeaxis_x : int
-        Flag indicating whether to draw the negative x-axis.
+    negativeaxis_y : bool
+        Indicating whether to draw the negative y-axis.
+    negativeaxis_x : bool
+        Indicating whether to draw the negative x-axis.
 
     Returns
     -------
@@ -1747,7 +1804,7 @@ def draw_two_axes(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=1, negativeaxis_x=1)
+    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=True, negativeaxis_x=True)
     >>> plt.show()
     """
     fig, ax = plt.subplots()
@@ -1764,7 +1821,7 @@ def draw_two_axes(
     )
     ax.text(0, arrow_length + offset_text, "y", fontsize=12, ha="center", va="bottom")
 
-    if negativeaxis_y == 1:
+    if negativeaxis_y:
         ax.arrow(
             0,
             0,
@@ -1792,7 +1849,7 @@ def draw_two_axes(
         1.5 * arrow_length + offset_text, 0, "x", fontsize=12, ha="left", va="center"
     )
 
-    if negativeaxis_x == 1:
+    if negativeaxis_x:
         ax.arrow(
             0,
             0,
@@ -2031,7 +2088,7 @@ def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
 
 
 def get_arc_points(
-    start_angle: float, end_angle: float, radius: float, center: Union[tuple, list]
+    start_angle: float, end_angle: float, radius: float, center: Union[tuple, list], radians: bool = True
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     >>> get_arc_points(
@@ -2039,6 +2096,7 @@ def get_arc_points(
         end_angle: float,
         radius: float,
         center: Union[tuple, list]
+        radians: bool = True
     ) -> Tuple[np.ndarray, np.ndarray]
 
     Calculates points along a circular arc defined by a start angle and an end angle.
@@ -2064,11 +2122,15 @@ def get_arc_points(
     >>> import matplotlib.pyplot as plt
     >>> import numpy as np
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> arc_points_x1, arc_points_y1 = pltdraw.get_arc_points(90, 240, 0.25, (0, -0.25))
+    >>> arc_points_x1, arc_points_y1 = pltdraw.get_arc_points(90, 240, 0.25, (0, -0.25), radians=False)
     >>> plt.plot(arc_points_x1, arc_points_y1, 'k')
     >>> plt.show()
     """
-    angles = np.linspace(np.radians(start_angle), np.radians(end_angle), 100)
+    if not radians:
+        start_angle = np.radians(start_angle)
+        end_angle = np.radians(end_angle)
+    
+    angles = np.linspace(start_angle, end_angle, 100)
     x = center[0] + radius * np.cos(angles)
     y = center[1] + radius * np.sin(angles)
     return x, y
