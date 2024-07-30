@@ -12,7 +12,6 @@ import plotly.graph_objects as go
 import plotly.io as pio
 
 
-
 def print_plot(
     plot_obj: Union[plt.Axes, figure.Figure],
     width: int = 500,
@@ -268,22 +267,22 @@ def animate_plot(
 
 
 def plot_slider(
-    f_x: Callable[[float, np.ndarray], np.ndarray], 
-    x_range: Tuple[float, float], 
-    y_range: Tuple[float, float] = None,  
-    num_points: int = 500, 
-    initial_value: float = 1, 
-    step_size: float = 0.1, 
-    slider_range: Tuple[float, float] = (-10, 10)
+    f_x: Callable[[float, np.ndarray], np.ndarray],
+    x_range: Tuple[float, float],
+    y_range: Tuple[float, float] = None,
+    num_points: int = 500,
+    initial_value: float = 1,
+    step_size: float = 0.1,
+    slider_range: Tuple[float, float] = (-10, 10),
 ) -> str:
     """
     >>> def plot_slider(
-        f_x: Callable[[float, np.ndarray], np.ndarray], 
-        x_range: Tuple[float, float], 
-        y_range: Tuple[float, float] = None,  
-        num_points: int = 500, 
-        initial_value: float = 0, 
-        step_size: float = 0.1, 
+        f_x: Callable[[float, np.ndarray], np.ndarray],
+        x_range: Tuple[float, float],
+        y_range: Tuple[float, float] = None,
+        num_points: int = 500,
+        initial_value: float = 0,
+        step_size: float = 0.1,
         slider_range: Tuple[float, float] = (-10, 10)
     ) -> str:
 
@@ -331,50 +330,68 @@ def plot_slider(
     fig = go.Figure()
 
     # Add initial plot
-    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', name=f'a={initial_value}', line=dict(color='#1f77b4')))
+    fig.add_trace(
+        go.Scatter(
+            x=x,
+            y=y,
+            mode="lines",
+            name=f"a={initial_value}",
+            line=dict(color="#1f77b4"),
+        )
+    )
 
     # Generate slider steps
     slider_steps = [
         {
-            'method': 'update',
-            'label': str(a),
-        } for a in np.arange(slider_range[0], slider_range[1] + step_size, step_size)
+            "method": "update",
+            "label": str(a),
+        }
+        for a in np.arange(slider_range[0], slider_range[1] + step_size, step_size)
     ]
 
     # Find the closest index to initial_value in the slider steps
-    initial_value_index = min(range(len(slider_steps)), key=lambda i: abs(float(slider_steps[i]['label']) - initial_value))
+    initial_value_index = min(
+        range(len(slider_steps)),
+        key=lambda i: abs(float(slider_steps[i]["label"]) - initial_value),
+    )
 
     # Add slider for 'a'
     sliders = [
         {
-            'active': initial_value_index,
-            'currentvalue': {'prefix': 'a='},
-            'pad': {"t": 50},
-            'steps': [
+            "active": initial_value_index,
+            "currentvalue": {"prefix": "a="},
+            "pad": {"t": 50},
+            "steps": [
                 {
-                    'method': 'update',
-                    'label': str(round(a, 1)),
-                    'args': [{'y': [f_x(a, x)]}],
-                } for a in np.arange(slider_range[0], slider_range[1] + step_size, step_size)
-            ]
+                    "method": "update",
+                    "label": str(round(a, 1)),
+                    "args": [{"y": [f_x(a, x)]}],
+                }
+                for a in np.arange(
+                    slider_range[0], slider_range[1] + step_size, step_size
+                )
+            ],
         }
     ]
 
     # Define layout for a color scheme that works on both light and dark themes
     layout = {
-        'plot_bgcolor': '#2b2b2b',  # Neutral dark background
-        'paper_bgcolor': '#2b2b2b',  # Neutral dark background
-        'font': {'color': '#ffffff'},  # White font color for good contrast
-        'xaxis': {'title': 'x', 'range': [x_range[0], x_range[1]], 'color': '#ffffff'},  # White axis color
-        'yaxis': {'title': 'y', 'color': '#ffffff'},  # White axis color
+        "plot_bgcolor": "#2b2b2b",  # Neutral dark background
+        "paper_bgcolor": "#2b2b2b",  # Neutral dark background
+        "font": {"color": "#ffffff"},  # White font color for good contrast
+        "xaxis": {
+            "title": "x",
+            "range": [x_range[0], x_range[1]],
+            "color": "#ffffff",
+        },  # White axis color
+        "yaxis": {"title": "y", "color": "#ffffff"},  # White axis color
     }
-    
+
     if y_range:
-        layout['yaxis']['range'] = y_range
+        layout["yaxis"]["range"] = y_range
 
     fig.update_layout(layout)
     fig.update_layout(sliders=sliders)
 
     # Convert Plotly figure to HTML
     return pio.to_html(fig, full_html=False)
-

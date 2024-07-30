@@ -9,7 +9,7 @@ from .file_utils.plotting_utils import (
     print_plot,
     print_animation,
     animate_plot,
-    plot_slider
+    plot_slider,
 )
 
 

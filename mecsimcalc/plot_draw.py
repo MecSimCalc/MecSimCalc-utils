@@ -29,7 +29,7 @@ def draw_arrow(
         fontsize: int = 12,
         ax: Optional[plt.Axes] = None,
     ) -> None
-        
+
     Draws an arrow between two points on a plot with optional text annotation.
 
     Parameters
@@ -71,9 +71,15 @@ def draw_arrow(
     ax = ax or plt.gca()
     start, end = np.array(start), np.array(end)
     ax.arrow(
-        start[0], start[1], end[0] - start[0], end[1] - start[1],
-        head_width=head_width, head_length=head_length,
-        linewidth=thickness, color=color, length_includes_head=True
+        start[0],
+        start[1],
+        end[0] - start[0],
+        end[1] - start[1],
+        head_width=head_width,
+        head_length=head_length,
+        linewidth=thickness,
+        color=color,
+        length_includes_head=True,
     )
     if text:
         arrow_vector = end - start
@@ -84,7 +90,7 @@ def draw_arrow(
 def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
     """
     >>> calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple
-    
+
     Calculates the midpoint between two coordinates.
 
     Parameters
@@ -111,16 +117,15 @@ def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
     return (x1 + x2) / 2, (y1 + y2) / 2
 
 
-
 def draw_arc(
     radius: float,
     start_angle: float,
     end_angle: float,
     center: tuple = (0, 0),
     color: str = "red",
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> None:
-    """ 
+    """
     >>> draw_arc(
         radius: float,
         start_angle: float,
@@ -129,7 +134,7 @@ def draw_arc(
         color: str = "red",
         ax: Optional[plt.Axes] = None
     ) -> None:
-    
+
     Draws an arc of a circle with a given radius between two angles.
 
     Parameters
@@ -170,11 +175,12 @@ def draw_arc(
     ax.axis("equal")
 
 
-
-def create_blank_canvas(width: int = 1000, height: int = 1000, color: str = "white") -> plt.Axes:
+def create_blank_canvas(
+    width: int = 1000, height: int = 1000, color: str = "white"
+) -> plt.Axes:
     """
     >>> create_blank_canvas(width: int = 1000, height: int = 1000, color: str = "white") -> plt.Axes
-    
+
     Creates a blank canvas with specified width, height, and background color.
 
     Parameters
@@ -215,6 +221,7 @@ def create_blank_canvas(width: int = 1000, height: int = 1000, color: str = "whi
     ax.grid(which="minor", linestyle=":", linewidth="0.5", color="gray")
     return ax
 
+
 def draw_three_axes(
     arrow_length: float = 1.0,
     arrow_thickness: float = 2.0,
@@ -222,7 +229,7 @@ def draw_three_axes(
     longx: float = 1.5,
     axis_y_negative: bool = False,
     axis_x_negative: bool = False,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> plt.Axes:
     """
     >>> def draw_three_axes(
@@ -268,42 +275,75 @@ def draw_three_axes(
     """
     ax = ax or plt.gca()
     ax.arrow(
-        0, 0, 0, arrow_length,
-        head_width=0.05, head_length=0.1,
-        fc="gray", ec="gray", lw=arrow_thickness
+        0,
+        0,
+        0,
+        arrow_length,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
     )
     ax.text(0, arrow_length + offset_text, "z", fontsize=12, ha="center", va="bottom")
 
     ax.arrow(
-        0, 0, arrow_length, 0,
-        head_width=0.05, head_length=0.1,
-        fc="gray", ec="gray", lw=arrow_thickness
+        0,
+        0,
+        arrow_length,
+        0,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
     )
     ax.text(arrow_length + offset_text, 0, "y", fontsize=12, ha="left", va="center")
 
     if axis_y_negative:
         ax.arrow(
-            0, 0, -arrow_length, 0,
-            head_width=0.05, head_length=0.1,
-            fc="gray", ec="gray", lw=arrow_thickness
+            0,
+            0,
+            -arrow_length,
+            0,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
         )
 
     ax.arrow(
-        0, 0, -arrow_length / longx, -arrow_length / longx,
-        head_width=0.05, head_length=0.1,
-        fc="gray", ec="gray", lw=arrow_thickness
+        0,
+        0,
+        -arrow_length / longx,
+        -arrow_length / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
     )
     ax.text(
         -arrow_length / longx - offset_text / 1.5,
         -arrow_length / longx - offset_text / 1.5,
-        "x", fontsize=12, ha="right", va="top"
+        "x",
+        fontsize=12,
+        ha="right",
+        va="top",
     )
 
     if axis_x_negative:
         ax.arrow(
-            0, 0, arrow_length / longx, arrow_length / longx,
-            head_width=0.05, head_length=0.1,
-            fc="gray", ec="gray", lw=arrow_thickness
+            0,
+            0,
+            arrow_length / longx,
+            arrow_length / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
         )
 
     ax.set_xticks([])
@@ -316,7 +356,6 @@ def draw_three_axes(
     return ax
 
 
-
 def draw_two_inclined_axes(
     arrow_length: float = 1.0,
     arrow_thickness: float = 2.0,
@@ -324,7 +363,7 @@ def draw_two_inclined_axes(
     longx: float = 1.5,
     draw_negative_y: bool = False,
     draw_negative_x: bool = False,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> plt.Axes:
     """
     >>> def draw_two_inclined_axes(
@@ -370,35 +409,62 @@ def draw_two_inclined_axes(
     """
     ax = ax or plt.gca()
     ax.arrow(
-        0, 0, arrow_length, 0,
-        head_width=0.05, head_length=0.1,
-        fc="gray", ec="gray", lw=arrow_thickness
+        0,
+        0,
+        arrow_length,
+        0,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
     )
     ax.text(arrow_length + text_offset, 0, "x", fontsize=12, ha="left", va="center")
 
     if draw_negative_x:
         ax.arrow(
-            0, 0, -arrow_length, 0,
-            head_width=0.05, head_length=0.1,
-            fc="gray", ec="gray", lw=arrow_thickness
+            0,
+            0,
+            -arrow_length,
+            0,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
         )
 
     ax.arrow(
-        0, 0, arrow_length / longx, arrow_length / longx,
-        head_width=0.05, head_length=0.1,
-        fc="gray", ec="gray", lw=arrow_thickness
+        0,
+        0,
+        arrow_length / longx,
+        arrow_length / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
     )
     ax.text(
         arrow_length / longx + text_offset / 1.5,
         arrow_length / longx + text_offset / 1.5,
-        "y", fontsize=12, ha="left", va="bottom"
+        "y",
+        fontsize=12,
+        ha="left",
+        va="bottom",
     )
 
     if draw_negative_y:
         ax.arrow(
-            0, 0, -arrow_length / longx, -arrow_length / longx,
-            head_width=0.05, head_length=0.1,
-            fc="gray", ec="gray", lw=arrow_thickness
+            0,
+            0,
+            -arrow_length / longx,
+            -arrow_length / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
         )
 
     ax.set_xticks([])
@@ -513,7 +579,7 @@ def plot_annotate_arrow(
     center_text: bool = False,
     reverse_text: bool = False,
     alpha: float = 0.8,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> tuple:
     """
     >>> plot_annotate_arrow(
@@ -532,7 +598,7 @@ def plot_annotate_arrow(
         alpha: float = 0.8,
         ax: Optional[plt.Axes] = None
     ) -> tuple:
-    
+
     Plots an annotated arrow starting from a given point and extending in a given direction.
 
     Parameters
@@ -748,10 +814,7 @@ def draw_custom_arrow(
 
 
 def calculate_arrow_endpoint_pixels(
-    start_point: tuple,
-    angle: float,
-    length: float,
-    degrees: bool = False
+    start_point: tuple, angle: float, length: float, degrees: bool = False
 ) -> tuple:
     """
     Calculates the end point of an arrow in pixel coordinates.
@@ -780,15 +843,14 @@ def calculate_arrow_endpoint_pixels(
     """
     if degrees:
         angle = np.radians(angle)
-    
+
     # Normalize angle to [0, 2*pi)
     angle = angle % (2 * np.pi)
-    
+
     end_x = start_point[0] + length * np.cos(angle)
     end_y = start_point[1] + length * np.sin(angle)
-    
-    return end_x, end_y
 
+    return end_x, end_y
 
 
 def plot_segment(
@@ -802,7 +864,7 @@ def plot_segment(
     fontsize: int = 15,
     text_align: dict = None,
     alpha: float = 0.8,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> tuple:
     """
     Plots a line segment starting from a given point with a specific angle and length.
@@ -848,15 +910,15 @@ def plot_segment(
     ax = ax or plt.gca()
     if degrees:
         angle = np.radians(angle)
-    
+
     # Normalize angle to [0, 2*pi)
     angle = angle % (2 * np.pi)
-    
+
     end = (
         start[0] + length * np.cos(angle),
         start[1] + length * np.sin(angle),
     )
-    
+
     line_props = line_props or {"color": "blue", "linewidth": 1}
     text_align = text_align or {"ha": "center", "va": "top"}
 
@@ -884,7 +946,6 @@ def plot_segment(
     return end
 
 
-
 def plot_segment_dashed(
     start: tuple,
     angle: float,
@@ -896,7 +957,7 @@ def plot_segment_dashed(
     fontsize: int = 15,
     text_align: dict = None,
     alpha: float = 0.8,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> Tuple[float, float]:
     """
     Plots a dashed line segment starting from a given point with a specific angle and length.
@@ -942,15 +1003,15 @@ def plot_segment_dashed(
     ax = ax or plt.gca()
     if degrees:
         angle = np.radians(angle)
-    
+
     # Normalize angle to [0, 2*pi)
     angle = angle % (2 * np.pi)
-    
+
     end = (
         start[0] + length * np.cos(angle),
         start[1] + length * np.sin(angle),
     )
-    
+
     line_props = line_props or {"color": "blue", "linestyle": "dashed", "linewidth": 1}
     text_align = text_align or {"ha": "center", "va": "top"}
 
@@ -1100,12 +1161,9 @@ def draw_rounded_rectangle(
 import numpy as np
 from typing import Tuple
 
+
 def calculate_intersection_point(
-    point1: tuple,
-    angle1: float,
-    point2: tuple,
-    angle2: float,
-    degrees: bool = True
+    point1: tuple, angle1: float, point2: tuple, angle2: float, degrees: bool = True
 ) -> Tuple[float, float]:
     """
     Calculates the intersection point of two lines defined by points and angles.
@@ -1158,7 +1216,6 @@ def calculate_intersection_point(
     return (intersection_x, intersection_y)
 
 
-
 def draw_segment(
     start_point: tuple,
     final_point: tuple,
@@ -1208,6 +1265,7 @@ def draw_segment(
     y4 = y_end - offset_y
     plt.fill([x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color=color)
 
+
 def plot_annotate_arrow_end(
     end: tuple,
     angle: float,
@@ -1222,7 +1280,7 @@ def plot_annotate_arrow_end(
     center_text: bool = False,
     reverse_text: bool = False,
     alpha: float = 0.8,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> tuple:
     """
     Plots an arrow annotation at the end point of a vector.
@@ -1338,6 +1396,7 @@ def plot_annotate_arrow_end(
 
     return start
 
+
 def draw_arc_with_text(
     center: tuple,
     radius: float,
@@ -1347,7 +1406,7 @@ def draw_arc_with_text(
     degrees: bool = True,
     text_offset: float = 0.7,
     fontsize: int = 8,
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
     >>> draw_arc_with_text(
@@ -1396,20 +1455,20 @@ def draw_arc_with_text(
     if degrees:
         start_angle = np.radians(start_angle)
         end_angle = np.radians(end_angle)
-    
+
     # Normalize angles to [0, 2*pi)
     start_angle = start_angle % (2 * np.pi)
     end_angle = end_angle % (2 * np.pi)
-    
+
     angles = np.linspace(start_angle, end_angle, 1000)
     x = center[0] + radius * np.cos(angles)
     y = center[1] + radius * np.sin(angles)
     ax.plot(x, y, color="black", linewidth=1)
-    
+
     mid_angle = (start_angle + end_angle) / 2
     text_x = center[0] + radius * np.cos(mid_angle) * (1 + text_offset)
     text_y = center[1] + radius * np.sin(mid_angle) * (1 + text_offset)
-    
+
     ax.text(
         text_x,
         text_y,
@@ -1419,7 +1478,6 @@ def draw_arc_with_text(
         va="center",
     )
     ax.axis("equal")
-
 
 
 def draw_three_axes_rotated(
@@ -1438,7 +1496,7 @@ def draw_three_axes_rotated(
         longx: float,
         negativeaxis_y: bool = False,
         negativeaxis_x: bool = False
-        
+
     ) -> plt.Axes
 
     Draws three rotated axes in a 3D coordinate system.
@@ -1471,9 +1529,9 @@ def draw_three_axes_rotated(
     >>> plt.show()
     """
     fig, ax = plt.subplots()
-    
+
     angle = np.radians(30)
-    
+
     ax.arrow(
         0,
         0,
@@ -2032,7 +2090,7 @@ def get_arc_points(
     end_angle: float,
     radius: float,
     center: Union[tuple, list],
-    degrees: bool = True
+    degrees: bool = True,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Calculates points along a circular arc defined by a start angle and an end angle.
@@ -2067,12 +2125,11 @@ def get_arc_points(
     if degrees:
         start_angle = np.radians(start_angle)
         end_angle = np.radians(end_angle)
-    
+
     angles = np.linspace(start_angle, end_angle, 100)
     x = center[0] + radius * np.cos(angles)
     y = center[1] + radius * np.sin(angles)
     return x, y
-
 
 
 __all__ = [

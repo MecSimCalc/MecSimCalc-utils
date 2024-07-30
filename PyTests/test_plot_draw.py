@@ -55,7 +55,7 @@ def run_all_functions():
 
     # Draw an arc of a circumference
     draw_arc(radius=0.5, start_angle=0, end_angle=np.pi / 2)
-    
+
     create_blank_canvas()
 
     # Draw three axes
@@ -85,8 +85,8 @@ def run_all_functions():
     angle = 45
     length = 100
     x, y = plot_annotate_arrow(start, angle, length, text="Arrow", degrees=True)
-    assert round(x,2) == 170.71
-    assert round(y,2) == 270.71
+    assert round(x, 2) == 170.71
+    assert round(y, 2) == 270.71
 
     # Draw a custom arrow
     draw_custom_arrow(
@@ -101,18 +101,14 @@ def run_all_functions():
     )
 
     # Calculate arrow endpoint in pixels
-    arrow_endpoint = calculate_arrow_endpoint_pixels(
-        (100, 100), angle=45, length=50
-    )
+    arrow_endpoint = calculate_arrow_endpoint_pixels((100, 100), angle=45, length=50)
     print(f"Arrow endpoint: {arrow_endpoint}")
 
     # Plot a segment with properties
     plot_segment((0.1, 0.1), angle=45, length=0.3, text="Segment")
 
     # Plot a dashed segment
-    plot_segment_dashed(
-        (0.1, 0.1), angle=135, length=0.3, text="Dashed Segment"
-    )
+    plot_segment_dashed((0.1, 0.1), angle=135, length=0.3, text="Dashed Segment")
 
     # Draw a custom circle
     draw_custom_circle(plt, center_point=(300, 300), circle_size=50)

@@ -59,8 +59,9 @@ def test_animate_plot():
     ani_html = animate_plot(x, y, duration=1, fps=1, save_dir=THIS_DIR)
     assert type(ani_html) == str
 
+
 def test_plot_slider():
-    f_x = lambda a,x: a*np.sin(x)
+    f_x = lambda a, x: a * np.sin(x)
     ani_html = plot_slider(f_x, (0, 10), (0, 10))
     assert type(ani_html) == str
 
