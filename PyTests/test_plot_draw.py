@@ -54,7 +54,9 @@ def run_all_functions():
     assert calculate_midpoint((0, 0), (1, 1)) == (0.5, 0.5)
 
     # Draw an arc of a circumference
-    draw_arc_circumference(radius=0.5, initial_angle=0, final_angle=np.pi / 2)
+    draw_arc(radius=0.5, start_angle=0, end_angle=np.pi / 2)
+    
+    create_blank_canvas()
 
     # Draw three axes
     draw_three_axes(
@@ -70,19 +72,21 @@ def run_all_functions():
     draw_two_inclined_axes(
         arrow_length=0.4,
         arrow_thickness=2,
-        offset_text=0.05,
+        text_offset=0.05,
         longx=1.5,
-        axis_y_negative=True,
-        axis_x_negative=True,
+        draw_negative_y=True,
+        draw_negative_x=True,
     )
 
     # Plot a segment in pixels
     plot_line_segment((100, 100), (200, 200), text="Segment", min_spacing=20)
 
-    # Plot and annotate an arrow
-    plot_annotate_arrow(
-        (0.2, 0.2), trig_angle=45, vec_length=0.2, text="Annotated Arrow"
-    )
+    start = (100, 200)
+    angle = 45
+    length = 100
+    x, y = plot_annotate_arrow(start, angle, length, text="Arrow", degrees=True)
+    assert round(x,2) == 170.71
+    assert round(y,2) == 270.71
 
     # Draw a custom arrow
     draw_custom_arrow(
@@ -98,16 +102,16 @@ def run_all_functions():
 
     # Calculate arrow endpoint in pixels
     arrow_endpoint = calculate_arrow_endpoint_pixels(
-        (100, 100), trig_angle=45, vec_length=50
+        (100, 100), angle=45, length=50
     )
     print(f"Arrow endpoint: {arrow_endpoint}")
 
     # Plot a segment with properties
-    plot_segment((0.1, 0.1), trig_angle=45, vec_length=0.3, text="Segment")
+    plot_segment((0.1, 0.1), angle=45, length=0.3, text="Segment")
 
     # Plot a dashed segment
     plot_segment_dashed(
-        (0.1, 0.1), trig_angle=135, vec_length=0.3, text="Dashed Segment"
+        (0.1, 0.1), angle=135, length=0.3, text="Dashed Segment"
     )
 
     # Draw a custom circle
