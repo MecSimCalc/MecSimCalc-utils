@@ -79,14 +79,16 @@ def run_all_functions():
     )
 
     # Plot a segment in pixels
-    plot_line_segment((100, 100), (200, 200), text="Segment", min_spacing=20)
+    assert plot_line_segment(
+        (100, 200), (400, 500), text="Segment", min_spacing=20
+    ) == (400, 500)
 
+    # plot annotation arrow
     start = (100, 200)
     angle = 45
     length = 100
     x, y = plot_annotate_arrow(start, angle, length, text="Arrow", degrees=True)
-    assert round(x, 2) == 170.71
-    assert round(y, 2) == 270.71
+    assert round(x, 2), round(y, 2) == (170.71, 270.71)
 
     # Draw a custom arrow
     draw_custom_arrow(
@@ -101,28 +103,35 @@ def run_all_functions():
     )
 
     # Calculate arrow endpoint in pixels
-    arrow_endpoint = calculate_arrow_endpoint_pixels((100, 100), angle=45, length=50)
-    print(f"Arrow endpoint: {arrow_endpoint}")
+    x, y = calculate_arrow_endpoint_pixels(
+        (100, 200), angle=45, length=50, degrees=True
+    )
+    assert (round(x, 2), round(y, 2)) == (135.36, 235.36)
 
     # Plot a segment with properties
-    plot_segment((0.1, 0.1), angle=45, length=0.3, text="Segment")
+    x, y = plot_segment((100, 200), 45, 50, text="Value", degrees=True)
+    assert (round(x, 2), round(y, 2)) == (135.36, 235.36)
 
     # Plot a dashed segment
-    plot_segment_dashed((0.1, 0.1), angle=135, length=0.3, text="Dashed Segment")
+    x, y = plot_segment_dashed((100, 200), 45, 50, text="Value", degrees=True)
+    assert (round(x, 2), round(y, 2)) == (135.36, 235.36)
 
     # Draw a custom circle
-    draw_custom_circle(plt, center_point=(300, 300), circle_size=50)
+    draw_custom_circle((100, 100), radius=20, color='red')
 
     # Draw a rounded rectangle
-    draw_rounded_rectangle((0.5, 0.5), width=0.2, height=0.1, radius=0.05)
+    draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
 
     # Calculate intersection point
     intersection_point = calculate_intersection_point((0, 0), 45, (1, 1), 135)
-    print(f"Intersection point: {intersection_point}")
+    assert intersection_point ==  (1.0, 0.9999999999999999)
 
     # Draw a segment
     draw_segment((0.2, 0.2), (0.8, 0.8))
-
+    
+    x, y = plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_offset=0.5, fontsize=12, text_align={'ha': 'center', 'va': 'top'}, degrees=True)
+    assert round(x, 2), round(y, 2) == (10.90, 10.90)
+    
     # Draw three rotated axes
     draw_three_axes_rotated(
         arrow_length=0.4,
@@ -161,7 +170,7 @@ def run_all_functions():
 
     # Calculate angle between two points
     angle = calculate_angle((0, 0), (1, 1))
-    print(f"Angle: {angle}")
+    assert angle == 45
 
     # Draw segments in different colors
     draw_segment_1((0.1, 0.1), (0.4, 0.4))

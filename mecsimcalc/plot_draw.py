@@ -55,9 +55,6 @@ def draw_arrow(
     ax : Optional[plt.Axes], optional
         Matplotlib Axes object to draw on. If None, uses current Axes. (Default is None)
 
-    Returns
-    -------
-    None
 
     Examples
     --------
@@ -116,7 +113,6 @@ def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
     x2, y2 = coord2
     return (x1 + x2) / 2, (y1 + y2) / 2
 
-
 def draw_arc(
     radius: float,
     start_angle: float,
@@ -152,9 +148,6 @@ def draw_arc(
     ax : Optional[plt.Axes], optional
         Matplotlib Axes object to draw on. If None, uses current Axes (Default is None).
 
-    Returns
-    -------
-    None
 
     Examples
     --------
@@ -777,6 +770,7 @@ def draw_custom_arrow(
     text : str, optional
         The text to display near the end of the arrow.
 
+
     Examples
     --------
     >>> import matplotlib.pyplot as plt
@@ -1039,72 +1033,75 @@ def plot_segment_dashed(
 
     return end
 
-
 def draw_custom_circle(
-    ax: plt.Axes,
-    center_point: tuple,
-    circle_size: float = 100,
-    circle_color: str = "black",
+    center: Tuple[float, float] = (0, 0),
+    radius: float = 10,
+    color: str = "black",
+    ax: Optional[plt.Axes] = None
 ) -> None:
     """
     >>> draw_custom_circle(
-        ax: plt.Axes,
-        center_point: tuple,
-        circle_size: float = 100,
-        circle_color: str = 'black'
-    ) -> None
+        center: Tuple[float, float] = (0, 0),
+        radius: float = 10,
+        color: str = "black",
+        ax: Optional[plt.Axes] = None
+    ) -> None:
 
     Draws a custom circle on a given axis.
 
     Parameters
     ----------
-    ax : matplotlib.axes.Axes
-        The Axes object to draw the circle on.
-    center_point : tuple
-        The center point of the circle (x, y).
-    circle_size : float, optional
-        The size of the circle. (Default is 100)
-    circle_color : str, optional
+    center : Tuple[float, float], optional
+        The center point of the circle (x, y). Default is (0, 0).
+    radius : float, optional
+        The radius of the circle. (Default is 10)
+    color : str, optional
         The color of the circle. (Default is 'black')
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the circle on. If None, creates a new figure and axis.
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> fig, ax = plt.subplots()
-    >>> pltdraw.draw_custom_circle(ax, (100, 100), circle_size=200, circle_color='red')
+    >>> pltdraw.draw_custom_circle((100, 100), radius=20, color='red', ax=ax)
     >>> plt.show()
     """
-    ax.scatter(center_point[0], center_point[1], s=circle_size, color=circle_color)
+    if ax is None:
+        fig, ax = plt.subplots()
 
+    # Calculate the area in points^2 for the scatter size parameter
+    area = np.pi * (radius**2)
+
+    ax.scatter(center[0], center[1], s=area, color=color)
 
 def draw_rounded_rectangle(
-    middle_point: tuple,
+    center: Tuple[float, float],
     width: float,
     height: float,
-    radius: float,
-    color: str = "black",
+    corner_radius: float,
+    color: str = "black"
 ) -> None:
     """
-    >>> draw_rounded_rectangle(
-        middle_point: tuple,
+    >>> def draw_rounded_rectangle(
+        center: Tuple[float, float],
         width: float,
         height: float,
-        radius: float,
-        color: str = 'black'
-    ) -> None
-
+        corner_radius: float,
+        color: str = "black"
+    ) -> None:
     Draws a rounded rectangle with specified properties.
 
     Parameters
     ----------
-    middle_point : tuple
-        The middle point of the top side of the rounded rectangle (x, y).
+    center : Tuple[float, float]
+        The center point of the rectangle (x, y).
     width : float
         The width of the rounded rectangle.
     height : float
         The height of the rounded rectangle.
-    radius : float
+    corner_radius : float
         The radius of the corners.
     color : str, optional
         The color of the rectangle. (Default is 'black')
@@ -1116,51 +1113,46 @@ def draw_rounded_rectangle(
     >>> pltdraw.draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
     >>> plt.show()
     """
-    x_sup, y_sup = middle_point
-    x1 = x_sup - width / 2
-    y1 = y_sup
-    x2 = x_sup + width / 2
-    y2 = y_sup
-    x3 = x_sup + width / 2
-    y3 = y_sup + height
-    x4 = x_sup - width / 2
-    y4 = y_sup + height
+    x_center, y_center = center
+    x1 = x_center - width / 2
+    y1 = y_center - height / 2
+    x2 = x_center + width / 2
+    y2 = y_center + height / 2
 
-    plt.plot([x1 + radius, x2 - radius], [y1, y2], color=color)
-    plt.plot([x2, x3], [y2 + radius, y3 - radius], color=color)
-    plt.plot([x3 - radius, x4 + radius], [y3, y4], color=color)
-    plt.plot([x4, x1], [y4 - radius, y1 + radius], color=color)
+    # Draw the straight edges
+    plt.plot([x1 + corner_radius, x2 - corner_radius], [y1, y1], color=color)
+    plt.plot([x2, x2], [y1 + corner_radius, y2 - corner_radius], color=color)
+    plt.plot([x2 - corner_radius, x1 + corner_radius], [y2, y2], color=color)
+    plt.plot([x1, x1], [y2 - corner_radius, y1 + corner_radius], color=color)
 
-    angle1 = np.linspace(np.pi, 1.5 * np.pi, 50)
-    angle2 = np.linspace(1.5 * np.pi, 2 * np.pi, 50)
+    # Draw the corners
+    corner_angles = np.linspace(np.pi, 1.5 * np.pi, 50)
     plt.plot(
-        x1 + radius + radius * np.cos(angle1),
-        y1 + radius + radius * np.sin(angle1),
-        color=color,
-    )  # top left  (sup izq)
+        x1 + corner_radius + corner_radius * np.cos(corner_angles),
+        y1 + corner_radius + corner_radius * np.sin(corner_angles),
+        color=color
+    )  # bottom-left corner
 
+    corner_angles = np.linspace(1.5 * np.pi, 2 * np.pi, 50)
     plt.plot(
-        x2 - radius + radius * np.cos(angle2),
-        y2 + radius + radius * np.sin(angle2),
-        color=color,
-    )  # top right (sup der)
+        x2 - corner_radius + corner_radius * np.cos(corner_angles),
+        y1 + corner_radius + corner_radius * np.sin(corner_angles),
+        color=color
+    )  # bottom-right corner
 
+    corner_angles = np.linspace(0, 0.5 * np.pi, 50)
     plt.plot(
-        x3 - radius - radius * np.cos(angle1),
-        y3 - radius - radius * np.sin(angle1),
-        color=color,
-    )  # bottom right (inf der)
+        x2 - corner_radius + corner_radius * np.cos(corner_angles),
+        y2 - corner_radius + corner_radius * np.sin(corner_angles),
+        color=color
+    )  # top-right corner
 
+    corner_angles = np.linspace(0.5 * np.pi, np.pi, 50)
     plt.plot(
-        x4 + radius - radius * np.cos(angle2),
-        y4 - radius - radius * np.sin(angle2),
-        color=color,
-    )  # bottom left  (inf izq)
-
-
-import numpy as np
-from typing import Tuple
-
+        x1 + corner_radius + corner_radius * np.cos(corner_angles),
+        y2 - corner_radius + corner_radius * np.sin(corner_angles),
+        color=color
+    )  # top-left corner
 
 def calculate_intersection_point(
     point1: tuple, angle1: float, point2: tuple, angle2: float, degrees: bool = True
@@ -1265,7 +1257,6 @@ def draw_segment(
     y4 = y_end - offset_y
     plt.fill([x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color=color)
 
-
 def plot_annotate_arrow_end(
     end: tuple,
     angle: float,
@@ -1326,7 +1317,7 @@ def plot_annotate_arrow_end(
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> pltdraw.plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_offset=0.5, fontsize=12, text_align={'ha': 'center', 'va': 'top'}, degrees=True)
-    (0.2928932188134524, 0.2928932188134524)
+    (10.899494936611665, 10.899494936611665)
     >>> plt.show()
     """
     ax = ax or plt.gca()
@@ -1394,7 +1385,7 @@ def plot_annotate_arrow_end(
             rotation=rot_angle,
         )
 
-    return start
+    return tuple(map(float, start))
 
 
 def draw_arc_with_text(
