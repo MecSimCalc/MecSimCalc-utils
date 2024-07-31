@@ -1,4 +1,16 @@
-# Mecsimcalc b0.1.9 documentation
+<div style="{{" margin:="" '1em="" 0'="" }}=""><label htmlfor="version-select" style="{{" fontweight:="" 'bold',="" marginright:="" '10px'="" }}="">Select Version:</label>
+  <select id="version-select" onchange="{(e)" ==""> window.location.href = e.target.value}&gt;
+    <option value="">Latest Release (v0.1.9)</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/README.md">v0.1.6</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.5/README.md">v0.1.5</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.4/README.md">v0.1.4</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.3/README.md">v0.1.3</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.2/README.md">v0.1.2</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.0.5/README.md">v0.0.5</option>
+    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.0.4/README.md">v0.0.4</option>
+    &lt;_comment&gt; Add more options as needed <_comment>_comment</_comment></select></div>
+
+# File Utilities
 
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
@@ -9,7 +21,7 @@ This library is designed to provide a set of functions for handling and converti
 
 ### input_to_file
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
 
 ```python
 input_to_file(input_file, metadata = False)
@@ -42,18 +54,21 @@ Converts a base64 encoded string into a file object and metadata
 #### Example:
 
 ```python
->>> input_file = inputs['file']
->>> file, metadata = input_to_file(input_file, metadata = True)
->>> print(metadata)
-data:image/jpeg;base64,
->>> type(file)
-<class '_io.BytesIO'>
+import io
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    file, metadata = msc.input_to_file(input_file, metadata=True)
+    return {"file_type": type(file).__name__, "metadata": metadata}
+
+# Expected output:
+# {"file_type": "_io.BytesIO", "metadata": "data:image/jpeg;base64,"}
 ```
 
 ### metadata_to_filetype
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
-
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
 
 ```python
 metadata_to_filetype(metadata):
@@ -78,20 +93,23 @@ Extracts the file type from the metadata
 #### Example:
 
 ```python
->>> input_file = inputs['file']
->>> file, metadata = input_to_file(input_file, metadata = True)
->>> print(metadata)
-data:image/jpeg;base64,
->>> download_file_type = metadata_to_filetype(metadata)
->>> print(download_file_type)
-jpeg
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    file, metadata = msc.input_to_file(input_file, metadata=True)
+    download_file_type = msc.metadata_to_filetype(metadata)
+    return {"file_type": download_file_type}
+
+# Expected output:
+# {"file_type": "jpeg"}
 ```
 
 ## Text
 
 ### string_to_file
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/text_utils.py#L4C1-L63C85)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/text_utils.py#L4C1-L63C85)
 
 ```python
 string_to_file(
@@ -130,8 +148,14 @@ Generates a downloadable text file containing the given text
 #### Python
 
 ```python
->>> download_link = string_to_file("Hello World!")
->>> return {"download": download_link}
+import mecsimcalc as msc
+
+def main(inputs):
+    download_link = msc.string_to_file("Hello World!")
+    return {"download": download_link}
+
+# Expected output:
+# {"download": "<a href='data:text/plain;base64,SGVsbG8gV29ybGQh' download='myfile.txt'>Download File</a>"}
 ```
 
 #### Jinja2
@@ -145,7 +169,7 @@ Generates a downloadable text file containing the given text
 
 ### file_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L9C1-L50C14)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L9C1-L50C14)
 
 ```python
 file_to_dataframe(file_data):
@@ -176,19 +200,24 @@ Converts a base64 encoded file data into a pandas DataFrame
 #### Example:
 
 ```python
->>> input_file = inputs['file']
->>> decoded_file = input_to_file(input_file)
->>> df = file_to_dataframe(decoded_file)
->>> print(df)
-   A  B  C
-0  a  b  c
-1  d  e  f
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    decoded_file = msc.input_to_file(input_file)
+    df = msc.file_to_dataframe(decoded_file)
+    return {"dataframe": df.to_dict()}
+
+# Expected output:
+# {"dataframe": {
+# "A": {0: "a", 1: "d"},
+# "B": {0: "b", 1: "e"},
+# "C": {0: "c", 1: "f"}}}
 ```
 
 ### input_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L53C1-L92C44)
-
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L53C1-L92C44)
 
 ```python
 input_to_dataframe(file):
@@ -215,20 +244,23 @@ Converts a base64 encoded file data into a pandas DataFrame
 #### Example:
 
 ```python
->>> input_file = inputs['file']
->>> df, file_type = input_to_dataframe(input_file, get_file_type = True)
->>> print(df)
-   A  B  C
-0  a  b  c
-1  d  e  f
->>> print(file_type)
-csv
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    df, file_type = msc.input_to_dataframe(input_file, get_file_type=True)
+    return {"dataframe": df.to_dict(), "file_type": file_type}
+
+# Expected output:
+# {"dataframe": {
+# "A": {0: "a", 1: "d"},
+# "B": {0: "b", 1: "e"},
+# "C": {0: "c", 1: "f"}}, "file_type": "csv"}
 ```
 
 ### print_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L95C1-L186C39)
-
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L95C1-L186C39)
 
 ```python
 print_dataframe(
@@ -266,14 +298,17 @@ Creates an HTML table and a download link for a given DataFrame
 #### Python Code:
 
 ```python
->>> input_file = inputs['file']
->>> df = input_to_dataframe(input_file)
->>> table, download = print_dataframe(df, download = True, download_file_name = "FunkyTable", download_text = "Download My Funky Table HERE!", download_file_type = "xlsx")
+import mecsimcalc as msc
 
->>> return {
-        "table":table,
-        "download":download,
-    }
+def main(inputs):
+    input_file = inputs['file']
+    df = msc.input_to_dataframe(input_file)
+    table, download = msc.print_dataframe(df, download=True, download_file_name="Table", download_text="Download My Table HERE!", download_file_type="xlsx")
+    return {"table": table, "download": download}
+
+# Expected output:
+# {"table": "<table>...</table>",
+# "download": "<a href='data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,...' download='Table.xlsx'>Download My Table HERE!</a>"}
 ```
 
 #### Output using Jinja2 Template:
@@ -287,12 +322,12 @@ Displaying Table
 Downloading Table
 {{ outputs.download }}
 ```
+
 ## Tables
 
 ### table_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/table_utils.py#L5C1-L45C1)
-
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/table_utils.py#L5C1-L45C1)
 
 ```python
 table_to_dataframe(column_headers, rows) -> pd.DataFrame:
@@ -318,20 +353,24 @@ Create a DataFrame from given rows and column headers
 #### Example:
 
 ```python
->>> column_headers = ["A", "B", "C"]
->>> rows = [["a", "b", "c"], ["d", "e", "f"]]
->>> df = table_to_dataframe(column_headers, rows)
->>> print(df)
-   A  B  C
-0  a  b  c
-1  d  e  f
+import mecsimcalc as msc
 
+def main(inputs):
+    column_headers = ["A", "B", "C"]
+    rows = [["a", "b", "c"], ["d", "e", "f"]]
+    df = msc.table_to_dataframe(column_headers, rows)
+    return {"dataframe": df.to_dict()}
+
+# Expected output:
+# {"dataframe": {
+# "A": {0: "a", 1: "d"},
+# "B": {0: "b", 1: "e"},
+# "C": {0: "c", 1: "f"}}}
 ```
 
 ### print_table
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/table_utils.py#L47C1-L80C58)
-
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/table_utils.py#L47C1-L80C58)
 
 ```python
 print_table(column_headers, rows):
@@ -360,10 +399,10 @@ Creates an HTML table from given rows and column headers
 #### Python Code:
 
 ```python
->>> column_headers = ["A", "B", "C"]
->>> rows = [["a", "b", "c"], ["d", "e", "f"]]
->>> table = print_table(column_headers, rows)
->>> return {
+column_headers = ["A", "B", "C"]
+rows = [["a", "b", "c"], ["d", "e", "f"]]
+table = print_table(column_headers, rows)
+return {
         "table":table,
     }
 ```
@@ -380,7 +419,7 @@ Displaying Table
 
 ### file_to_PIL
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/image_utils.py#L23C1-L55C88)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/image_utils.py#L23C1-L55C88)
 
 ```python
 file_to_PIL(file):
@@ -413,12 +452,16 @@ Transforms a file into a Pillow Image object
 #### Python Code:
 
 ```python
->>> input_file = inputs['file']
->>> decoded_file = input_to_file(input_file)
->>> image = file_to_PIL(decoded_file)
->>> return {
-        "image":image,
-    }
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    decoded_file = msc.input_to_file(input_file)
+    image = msc.file_to_PIL(decoded_file)
+    return {"image": image}
+
+# Expected output:
+# {"image": <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=...>}
 ```
 
 #### Output using Jinja2 Template:
@@ -431,7 +474,7 @@ Displaying Image
 
 ### input_to_PIL
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
 
 ```python
 input_to_PIL(input_file, get_file_type=False):
@@ -458,18 +501,20 @@ Converts a base64 encoded file data into a pillow image
 #### Example:
 
 ```python
->>> input_file = inputs['file']
->>> image, file_type = input_to_PIL(input_file, get_file_type=True)
->>> print(file_type)
-jpeg
->>> type(image)
-<class 'PIL.JpegImagePlugin.JpegImageFile'>
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    image, file_type = msc.input_to_PIL(input_file, get_file_type=True)
+    return {"image": image, "file_type": file_type}
+
+# Expected output:
+# {"image": <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=...>, "file_type": "jpeg"}
 ```
 
 ### print_image
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/image_utils.py#L110C1-L209C36)
-
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/image_utils.py#L110C1-L209C36)
 
 ```python
 print_image(
@@ -513,13 +558,17 @@ Transforms a Pillow image into an HTML image, with an optional download link
 #### Python Code:
 
 ```python
->>> input_file = inputs['file']
->>> image, metadata = input_to_PIL(input_file)
->>> html_image, download = print_image(image, original_size = True, download = True, download_text = "Download Image Here", download_file_name = "myimage", download_file_type = "jpeg")
->>> return {
-        "image":html_image,
-        "download":download,
-    }
+import mecsimcalc as msc
+
+def main(inputs):
+    input_file = inputs['file']
+    image, metadata = msc.input_to_PIL(input_file)
+    html_image, download = msc.print_image(image, original_size=True, download=True, download_text="Download Image Here", download_file_name="myimage", download_file_type="jpeg")
+    return {"image": html_image, "download": download}
+
+# Expected output:
+# {"image": "<img src='data:image/jpeg;base64,...' width='...' height='...'>",
+# "download": "<a href='data:image/jpeg;base64,...' download='myimage.jpeg'>Download Image Here</a>"}
 ```
 
 #### Output using Jinja2 Template:
@@ -538,7 +587,7 @@ Downloading Image
 
 ### print_plot
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/plotting_utils.py#L13C1-L97C35)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/plotting_utils.py#L13C1-L97C35)
 
 ```python
 print_plot(
@@ -578,18 +627,22 @@ Converts a matplotlib.pyplot.axis or matplotlib.figure into an HTML image tag an
 #### Python Code:
 
 ```python
->>> import matplotlib.pyplot as plt
->>> import numpy as np
->>> x = np.linspace(0, 2 * np.pi, 400)
->>> y = np.sin(x)
->>> fig, ax = plt.subplots()
->>> ax.plot(x, y)
->>> ax.set_title('A single plot')
->>> image, download = print_plot(fig, width = 500, dpi = 100, download = True, download_text = "Download Sin Function Plot", download_file_name = "sin(x)")
->>> return {
-        "image":image,
-        "download":download,
-    }
+import matplotlib.pyplot as plt
+import numpy as np
+import mecsimcalc as msc
+
+def main(inputs):
+    x = np.linspace(0, 2 * np.pi, 400)
+    y = np.sin(x)
+    fig, ax = plt.subplots()
+    ax.plot(x, y)
+    ax.set_title('A single plot')
+    image, download = msc.print_plot(fig, width=500, dpi=100, download=True, download_text="Download Sin Function Plot", download_file_name="sin(x)")
+    return {"image": image, "download": download}
+
+# Expected output:
+# {"image": "<img src='data:image/png;base64,...' width='500' height='...'>",
+#  "download": "<a href='data:image/png;base64,...' download='sin(x).png'>Download Sin Function Plot</a>"}
 ```
 
 #### Output using Jinja2 Template:
@@ -606,7 +659,7 @@ Downloading Image
 
 ### print_animation
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/plotting_utils.py#L99C1-L150C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/plotting_utils.py#L99C1-L150C1)
 
 ```python
 print_animation(ani: FuncAnimation, fps: int = 30, save_dir: str = "/tmp/temp_animation.gif") -> str:
@@ -614,41 +667,49 @@ print_animation(ani: FuncAnimation, fps: int = 30, save_dir: str = "/tmp/temp_an
 
 #### Description:
 
-Converts a matplotlib animation into an HTML image tag.
+Converts a matplotlib animation into an animated GIF and returns an HTML image tag to display it in your app.
 
 #### Arguments:
 
-| Argument       | Type            | Description                                    |
-| -------------- | --------------- | ---------------------------------------------- |
-| **`ani`**      | **FuncAnimation** | The matplotlib animation to be converted.      |
-| **`fps`**      | **int** (optional) | Frames per second for the animation. Defaults to `30`. |
+| Argument       | Type               | Description                                                                                                                                                                                                       |
+| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`ani`**      | **FuncAnimation**  | The matplotlib animation to be converted.                                                                                                                                                                         |
+| **`fps`**      | **int** (optional) | Frames per second for the animation. Defaults to `30`.                                                                                                                                                            |
 | **`save_dir`** | **str** (optional) | The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.) You can only write to the tmp directory in mecsimcalc. |
 
 #### Returns:
 
-| Return Type | Description              |
-| ----------- | ------------------------ |
+| Return Type | Description                     |
+| ----------- | ------------------------------- |
 | **`str`**   | The HTML image tag as a string. |
 
 #### Example:
 
 ```python
->>> fig, ax = plt.subplots()
->>> x = np.linspace(0, 10, 1000)
->>> y = np.sin(x)
->>> line, = ax.plot(x, y)
->>> def update(frame):
->>>     line.set_ydata(np.sin(x + frame / 100))
->>> ani = FuncAnimation(fig, update, frames=100)
->>> animation = msc.print_animation(ani)
->>> return {
-        "animation": animation
-    }
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+import numpy as np
+import mecsimcalc as msc
+
+def main(inputs):
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 2*np.pi, 100)
+    y = np.sin(x)
+    line, = ax.plot(x, y)
+    def update(frame):
+        line.set_ydata(np.sin(x + frame / 10))
+        return line,
+    ani = FuncAnimation(fig, update, frames=100)
+    animation = msc.print_animation(ani)
+    return {"animation": animation}
+
+# Expected output:
+# {"animation": "<img src='data:image/gif;base64,...'>"}
 ```
 
 ### animate_plot
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/plotting_utils.py#L152C1-L243C105)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/plotting_utils.py#L152C1-L243C105)
 
 ```python
 animate_plot(
@@ -668,39 +729,43 @@ Creates an animated plot from given x and y data and returns it as an HTML image
 
 #### Arguments:
 
-| Argument       | Type            | Description                                           |
-| -------------- | --------------- | ----------------------------------------------------- |
-| **`x`**        | **np.ndarray**  | The x-coordinates of the data points.                 |
-| **`y`**        | **np.ndarray**  | The y-coordinates of the data points.                 |
-| **`duration`** | **int** (optional) | The duration of the animation in seconds. Defaults to `5`. |
-| **`fps`**      | **int** (optional) | Frames per second for the animation. Defaults to `None`. (fps = len(x) / duration if fps=None) |
-| **`title`**    | **str** (optional) | Title of the plot. Defaults to `"y = f(x)"`.          |
-| **`show_axes`** | **bool** (optional) | Whether to show the x and y axes. Defaults to `True`.  |
-| **`save_dir`** | **str** (optional) | The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.) You can only write to the tmp directory in mecsimcalc.|
+| Argument        | Type                | Description                                                                                                                                                                                                       |
+| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`x`**         | **np.ndarray**      | The x-coordinates of the data points.                                                                                                                                                                             |
+| **`y`**         | **np.ndarray**      | The y-coordinates of the data points.                                                                                                                                                                             |
+| **`duration`**  | **int** (optional)  | The duration of the animation in seconds. Defaults to `5`.                                                                                                                                                        |
+| **`fps`**       | **int** (optional)  | Frames per second for the animation. Defaults to `None`. (fps = len(x) / duration if fps=None)                                                                                                                    |
+| **`title`**     | **str** (optional)  | Title of the plot. Defaults to `"y = f(x)"`.                                                                                                                                                                      |
+| **`show_axes`** | **bool** (optional) | Whether to show the x and y axes. Defaults to `True`.                                                                                                                                                             |
+| **`save_dir`**  | **str** (optional)  | The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.) You can only write to the tmp directory in mecsimcalc. |
 
 #### Returns:
 
-| Return Type | Description                            |
-| ----------- | -------------------------------------- |
+| Return Type | Description                                      |
+| ----------- | ------------------------------------------------ |
 | **`str`**   | The HTML image tag containing the animated plot. |
 
 #### Example:
 
 ```python
->>> import numpy as np
->>> x = np.linspace(0, 10, 1000)
->>> y = np.sin(x)
->>> animation_html = animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
->>> return {
-        "animation": animation_html
-    }
+import numpy as np
+import mecsimcalc as msc
+
+def main(inputs):
+    x = np.linspace(0, 10, 1000)
+    y = np.sin(x)
+    animation_html = msc.animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
+    return {"animation": animation_html}
+
+# Expected output:
+# {"animation": "<img src='data:image/gif;base64,...'>"}
 ```
 
 ## Quiz Toolkit
 
 ### append_to_google_sheet
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/quiz_utils.py#L11C1-L134C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/quiz_utils.py#L11C1-L134C1)
 
 ```python
 append_to_google_sheet(
@@ -716,21 +781,20 @@ append_to_google_sheet(
 
 This function appends given values to a specified Google Sheet and optionally includes a current timestamp with each entry. It transforms data into a Google Sheets document, facilitating dynamic data entry directly from your application.
 
-
 #### Arguments:
 
-| Argument               | Type     | Description                                                                                                                                  |
-|------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| **`service_account_info`** | **dict** | The service account credentials used for Google Sheets API authentication.  |
-| **`spreadsheet_id`**       | **str**  | The unique identifier of the target Google Spreadsheet.                     |
-| **`values`**               | **list of lists** | The data to append. Each list element represents a row of data.                                                                              |
-| **`range_name`**           | **str** (optional)  | The A1 notation of the range to start appending data (Defaults to 'Sheet1!A1').                                                              |
-| **`include_timestamp`**    | **bool** (optional) | If True, appends the current timestamp to each row of data (Defaults to True).                                                               |
+| Argument                   | Type                | Description                                                                     |
+| -------------------------- | ------------------- | ------------------------------------------------------------------------------- |
+| **`service_account_info`** | **dict**            | The service account credentials used for Google Sheets API authentication.      |
+| **`spreadsheet_id`**       | **str**             | The unique identifier of the target Google Spreadsheet.                         |
+| **`values`**               | **list of lists**   | The data to append. Each list element represents a row of data.                 |
+| **`range_name`**           | **str** (optional)  | The A1 notation of the range to start appending data (Defaults to 'Sheet1!A1'). |
+| **`include_timestamp`**    | **bool** (optional) | If True, appends the current timestamp to each row of data (Defaults to True).  |
 
 #### Returns:
 
-| Return Type | Description                              |
-|-------------|------------------------------------------|
+| Return Type | Description                                                                          |
+| ----------- | ------------------------------------------------------------------------------------ |
 | **`dict`**  | The response from the Google Sheets API, containing details of the append operation. |
 
 #### Example:
@@ -746,69 +810,74 @@ def main(inputs):
     }
     spreadsheet_id = 'your_spreadsheet_id_here'
     values = [
-    [ inputs['input_1'], inputs['input_2'], inputs['input_3'] ],
-    ]    
+        [inputs['input_1'], inputs['input_2'], inputs['input_3']],
+    ]
     result = msc.append_to_google_sheet(service_account_info, spreadsheet_id, values)
+    return {"result": result}
 
+# Expected output:
+# {"result": {"spreadsheetId": "your_spreadsheet_id_here",
+#  "updatedRange": "Sheet1!A1:C1",
+#  "updatedRows": 1, "updatedColumns": 3, "updatedCells": 3}}
 ```
-
 
 ### send_gmail
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/b0.1.9/mecsimcalc/file_utils/quiz_utils.py#L136C1-L207C21)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/quiz_utils.py#L136C1-L207C21)
 
 ```python
 send_gmail(
-	sender_email='sender@example.com', 
-	receiver_email='receiver@example.com', 
-	subject="Quiz", 
-	app_password = "xxxx xxxx xxxx xxxx", 
-	values = [
-	["name", "grade"]
-	]
+    sender_email='sender@example.com',
+    receiver_email='receiver@example.com',
+    subject="Quiz",
+    app_password = "xxxx xxxx xxxx xxxx",
+    values = [
+    ["name", "grade"]
+    ]
 )
 ```
+
 #### Description:
 
 This function sends an email with specified values formatted in the message body, utilizing a service account for authentication.
 
 #### Arguments:
 
-| Argument            | Type     | Description                                                                |
-|---------------------|----------|----------------------------------------------------------------------------|
-| **`sender_email`**      | **str**  | The email address of the sender.                                           |
-| **`receiver_email`**    | **str**  | The email address of the receiver.                                         |
-| **`subject`**           | **str**  | The subject line of the email.                                             |
-| **`app_password`**      | **str**  | The app-specific password for the sender's email account.                  |
-| **`values`**            | **list** | A list of lists. Each list contains data to be included in the email body. |
+| Argument             | Type     | Description                                                                |
+| -------------------- | -------- | -------------------------------------------------------------------------- |
+| **`sender_email`**   | **str**  | The email address of the sender.                                           |
+| **`receiver_email`** | **str**  | The email address of the receiver.                                         |
+| **`subject`**        | **str**  | The subject line of the email.                                             |
+| **`app_password`**   | **str**  | The app-specific password for the sender's email account.                  |
+| **`values`**         | **list** | A list of lists. Each list contains data to be included in the email body. |
 
 #### Returns:
 
-| Return Type | Description                     |
-|-------------|---------------------------------|
+| Return Type | Description                                                       |
+| ----------- | ----------------------------------------------------------------- |
 | **`bool`**  | Returns True if the email was sent successfully, otherwise False. |
 
 #### Example Usage:
 
 ```python
-# Example code to use the send_gmail function
 import mecsimcalc as msc
 
 def main(inputs):
-    # Define parameters
     sender_email = 'sender@example.com'
     receiver_email = 'receiver@example.com'
     subject = 'Test Email'
     app_password = 'your_app_password_here'
-    
+
     name = inputs['name']
     grade = inputs['grade']
-    
+
     values = [
-    [name, grade]
+        [name, grade]
     ]
 
-    # Send the email
-    msc.send_gmail(sender_email, receiver_email, subject, app_password, values)
+    result = msc.send_gmail(sender_email, receiver_email, subject, app_password, values)
+    return {"result": result}
 
+# Expected output:
+# {"result": True}
 ```
