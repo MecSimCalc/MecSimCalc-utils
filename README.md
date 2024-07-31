@@ -1,17 +1,4 @@
-<div style="{{" margin:="" '1em="" 0'="" }}=""><label htmlfor="version-select" style="{{" fontweight:="" 'bold',="" marginright:="" '10px'="" }}="">Select Version:</label>
-  <select id="version-select" onchange="{(e)" ==""> window.location.href = e.target.value}&gt;
-    <option value="">Latest Release (v0.1.9)</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.6/README.md">v0.1.6</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.5/README.md">v0.1.5</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.4/README.md">v0.1.4</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.3/README.md">v0.1.3</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.2/README.md">v0.1.2</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.0.5/README.md">v0.0.5</option>
-    <option value="https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.0.4/README.md">v0.0.4</option>
-    &lt;_comment&gt; Add more options as needed <_comment>_comment</_comment></select></div>
-
-# File Utilities
-
+# MecSimCalc File Utilities v2.0
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
 - [GitHub Repository](https://github.com/MecSimCalc/MecSimCalc-utils)

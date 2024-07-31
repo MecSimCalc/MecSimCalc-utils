@@ -1,11 +1,3 @@
-<div style={{ margin: '1em 0' }}>
-  <label htmlFor="version-select" style={{ fontWeight: 'bold', marginRight: '10px' }}>Select Version:</label>
-  <select id="version-select" onChange={(e) => window.location.href = e.target.value}>
-    <option value="">Latest Release (v0.1.9)</option>
-    <!-- Add more options as needed -->
-  </select>
-</div>
-
 # Plot Draw
 
 This library is designed to provide a set of functions for drawing various types of plots, arrows, segments, and shapes using Matplotlib. These functions allow for customized plotting and annotation of graphical elements.
