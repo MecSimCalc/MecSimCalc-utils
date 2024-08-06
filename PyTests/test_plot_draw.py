@@ -117,21 +117,30 @@ def run_all_functions():
     assert (round(x, 2), round(y, 2)) == (135.36, 235.36)
 
     # Draw a custom circle
-    draw_custom_circle((100, 100), radius=20, color='red')
+    draw_custom_circle((100, 100), radius=20, color="red")
 
     # Draw a rounded rectangle
-    draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
+    draw_rounded_rectangle((0, 0), 4, 2, 0.5, color="blue")
 
     # Calculate intersection point
     intersection_point = calculate_intersection_point((0, 0), 45, (1, 1), 135)
-    assert intersection_point ==  (1.0, 0.9999999999999999)
+    assert intersection_point == (1.0, 0.9999999999999999)
 
     # Draw a segment
     draw_segment((0.2, 0.2), (0.8, 0.8))
-    
-    x, y = plot_annotate_arrow_end((1, 1), 45, 1, text="End", text_offset=0.5, fontsize=12, text_align={'ha': 'center', 'va': 'top'}, degrees=True)
+
+    x, y = plot_annotate_arrow_end(
+        (1, 1),
+        45,
+        1,
+        text="End",
+        text_offset=0.5,
+        fontsize=12,
+        text_align={"ha": "center", "va": "top"},
+        degrees=True,
+    )
     assert round(x, 2), round(y, 2) == (10.90, 10.90)
-    
+
     # Draw three rotated axes
     draw_three_axes_rotated(
         arrow_length=0.4,

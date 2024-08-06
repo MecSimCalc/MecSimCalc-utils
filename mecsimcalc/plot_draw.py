@@ -1,4 +1,4 @@
-from typing import Union, Tuple, Optional
+from typing import Union, Tuple, Optional, Dict, Any
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -58,7 +58,7 @@ def draw_arrow(
 
     Examples
     --------
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
     >>> pltdraw.draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_offset=0.1, head_width=0.1, head_length=0.1, fontsize=10)
     >>> plt.xlim(-1, 2)
@@ -104,7 +104,7 @@ def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
 
     Examples
     --------
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> midpoint = pltdraw.calculate_midpoint((0, 0), (2, 2))
     >>> print(midpoint)
     (1.0, 1.0)
@@ -112,6 +112,7 @@ def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
     x1, y1 = coord1
     x2, y2 = coord2
     return (x1 + x2) / 2, (y1 + y2) / 2
+
 
 def draw_arc(
     radius: float,
@@ -151,8 +152,9 @@ def draw_arc(
 
     Examples
     --------
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
+    >>> import numpy as np
     >>> pltdraw.draw_arc(5, 0, np.pi/2)
     >>> plt.show()
     """
@@ -192,7 +194,7 @@ def create_blank_canvas(
 
     Examples
     --------
-    >>> import mecismcalc.plot_draw as pltdraw
+    >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
     >>> ax = pltdraw.create_blank_canvas(800, 600, color='lightgrey')
     >>> plt.show()
@@ -471,91 +473,119 @@ def draw_two_inclined_axes(
 
 
 def plot_line_segment(
-    start_point: tuple,
-    end_point_pixels: tuple,
-    line_properties: dict = {"color": "k", "linewidth": 1, "linestyle": "dashed"},
-    text: str = "",
+    start: Tuple[float, float],
+    end: Tuple[float, float],
+    line_properties: Dict[str, Any] = None,
+    label: str = "",
     min_spacing: float = 150,
     fontsize: int = 15,
-    text_loc: dict = {"ha": "center", "va": "top"},
+    text_properties: Dict[str, Any] = None,
     alpha: float = 0.8,
-) -> tuple:
+    ax: Optional[plt.Axes] = None,
+) -> Tuple[float, float]:
     """
-    >>> plot_line_segment(
-        start_point: tuple,
-        end_point_pixels: tuple,
-        line_properties: dict = {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'},
-        text: str = "",
+    >>> def plot_line_segment(
+        start: Tuple[float, float],
+        end: Tuple[float, float],
+        line_properties: Dict[str, Any] = None,
+        label: str = "",
         min_spacing: float = 150,
         fontsize: int = 15,
-        text_loc: dict = {'ha': 'center', 'va': 'top'},
-        alpha: float = 0.8
-    ) -> tuple
+        text_properties: Dict[str, Any] = None,
+        alpha: float = 0.8,
+        ax: Optional[plt.Axes] = None
+    ) -> Tuple[float, float]:
 
     Plots a line segment between two points and adds a label at the end point.
 
     Parameters
     ----------
-    start_point : tuple
+    start : Tuple[float, float]
         The starting point of the line segment (x, y).
-    end_point_pixels : tuple
+    end : Tuple[float, float]
         The ending point of the line segment (x, y).
-    line_properties : dict, optional
+    line_properties : Dict[str, Any], optional
         Properties for the line, including color, linewidth, and linestyle.
-    text : str, optional
-        The text to display near the end point of the line segment.
+        Default is {'color': 'k', 'linewidth': 1, 'linestyle': 'dashed'}.
+    label : str, optional
+        The text to display near the end point of the line segment. Default is "".
     min_spacing : float, optional
-        Minimum spacing for the text from the end point.
+        Minimum spacing for the text from the end point. Default is 150.
     fontsize : int, optional
-        Font size of the text.
-    text_loc : dict, optional
-        Dictionary specifying horizontal and vertical alignment of the text.
+        Font size of the text. Default is 15.
+    text_properties : Dict[str, Any], optional
+        Dictionary specifying properties for the text, such as horizontal and vertical alignment.
+        Default is {'ha': 'center', 'va': 'bottom'}.
     alpha : float, optional
-        Transparency level of the line segment.
+        Transparency level of the line segment. Default is 0.8.
+    ax : plt.Axes, optional
+        The Axes object to plot on. If None, the current axes will be used.
 
     Returns
     -------
-    * `tuple` :
+    Tuple[float, float]
         The end point of the line segment (x, y).
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
+    >>> fig, ax = plt.subplots()
     >>> start = (100, 200)
     >>> end = (400, 500)
-    >>> pltdraw.plot_line_segment(start, end, text="Segment", min_spacing=50)
+    >>> pltdraw.plot_line_segment(start, end, label="Segment", min_spacing=50, ax=ax)
     (400, 500)
     >>> plt.show()
     """
-    plt.plot(
-        [start_point[0], end_point_pixels[0]],
-        [start_point[1], end_point_pixels[1]],
+    if line_properties is None:
+        line_properties = {"color": "k", "linewidth": 1, "linestyle": "dashed"}
+    if text_properties is None:
+        text_properties = {"ha": "center", "va": "bottom"}
+
+    if ax is None:
+        ax = plt.gca()
+
+    ax.plot(
+        [start[0], end[0]],
+        [start[1], end[1]],
         **line_properties,
         alpha=alpha,
     )
-    mid_point = (
-        (start_point[0] + end_point_pixels[0]) / 2,
-        (start_point[1] + end_point_pixels[1]) / 2,
-    )
-    space = max(
-        0.1
-        * (
-            (end_point_pixels[0] - start_point[0]) ** 2
-            + (end_point_pixels[1] - start_point[1]) ** 2
-        )
-        ** 0.5,
-        min_spacing,
-    )
-    plt.text(
-        end_point_pixels[0] + space,
-        end_point_pixels[1] + space,
-        text,
+
+    # Calculate spacing for text
+    distance = np.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2)
+    space = max(0.1 * distance, min_spacing)
+
+    # Calculate the angle of the line
+    angle = np.arctan2(end[1] - start[1], end[0] - start[0])
+
+    # Calculate text position with an offset to avoid overlap
+    x_text = end[0] + space * np.cos(angle - np.pi / 4)
+    y_text = end[1] + space * np.sin(angle - np.pi / 4)
+
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+
+    ## Adjust text position if it is outside the plot
+    if x_text > xlim[1]:
+        x_text = xlim[1] - space
+    if y_text > ylim[1]:
+        y_text = ylim[1] - space
+    if x_text < xlim[0]:
+        x_text = xlim[0] + space
+    if y_text < ylim[0]:
+        y_text = ylim[0] + space
+
+    ax.text(
+        x_text,
+        y_text,
+        label,
         fontsize=fontsize,
         color="k",
-        **text_loc,
+        **text_properties,
     )
-    return end_point_pixels
+
+    return end
 
 
 def plot_annotate_arrow(
@@ -1033,11 +1063,12 @@ def plot_segment_dashed(
 
     return end
 
+
 def draw_custom_circle(
     center: Tuple[float, float] = (0, 0),
     radius: float = 10,
     color: str = "black",
-    ax: Optional[plt.Axes] = None
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
     >>> draw_custom_circle(
@@ -1076,12 +1107,13 @@ def draw_custom_circle(
 
     ax.scatter(center[0], center[1], s=area, color=color)
 
+
 def draw_rounded_rectangle(
     center: Tuple[float, float],
     width: float,
     height: float,
     corner_radius: float,
-    color: str = "black"
+    color: str = "black",
 ) -> None:
     """
     >>> def draw_rounded_rectangle(
@@ -1130,29 +1162,30 @@ def draw_rounded_rectangle(
     plt.plot(
         x1 + corner_radius + corner_radius * np.cos(corner_angles),
         y1 + corner_radius + corner_radius * np.sin(corner_angles),
-        color=color
+        color=color,
     )  # bottom-left corner
 
     corner_angles = np.linspace(1.5 * np.pi, 2 * np.pi, 50)
     plt.plot(
         x2 - corner_radius + corner_radius * np.cos(corner_angles),
         y1 + corner_radius + corner_radius * np.sin(corner_angles),
-        color=color
+        color=color,
     )  # bottom-right corner
 
     corner_angles = np.linspace(0, 0.5 * np.pi, 50)
     plt.plot(
         x2 - corner_radius + corner_radius * np.cos(corner_angles),
         y2 - corner_radius + corner_radius * np.sin(corner_angles),
-        color=color
+        color=color,
     )  # top-right corner
 
     corner_angles = np.linspace(0.5 * np.pi, np.pi, 50)
     plt.plot(
         x1 + corner_radius + corner_radius * np.cos(corner_angles),
         y2 - corner_radius + corner_radius * np.sin(corner_angles),
-        color=color
+        color=color,
     )  # top-left corner
+
 
 def calculate_intersection_point(
     point1: tuple, angle1: float, point2: tuple, angle2: float, degrees: bool = True
@@ -1256,6 +1289,7 @@ def draw_segment(
     x4 = x_end + offset_x
     y4 = y_end - offset_y
     plt.fill([x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color=color)
+
 
 def plot_annotate_arrow_end(
     end: tuple,
