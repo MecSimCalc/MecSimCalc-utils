@@ -10,28 +10,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 
-from plotting_utils import print_plot
 from plot_draw import *
-
-
-def test_print_plot():
-    # convert file data to pillow image
-    plt = make_plt()
-
-    # try converting plot to html img
-    plt_html = print_plot(plt)
-
-    # check that html img is correct
-    assert plt_html.startswith("<img src='data:image/png;base64,")
-
-    # check that html img is correct with download
-    plt_html, downloadHTMLplt = print_plot(plt, download=True)
-
-    # check that html img is correct with download
-    assert plt_html.startswith("<img src='data:image/png;base64,")
-
-    # check that download is correct
-    assert downloadHTMLplt.startswith("<a href='data:image/png;base64,")
 
 
 def make_plt():
@@ -80,7 +59,7 @@ def run_all_functions():
 
     # Plot a segment in pixels
     assert plot_line_segment(
-        (100, 200), (400, 500), text="Segment", min_spacing=20
+        (100, 200), (400, 500), label="Segment", min_spacing=20
     ) == (400, 500)
 
     # plot annotation arrow

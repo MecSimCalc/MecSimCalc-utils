@@ -27,9 +27,9 @@ def test_print_plot():
     ax_html = print_plot(ax)
 
     # check that html img is correct
-    assert fig_html.startswith("<img src='data:image/png;base64,")
-    assert plt_html.startswith("<img src='data:image/png;base64,")
-    assert ax_html.startswith("<img src='data:image/png;base64,")
+    assert fig_html.startswith("<img src='data:image/jpeg;base64,")
+    assert plt_html.startswith("<img src='data:image/jpeg;base64,")
+    assert ax_html.startswith("<img src='data:image/jpeg;base64,")
 
     # check that html img is correct with download
     fig_html, downloadHTMLfig = print_plot(fig, download=True)
@@ -37,14 +37,14 @@ def test_print_plot():
     ax_html, downloadHTMLax = print_plot(ax, download=True)
 
     # check that html img is correct with download
-    assert fig_html.startswith("<img src='data:image/png;base64,")
-    assert plt_html.startswith("<img src='data:image/png;base64,")
-    assert ax_html.startswith("<img src='data:image/png;base64,")
+    assert fig_html.startswith("<img src='data:image/jpeg;base64,")
+    assert plt_html.startswith("<img src='data:image/jpeg;base64,")
+    assert ax_html.startswith("<img src='data:image/jpeg;base64,")
 
     # check that download is correct
-    assert downloadHTMLfig.startswith("<a href='data:image/png;base64,")
-    assert downloadHTMLplt.startswith("<a href='data:image/png;base64,")
-    assert downloadHTMLax.startswith("<a href='data:image/png;base64,")
+    assert downloadHTMLfig.startswith("<a href='data:image/jpeg;base64,")
+    assert downloadHTMLplt.startswith("<a href='data:image/jpeg;base64,")
+    assert downloadHTMLax.startswith("<a href='data:image/jpeg;base64,")
 
 
 def test_print_animation():

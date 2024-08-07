@@ -73,19 +73,21 @@ def print_plot(
         "download_link": download_link
     }
     """
+    file_type = "jpeg"
+    
     if isinstance(plot_obj, plt.Axes):
         plot_obj = plot_obj.get_figure()
 
     # Save the plot to a buffer
     buffer = io.BytesIO()
-    plot_obj.savefig(buffer, format="png", dpi=dpi)
+    plot_obj.savefig(buffer, format=file_type, dpi=dpi)
 
     if hasattr(plot_obj, "close"):
         plot_obj.close()
 
     # generate image
     encoded_image = (
-        f"data:image/png;base64,{base64.b64encode(buffer.getvalue()).decode()}"
+        f"data:image/{file_type};base64,{base64.b64encode(buffer.getvalue()).decode()}"
     )
     html_img = f"<img src='{encoded_image}' width='{width}'>"
 
@@ -94,7 +96,7 @@ def print_plot(
 
     download_link = (
         f"<a href='{encoded_image}' "
-        f"download='{download_file_name}.png'>{download_text}</a>"
+        f"download='{download_file_name}.{file_type}'>{download_text}</a>"
     )
     return html_img, download_link
 
