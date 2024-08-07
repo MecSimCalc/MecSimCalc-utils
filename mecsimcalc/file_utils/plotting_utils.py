@@ -50,7 +50,7 @@ def print_plot(
     Returns
     -------
     * `Union[str, Tuple[str, str]]` :
-        * If `download` is False, returns the HTML image as a string.
+        * If `download` is Fal0se, returns the HTML image as a string.
         * If `download` is True, returns a tuple consisting of the HTML image as a string and the download link as a string.
 
 
@@ -74,7 +74,7 @@ def print_plot(
     }
     """
     file_type = "jpeg"
-    
+
     if isinstance(plot_obj, plt.Axes):
         plot_obj = plot_obj.get_figure()
 
@@ -159,21 +159,21 @@ def print_animation(
 def animate_plot(
     x: np.ndarray,
     y: np.ndarray,
-    duration: int = 5,
+    duration: int = 3,
     fps: int = 15,
     x_label: str = "x",
     y_label: str = "y",
     title: str = "y = f(x)",
     show_axes: bool = True,
-    save_dir: str = "/tmp/temp_animation.gif",
     follow_tip: bool = False,
     hold_last_frame: float = 1.0,
+    save_dir: str = "/tmp/temp_animation.gif",
 ) -> str:
     """
     >>> animate_plot(
         x: np.ndarray,
         y: np.ndarray,
-        duration: int = 5,
+        duration: int = 3,
         fps: int = None,
         title: str = "y = f(x)",
         show_axes: bool = True,
@@ -187,13 +187,17 @@ def animate_plot(
     y : np.ndarray
         The y-coordinates of the data points.
     duration : int, optional
-        The duration of the animation in seconds. Defaults to `5`.
+        The duration of the animation in seconds. Defaults to `3`.
     fps : int, optional
-        Frames per second for the animation. Defaults to 30.
+        Frames per second for the animation. Defaults to 15.
     title : str, optional
         Title of the plot. Defaults to `"y = f(x)"`.
     show_axes : bool, optional
         Whether to show the x and y axes. Defaults to `True`.
+    follow_tip : bool, optional
+        Whether to follow the tip of the line as it moves along the x-axis. Defaults to `False`.
+    hold_last_frame : float, optional
+        The duration to hold the last frame in seconds. Defaults to `1.0`.
     save_dir : str, optional
         The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.)
 
@@ -208,7 +212,7 @@ def animate_plot(
     >>> import mecsimcalc as msc
     >>> x = np.linspace(0, 10, 100)
     >>> y = np.sin(x)
-    >>> animation_html = msc.animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
+    >>> animation_html = msc.animate_plot(x, y, duration=3, title="Sine Wave", show_axes=True)
     >>> return {
         "animation": animation_html
     }
@@ -272,7 +276,10 @@ def plot_slider(
     f_x: Callable[[float, np.ndarray], np.ndarray],
     x_range: Tuple[float, float],
     y_range: Tuple[float, float] = None,
-    num_points: int = 500,
+    title: str = "",
+    x_label: str = "x",
+    y_label: str = "y",
+    num_points: int = 250,
     initial_value: float = 1,
     step_size: float = 0.1,
     slider_range: Tuple[float, float] = (-10, 10),
@@ -282,7 +289,9 @@ def plot_slider(
         f_x: Callable[[float, np.ndarray], np.ndarray],
         x_range: Tuple[float, float],
         y_range: Tuple[float, float] = None,
-        num_points: int = 500,
+        x_label: str = "x",
+        y_label: str = "y",
+        num_points: int = 250,
         initial_value: float = 0,
         step_size: float = 0.1,
         slider_range: Tuple[float, float] = (-10, 10)
@@ -298,10 +307,16 @@ def plot_slider(
         A tuple defining the range of x-values (start, end) for the plot.
     y_range : Tuple[float, float], optional
         A tuple defining the range of y-values (start, end) for the plot. Defaults to None.
+    title : str, optional
+        Title of the plot. Defaults to `""`.
+    x_label : str, optional
+        Label for the x-axis. Defaults to `"x"`.
+    y_label : str, optional
+        Label for the y-axis. Defaults to `"y"`.
     num_points : int, optional
-        Number of points to plot. Defaults to `500`.
+        Number of points to plot (line resolution). Defaults to `250`.
     initial_value : float, optional
-        Initial value of the parameter for the function. Defaults to `1`.
+        Initial value of the slider. Defaults to `1`.
     step_size : float, optional
         Step size for the slider. Defaults to `0.1`.
     slider_range : Tuple[float, float], optional
@@ -378,19 +393,22 @@ def plot_slider(
 
     # Define layout for a color scheme that works on both light and dark themes
     layout = {
-        "plot_bgcolor": "#2b2b2b",  # Neutral dark background
-        "paper_bgcolor": "#2b2b2b",  # Neutral dark background
-        "font": {"color": "#ffffff"},  # White font color for good contrast
+        "plot_bgcolor": "#2b2b2b",
+        "paper_bgcolor": "#2b2b2b",
+        "font": {"color": "#ffffff"},
+        "title": {"text": title, "x": 0.5, "xanchor": "center"},
         "xaxis": {
-            "title": "x",
+            "title": x_label,
             "range": [x_range[0], x_range[1]],
             "color": "#ffffff",
-        },  # White axis color
-        "yaxis": {"title": "y", "color": "#ffffff"},  # White axis color
+        },
+        "yaxis": {"title": y_label, "color": "#ffffff"},
     }
 
     if y_range:
         layout["yaxis"]["range"] = y_range
+    else:
+        layout["yaxis"]["autorange"] = True
 
     fig.update_layout(layout)
     fig.update_layout(sliders=sliders)
