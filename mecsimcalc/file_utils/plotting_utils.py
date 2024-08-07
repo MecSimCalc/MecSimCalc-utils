@@ -159,8 +159,8 @@ def print_animation(
 def animate_plot(
     x: np.ndarray,
     y: np.ndarray,
-    duration: int = 3,
-    fps: int = 15,
+    duration: float = 3,
+    fps: float = 15,
     x_label: str = "x",
     y_label: str = "y",
     title: str = "y = f(x)",
@@ -173,10 +173,15 @@ def animate_plot(
     >>> animate_plot(
         x: np.ndarray,
         y: np.ndarray,
-        duration: int = 3,
-        fps: int = None,
+        duration: float = 3,
+        fps: float = None,
+        x_label: str = "x",
+        y_label: str = "y",
         title: str = "y = f(x)",
         show_axes: bool = True,
+        follow_tip: bool = False,
+        hold_last_frame: float = 1.0,
+        save_dir: str = "/tmp/temp_animation.gif"
     ) -> str:
     Creates an animated plot from given x and y data and returns it as an HTML image tag.
 
@@ -186,9 +191,9 @@ def animate_plot(
         The x-coordinates of the data points.
     y : np.ndarray
         The y-coordinates of the data points.
-    duration : int, optional
+    duration : float, optional
         The duration of the animation in seconds. Defaults to `3`.
-    fps : int, optional
+    fps : float, optional
         Frames per second for the animation. Defaults to 15.
     title : str, optional
         Title of the plot. Defaults to `"y = f(x)"`.
@@ -212,7 +217,7 @@ def animate_plot(
     >>> import mecsimcalc as msc
     >>> x = np.linspace(0, 10, 100)
     >>> y = np.sin(x)
-    >>> animation_html = msc.animate_plot(x, y, duration=3, title="Sine Wave", show_axes=True)
+    >>> animation_html = msc.animate_plot(x, y, duration=4, title="Sine Wave", show_axes=True)
     >>> return {
         "animation": animation_html
     }
