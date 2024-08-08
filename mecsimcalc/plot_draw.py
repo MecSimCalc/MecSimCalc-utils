@@ -84,22 +84,24 @@ def draw_arrow(
         ax.text(text_position[0], text_position[1], text, fontsize=fontsize)
 
 
-def calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple:
+def calculate_midpoint(
+    coord1: Tuple[float, float], coord2: Tuple[float, float]
+) -> Tuple[float, float]:
     """
-    >>> calculate_midpoint(coord1: tuple, coord2: tuple) -> tuple
+    >>> calculate_midpoint(coord1: Tuple[float, float], coord2: Tuple[float, float]) -> Tuple[float, float]
 
     Calculates the midpoint between two coordinates.
 
     Parameters
     ----------
-    coord1 : tuple
+    coord1 : Tuple[float, float]
         The first coordinate (x, y).
-    coord2 : tuple
+    coord2 : Tuple[float, float]
         The second coordinate (x, y).
 
     Returns
     -------
-    tuple
+    * `Tuple[float, float]`
         The midpoint (x, y).
 
     Examples
@@ -189,7 +191,7 @@ def create_blank_canvas(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes`
         The Axes object of the created blank canvas.
 
     Examples
@@ -220,7 +222,7 @@ def create_blank_canvas(
 def draw_three_axes(
     arrow_length: float = 1.0,
     arrow_thickness: float = 2.0,
-    offset_text: float = 0.1,
+    text_offset: float = 0.1,
     longx: float = 1.5,
     axis_y_negative: bool = False,
     axis_x_negative: bool = False,
@@ -230,7 +232,7 @@ def draw_three_axes(
     >>> def draw_three_axes(
         arrow_length: float = 1.0,
         arrow_thickness: float = 2.0,
-        offset_text: float = 0.1,
+        text_offset: float = 0.1,
         longx: float = 1.5,
         axis_y_negative: bool = False,
         axis_x_negative: bool = False,
@@ -245,7 +247,7 @@ def draw_three_axes(
         The length of the arrows representing the axes (Default is 1.0).
     arrow_thickness : float, optional
         The thickness of the arrows (Default is 2.0).
-    offset_text : float, optional
+    text_offset : float, optional
         The distance between the end of the arrow and the label text (Default is 0.1).
     longx : float, optional
         The factor to adjust the length of the diagonal x-axis (Default is 1.5).
@@ -258,14 +260,14 @@ def draw_three_axes(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes`
         The Axes object with the drawn axes.
 
     Examples
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
-    >>> ax = pltdraw.draw_three_axes(arrow_length=1, arrow_thickness=2, offset_text=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    >>> ax = pltdraw.draw_three_axes(arrow_length=1, arrow_thickness=2, text_offset=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
     >>> plt.show()
     """
     ax = ax or plt.gca()
@@ -280,7 +282,7 @@ def draw_three_axes(
         ec="gray",
         lw=arrow_thickness,
     )
-    ax.text(0, arrow_length + offset_text, "z", fontsize=12, ha="center", va="bottom")
+    ax.text(0, arrow_length + text_offset, "z", fontsize=12, ha="center", va="bottom")
 
     ax.arrow(
         0,
@@ -293,7 +295,7 @@ def draw_three_axes(
         ec="gray",
         lw=arrow_thickness,
     )
-    ax.text(arrow_length + offset_text, 0, "y", fontsize=12, ha="left", va="center")
+    ax.text(arrow_length + text_offset, 0, "y", fontsize=12, ha="left", va="center")
 
     if axis_y_negative:
         ax.arrow(
@@ -320,8 +322,8 @@ def draw_three_axes(
         lw=arrow_thickness,
     )
     ax.text(
-        -arrow_length / longx - offset_text / 1.5,
-        -arrow_length / longx - offset_text / 1.5,
+        -arrow_length / longx - text_offset / 1.5,
+        -arrow_length / longx - text_offset / 1.5,
         "x",
         fontsize=12,
         ha="right",
@@ -392,7 +394,7 @@ def draw_two_inclined_axes(
 
     Returns
     -------
-    plt.Axes
+    * `plt.Axes`
         The Axes object with the drawn axes.
 
     Examples
@@ -493,7 +495,7 @@ def plot_line_segment(
         fontsize: int = 15,
         text_properties: Dict[str, Any] = None,
         alpha: float = 0.8,
-        ax: Optional[plt.Axes] = None
+        ax: Optional[plt.Axes] = None,
     ) -> Tuple[float, float]:
 
     Plots a line segment between two points and adds a label at the end point.
@@ -523,17 +525,16 @@ def plot_line_segment(
 
     Returns
     -------
-    Tuple[float, float]
+    * `Tuple[float, float]`
         The end point of the line segment (x, y).
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> fig, ax = plt.subplots()
+    >>> import mecismcalc.plot_draw as pltdraw
     >>> start = (100, 200)
     >>> end = (400, 500)
-    >>> pltdraw.plot_line_segment(start, end, label="Segment", min_spacing=50, ax=ax)
+    >>> pltdraw.plot_line_segment(start, end, label="Segment", min_spacing=50)
     (400, 500)
     >>> plt.show()
     """
@@ -542,8 +543,7 @@ def plot_line_segment(
     if text_properties is None:
         text_properties = {"ha": "center", "va": "bottom"}
 
-    if ax is None:
-        ax = plt.gca()
+    ax = ax or plt.gca()
 
     ax.plot(
         [start[0], end[0]],
@@ -566,15 +566,9 @@ def plot_line_segment(
     xlim = ax.get_xlim()
     ylim = ax.get_ylim()
 
-    ## Adjust text position if it is outside the plot
-    if x_text > xlim[1]:
-        x_text = xlim[1] - space
-    if y_text > ylim[1]:
-        y_text = ylim[1] - space
-    if x_text < xlim[0]:
-        x_text = xlim[0] + space
-    if y_text < ylim[0]:
-        y_text = ylim[0] + space
+    # Adjust text position if it is outside the plot
+    x_text = np.clip(x_text, xlim[0], xlim[1])
+    y_text = np.clip(y_text, ylim[0], ylim[1])
 
     ax.text(
         x_text,
@@ -633,31 +627,31 @@ def plot_annotate_arrow(
     length : float
         The length of the arrow.
     degrees : bool, optional
-        Whether the angle is given in degrees (Default is False).
+        Whether the angle is given in degrees. Default is `False`.
     text : str, optional
         The text to display near the arrow.
     text_offset : float, optional
-        Distance from the arrow end point where the text will be placed (Default is 0.1).
+        Distance from the arrow end point where the text will be placed. Default is `0.1`.
     fontsize : int, optional
-        Font size of the text (Default is 11).
+        Font size of the text Default is `11`.
     text_align : dict, optional
-        Dictionary specifying horizontal and vertical alignment of the text (Default is {'ha': 'center', 'va': 'top'}).
+        Dictionary specifying horizontal and vertical alignment of the text. Default is `{'ha': 'center', 'va': 'top'}`.
     arrow_props : dict, optional
-        Properties for the arrow, including width, head_width, head_length, fill color (fc), and edge color (ec) (Default is {'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}).
+        Properties for the arrow, including width, head_width, head_length, fill color (fc), and edge color (ec). Default is `{'width': 2, 'head_width': 15, 'head_length': 15, 'fc': 'black', 'ec': 'black'}`.
     reverse : bool, optional
-        Whether to reverse the direction of the arrow (Default is False).
+        Whether to reverse the direction of the arrow. Default is `False`.
     center_text : bool, optional
-        Whether to place the text in the center of the arrow (Default is False).
+        Whether to place the text in the center of the arrow. Default is `False`.
     reverse_text : bool, optional
-        Whether to reverse the text orientation (Default is False).
+        Whether to reverse the text orientation. Default is `False`.
     alpha : float, optional
-        Transparency level of the arrow (Default is 0.8).
+        Transparency level of the arrow. Default is `0.8`.
     ax : Optional[plt.Axes], optional
-        Matplotlib Axes object to draw on. If None, uses current Axes (Default is None).
+        Matplotlib Axes object to draw on. If None, uses current Axes. Default is `None`.
 
     Returns
     -------
-    tuple
+    * `Tuple[float, float]`
         The end point of the arrow (x, y).
 
     Examples
@@ -720,26 +714,28 @@ def plot_annotate_arrow(
     )
     if not center_text:
         space = max(0.1 * length, text_offset)
-        ax.text(
-            end[0] + space * np.cos(angle),
-            end[1] + space * np.sin(angle),
-            text,
-            fontsize=fontsize,
-            color="k",
-            **text_align,
-        )
+        text_x = end[0] + space * np.cos(angle)
+        text_y = end[1] + space * np.sin(angle)
     else:
         rot_angle = -angle if angle < np.pi / 2 else (np.pi - angle)
         rot_angle = rot_angle + np.pi if reverse_text else rot_angle
-        ax.text(
-            mid[0] + text_offset * np.cos(np.pi / 2 + angle),
-            mid[1] + text_offset * np.sin(np.pi / 2 + angle),
-            text,
-            fontsize=fontsize,
-            color="k",
-            **text_align,
-            rotation=rot_angle,
-        )
+        text_x = mid[0] + text_offset * np.cos(np.pi / 2 + angle)
+        text_y = mid[1] + text_offset * np.sin(np.pi / 2 + angle)
+
+    # Adjust text position to be within plot boundaries
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+    text_x = max(min(text_x, xlim[1]), xlim[0])
+    text_y = max(min(text_y, ylim[1]), ylim[0])
+
+    ax.text(
+        text_x,
+        text_y,
+        text,
+        fontsize=fontsize,
+        color="k",
+        **text_align,
+    )
 
     end = (
         start[0] + length * np.cos(angle),
@@ -750,74 +746,62 @@ def plot_annotate_arrow(
 
 
 def draw_custom_arrow(
-    ax: plt.Axes,
-    start_point: tuple,
-    point_2: tuple,
-    factor: float,
-    max_value: float,
-    arrow_vector_length: float,
-    arrow_width: float,
+    start: Tuple[float, float],
+    end: Tuple[float, float],
+    factor: float = 0.5,
+    max_value: float = 100,
+    arrow_vector_length: float = 50,
+    arrow_width: float = 5,
     arrow_color: str = "blue",
     line_width: float = 1,
-    text: str = None,
+    text: str = "",
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
-    >>> draw_custom_arrow(
-        ax: plt.Axes,
-        start_point: tuple,
-        point_2: tuple,
-        factor: float,
-        max_value: float,
-        arrow_vector_length: float,
-        arrow_width: float,
-        arrow_color: str = 'blue',
-        line_width: float = 1,
-        text: str = None
-    ) -> None
-
-    Draws a custom arrow from a start point to another point on a given axis, using pixel-based parameters.
+    Draws a custom arrow from a start point to an end point on a given axis.
 
     Parameters
     ----------
-    ax : matplotlib.axes.Axes
-        The Axes object to draw the arrow on.
-    start_point : tuple
-        The starting point of the arrow (x, y) in pixels.
-    point_2 : tuple
-        The end point of the arrow (x, y) in pixels.
-    factor : float
-        A factor to adjust the position of the text relative to the arrow.
-    max_value : float
-        The maximum value for scaling the arrow length.
-    arrow_vector_length : float
-        The length of the arrow vector.
-    arrow_width : float
-        The width of the arrow head in pixels.
+    start : Tuple[float, float], optional
+        The starting point of the arrow (x, y).
+    end : Tuple[float, float], optional
+        The end point of the arrow (x, y).
+    factor : float, optional
+        Factor to adjust the position of the text relative to the arrow. Default is 0.5.
+    max_value : float, optional
+        Maximum value for scaling the arrow length. Default is 100
+    arrow_vector_length : float, optional
+        Length of the arrow vector. Default is 50.
+    arrow_width : float, optional
+        Width of the arrow head. Default is 5.
     arrow_color : str, optional
-        The color of the arrow. (Default is 'blue')
+        Color of the arrow. Default is 'blue'.
     line_width : float, optional
-        The width of the arrow line. (Default is 1)
+        Width of the arrow line. Default is `1`.
     text : str, optional
-        The text to display near the end of the arrow.
-
+        Text to display near the end of the arrow. default is "".
+    ax : matplotlib.axes.Axes, optional
+        The Axes object to draw the arrow on. If None, uses the current Axes.
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> fig, ax = plt.subplots()
-    >>> pltdraw.draw_custom_arrow(ax, (0, 0), (100, 100), factor=0.5, max_value=100, arrow_vector_length=50, arrow_width=5, text="Custom Arrow")
+    >>> import mecismcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_custom_arrow((0, 0), (100, 100), text='arrow')
     >>> plt.show()
     """
-    start_point = np.array(start_point)
-    point_2 = np.array(point_2)
-    arrow_vector = point_2 - start_point
-    arrow_direction = arrow_vector * arrow_vector_length / (max_value * 2)
-    arrow_end = start_point + arrow_direction
+    ax = ax or plt.gca()
+
+    start = np.array(start)
+    end = np.array(end)
+    arrow_vector = end - start
+    arrow_direction = arrow_vector * (arrow_vector_length / (max_value * 2))
+    arrow_end = start + arrow_direction
     text_offset = arrow_direction * factor
+
     ax.arrow(
-        start_point[0],
-        start_point[1],
+        start[0],
+        start[1],
         arrow_direction[0],
         arrow_direction[1],
         head_width=arrow_width,
@@ -826,26 +810,30 @@ def draw_custom_arrow(
         ec=arrow_color,
         lw=line_width,
     )
+
     if text:
-        ax.text(
-            arrow_end[0] + text_offset[0],
-            arrow_end[1] + text_offset[1],
-            f"${text}$",
-            fontsize=12,
-            ha="center",
-            va="top",
-        )
+        text_x = arrow_end[0] + text_offset[0]
+        text_y = arrow_end[1] + text_offset[1]
+
+        text_x = np.clip(text_x, *ax.get_xlim())
+        text_y = np.clip(text_y, *ax.get_ylim())
+
+        ax.text(text_x, text_y, f"${text}$", fontsize=12, ha="center", va="top")
 
 
 def calculate_arrow_endpoint_pixels(
-    start_point: tuple, angle: float, length: float, degrees: bool = False
+    start: tuple, angle: float, length: float, degrees: bool = False
 ) -> tuple:
     """
+    >>> def calculate_arrow_endpoint_pixels(
+        start: tuple, angle: float, length: float, degrees: bool = False
+    ) -> tuple:
+
     Calculates the end point of an arrow in pixel coordinates.
 
     Parameters
     ----------
-    start_point : tuple
+    start : tuple
         The starting point of the arrow (x, y) in pixel coordinates.
     angle : float
         The angle of the arrow in degrees or radians.
@@ -856,7 +844,7 @@ def calculate_arrow_endpoint_pixels(
 
     Returns
     -------
-    tuple
+    * `Tuple[float, float]`
         The end point of the arrow (x, y) in pixel coordinates.
 
     Examples
@@ -871,14 +859,14 @@ def calculate_arrow_endpoint_pixels(
     # Normalize angle to [0, 2*pi)
     angle = angle % (2 * np.pi)
 
-    end_x = start_point[0] + length * np.cos(angle)
-    end_y = start_point[1] + length * np.sin(angle)
+    end_x = float(start[0] + length * np.cos(angle))
+    end_y = float(start[1] + length * np.sin(angle))
 
     return end_x, end_y
 
 
 def plot_segment(
-    start: tuple,
+    start: Tuple[float, float],
     angle: float,
     length: float,
     degrees: bool = False,
@@ -891,6 +879,20 @@ def plot_segment(
     ax: Optional[plt.Axes] = None,
 ) -> tuple:
     """
+    >>> def plot_segment(
+        start: tuple,
+        angle: float,
+        length: float,
+        degrees: bool = False,
+        line_props: dict = None,
+        text: str = "",
+        text_offset: float = 0.1,
+        fontsize: int = 15,
+        text_align: dict = None,
+        alpha: float = 0.8,
+        ax: Optional[plt.Axes] = None,
+    ) -> Tuple[float, float]:
+
     Plots a line segment starting from a given point with a specific angle and length.
 
     Parameters
@@ -920,7 +922,7 @@ def plot_segment(
 
     Returns
     -------
-    tuple
+    * `Tuple[float, float]`
         The end point of the line segment (x, y).
 
     Examples
@@ -984,11 +986,25 @@ def plot_segment_dashed(
     ax: Optional[plt.Axes] = None,
 ) -> Tuple[float, float]:
     """
+    >>> def plot_segment_dashed(
+        start: Tuple[float, float],
+        angle: float,
+        length: float,
+        degrees: bool = False,
+        line_props: dict = None,
+        text: str = "",
+        text_offset: float = 0.1,
+        fontsize: int = 15,
+        text_align: dict = None,
+        alpha: float = 0.8,
+        ax: Optional[plt.Axes] = None,
+    ) -> Tuple[float, float]:
+
     Plots a dashed line segment starting from a given point with a specific angle and length.
 
     Parameters
     ----------
-    start : tuple
+    start : Tuple[float, float]
         The starting point of the line segment (x, y).
     angle : float
         The angle of the line segment in degrees or radians.
@@ -1013,7 +1029,7 @@ def plot_segment_dashed(
 
     Returns
     -------
-    Tuple[float, float]
+    * `Tuple[float, float]`
         The end point of the line segment (x, y).
 
     Examples
@@ -1095,12 +1111,10 @@ def draw_custom_circle(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> fig, ax = plt.subplots()
-    >>> pltdraw.draw_custom_circle((100, 100), radius=20, color='red', ax=ax)
+    >>> pltdraw.draw_custom_circle((100, 100), radius=20, color='red')
     >>> plt.show()
     """
-    if ax is None:
-        fig, ax = plt.subplots()
+    ax = ax or plt.gca()
 
     # Calculate the area in points^2 for the scatter size parameter
     area = np.pi * (radius**2)
@@ -1109,42 +1123,49 @@ def draw_custom_circle(
 
 
 def draw_rounded_rectangle(
-    center: Tuple[float, float],
     width: float,
     height: float,
-    corner_radius: float,
+    center: Tuple[float, float] = (0, 0),
+    corner_radius: float = 0.5,
     color: str = "black",
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
     >>> def draw_rounded_rectangle(
-        center: Tuple[float, float],
         width: float,
         height: float,
-        corner_radius: float,
-        color: str = "black"
+        center: Tuple[float, float] = (0, 0),
+        corner_radius: float = 0.5,
+        color: str = "black",
+        ax: Optional[plt.Axes] = None,
     ) -> None:
+
     Draws a rounded rectangle with specified properties.
 
     Parameters
     ----------
-    center : Tuple[float, float]
-        The center point of the rectangle (x, y).
     width : float
         The width of the rounded rectangle.
     height : float
         The height of the rounded rectangle.
-    corner_radius : float
-        The radius of the corners.
+    center : Tuple[float, float], optional
+        The center point of the rectangle (x, y). Default is (0, 0).
+    corner_radius : float, optional
+        The radius of the corners. Default is 0.5.
     color : str, optional
         The color of the rectangle. (Default is 'black')
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the rectangle on. If None, uses the current Axes.
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_rounded_rectangle((0, 0), 4, 2, 0.5, color='blue')
+    >>> pltdraw.draw_rounded_rectangle(4, 2, center = (0,0), corner_radius = 0.5,  color='blue')
     >>> plt.show()
     """
+    ax = ax or plt.gca()
+
     x_center, y_center = center
     x1 = x_center - width / 2
     y1 = y_center - height / 2
@@ -1188,27 +1209,39 @@ def draw_rounded_rectangle(
 
 
 def calculate_intersection_point(
-    point1: tuple, angle1: float, point2: tuple, angle2: float, degrees: bool = True
+    point1: Tuple[float, float],
+    angle1: float,
+    point2: Tuple[float, float],
+    angle2: float,
+    degrees: bool = False,
 ) -> Tuple[float, float]:
     """
+    >>> def calculate_intersection_point(
+        point1: Tuple[float, float],
+        angle1: float,
+        point2: Tuple[float, float],
+        angle2: float,
+        degrees: bool = False
+    ) -> Tuple[float, float]:
+
     Calculates the intersection point of two lines defined by points and angles.
 
     Parameters
     ----------
-    point1 : tuple
+    point1 : Tuple[float, float]
         The coordinates of the first point (x, y) through which the first line passes.
     angle1 : float
         The angle of the first line in degrees or radians.
-    point2 : tuple
+    point2 : Tuple[float, float]
         The coordinates of the second point (x, y) through which the second line passes.
     angle2 : float
         The angle of the second line in degrees or radians.
     degrees : bool, optional
-        Whether the angles are given in degrees (Default is True).
+        Whether the angles are given in degrees (Default is False).
 
     Returns
     -------
-    tuple
+    * `Tuple[float, float]`
         The coordinates of the intersection point (x, y). (None, None) if the lines are parallel.
 
     Examples
@@ -1235,38 +1268,42 @@ def calculate_intersection_point(
     b1 = y1 - m1 * x1
     b2 = y2 - m2 * x2
 
-    intersection_x = (b2 - b1) / (m1 - m2)
-    intersection_y = m1 * intersection_x + b1
+    intersection_x = float((b2 - b1) / (m1 - m2))
+    intersection_y = float(m1 * intersection_x + b1)
 
-    return (intersection_x, intersection_y)
+    return intersection_x, intersection_y
 
 
 def draw_segment(
-    start_point: tuple,
-    final_point: tuple,
+    start: Tuple[float, float],
+    end: Tuple[float, float],
     line_width: float = 0.001,
     color: str = "black",
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
     >>> draw_segment(
-        start_point: tuple,
-        final_point: tuple,
+        start: Tuple[float, float],
+        end: Tuple[float, float],
         line_width: float = 0.001,
-        color: str = 'black'
+        color: str = 'black',
+        ax: Optional[plt.Axes] = None
     ) -> None
 
     Draws a segment between two points with a specified line width and color.
 
     Parameters
     ----------
-    start_point : tuple
+    start : Tuple[float, float]
         The coordinates of the starting point (x, y).
-    final_point : tuple
+    end : Tuple[float, float]
         The coordinates of the final point (x, y).
     line_width : float, optional
         The width of the segment. (Default is 0.001)
     color : str, optional
         The color of the segment. (Default is 'black')
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the segment on. If None, uses the current Axes
 
     Examples
     --------
@@ -1275,24 +1312,26 @@ def draw_segment(
     >>> pltdraw.draw_segment((0, 0), (1, 1), line_width=0.005, color='blue')
     >>> plt.show()
     """
-    x_start, y_start = start_point
-    x_end, y_end = final_point
-    angle = np.arctan2(y_end - y_start, y_end - x_start)
+    ax = ax or plt.gca()
+
+    x_initial, y_initial = start
+    x_final, y_final = end
+    angle = np.arctan2(y_final - y_initial, y_final - x_initial)
     offset_x = np.sin(angle) * line_width / 2
     offset_y = np.cos(angle) * line_width / 2
-    x1 = x_start + offset_x
-    y1 = y_start - offset_y
-    x2 = x_start - offset_x
-    y2 = y_start + offset_y
-    x3 = x_end - offset_x
-    y3 = y_end + offset_y
-    x4 = x_end + offset_x
-    y4 = y_end - offset_y
+    x1 = x_initial + offset_x
+    y1 = y_initial - offset_y
+    x2 = x_initial - offset_x
+    y2 = y_initial + offset_y
+    x3 = x_final - offset_x
+    y3 = y_final + offset_y
+    x4 = x_final + offset_x
+    y4 = y_final - offset_y
     plt.fill([x1, x2, x3, x4, x1], [y1, y2, y3, y4, y1], color=color)
 
 
 def plot_annotate_arrow_end(
-    end: tuple,
+    end: Tuple[float, float],
     angle: float,
     length: float,
     degrees: bool = False,
@@ -1306,13 +1345,30 @@ def plot_annotate_arrow_end(
     reverse_text: bool = False,
     alpha: float = 0.8,
     ax: Optional[plt.Axes] = None,
-) -> tuple:
+) -> tuple[float, float]:
     """
+    >>> def plot_annotate_arrow_end(
+        end: Tuple[float, float],
+        angle: float,
+        length: float,
+        degrees: bool = False,
+        text: str = "",
+        text_offset: float = 0.5,
+        fontsize: int = 12,
+        text_align: dict = None,
+        arrow_props: dict = None,
+        reverse: bool = False,
+        center_text: bool = False,
+        reverse_text: bool = False,
+        alpha: float = 0.8,
+        ax: Optional[plt.Axes] = None,
+    ) -> Tuple[float, float]:
+
     Plots an arrow annotation at the end point of a vector.
 
     Parameters
     ----------
-    end : tuple
+    end : Tuple[float, float]
         The coordinates of the end point (x, y) of the vector.
     angle : float
         The angle of the vector in degrees or radians.
@@ -1343,7 +1399,7 @@ def plot_annotate_arrow_end(
 
     Returns
     -------
-    tuple
+    * `Tuple[float, float]`
         The coordinates of the start point (x, y) of the arrow.
 
     Examples
@@ -1423,24 +1479,24 @@ def plot_annotate_arrow_end(
 
 
 def draw_arc_with_text(
-    center: tuple,
+    center: Tuple[float, float],
     radius: float,
     start_angle: float,
     end_angle: float,
-    text: str,
-    degrees: bool = True,
+    text: str = "",
+    degrees: bool = False,
     text_offset: float = 0.7,
     fontsize: int = 8,
     ax: Optional[plt.Axes] = None,
 ) -> None:
     """
     >>> draw_arc_with_text(
-        center: tuple,
+        center: Tuple[float, float],
         radius: float,
         start_angle: float,
         end_angle: float,
-        text: str,
-        degrees: bool = True,
+        text: str = "",
+        degrees: bool = False,
         text_offset: float = 0.7,
         fontsize: int = 8,
         ax: Optional[plt.Axes] = None
@@ -1450,7 +1506,7 @@ def draw_arc_with_text(
 
     Parameters
     ----------
-    center : tuple
+    center : Tuple[float, float]
         The coordinates (x, y) of the center point of the circle from which the arc is drawn.
     radius : float
         The radius of the arc.
@@ -1461,7 +1517,7 @@ def draw_arc_with_text(
     text : str
         The text to be displayed along the arc.
     degrees : bool, optional
-        Whether the angles are given in degrees (Default is True).
+        Whether the angles are given in degrees (Default is False).
     text_offset : float, optional
         The distance factor from the arc center to position the text (Default is 0.7).
     fontsize : int, optional
@@ -1507,21 +1563,22 @@ def draw_arc_with_text(
 
 def draw_three_axes_rotated(
     arrow_length: float,
-    line_thickness: float,
-    offset_text: float,
-    longx: float,
+    line_thickness: float = 1.5,
+    text_offset: float = 0.2,
+    longx: float = 1,
     negativeaxis_y: bool = False,
     negativeaxis_x: bool = False,
+    ax: Optional[plt.Axes] = None,
 ) -> plt.Axes:
     """
     >>> draw_three_axes_rotated(
         arrow_length: float,
-        line_thickness: float,
-        offset_text: float,
-        longx: float,
+        line_thickness: float = 1.5,
+        text_offset: float = 0.2,
+        longx: float = 1,
         negativeaxis_y: bool = False,
-        negativeaxis_x: bool = False
-
+        negativeaxis_x: bool = False,
+        ax: Optional[plt.Axes] = None
     ) -> plt.Axes
 
     Draws three rotated axes in a 3D coordinate system.
@@ -1531,15 +1588,17 @@ def draw_three_axes_rotated(
     arrow_length : float
         The length of the arrow.
     line_thickness : float
-        The thickness of the line.
-    offset_text : float
-        The offset of the text from the arrow.
+        The thickness of the line. (Default is 1.5)
+    text_offset : float
+        The offset of the text from the arrow. (Default is 0.2)
     longx : float
-        The length of the x-axis.
+        The length of the x-axis. (Default is 1)
     negativeaxis_y : bool
         Whether to include negative y-axis (default is False).
     negativeaxis_x : bool
         Whether to include negative x-axis (default is False).
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the plot on. If None, uses the current Axes.
 
     Returns
     -------
@@ -1550,10 +1609,10 @@ def draw_three_axes_rotated(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=True, negativeaxis_x=True)
+    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, negativeaxis_y=True, negativeaxis_x=True)
     >>> plt.show()
     """
-    fig, ax = plt.subplots()
+    ax = ax or plt.gca()
 
     angle = np.radians(30)
 
@@ -1568,7 +1627,7 @@ def draw_three_axes_rotated(
         ec="gray",
         lw=line_thickness,
     )
-    ax.text(0, arrow_length + offset_text, "z", fontsize=12, ha="center", va="bottom")
+    ax.text(0, arrow_length + text_offset, "z", fontsize=12, ha="center", va="bottom")
 
     ax.arrow(
         0,
@@ -1582,8 +1641,8 @@ def draw_three_axes_rotated(
         lw=line_thickness,
     )
     ax.text(
-        -arrow_length * np.cos(angle) / longx - offset_text,
-        -arrow_length * np.sin(angle) / longx - offset_text,
+        -arrow_length * np.cos(angle) / longx - text_offset,
+        -arrow_length * np.sin(angle) / longx - text_offset,
         "x",
         fontsize=12,
         ha="left",
@@ -1614,8 +1673,8 @@ def draw_three_axes_rotated(
             lw=line_thickness,
         )
         ax.text(
-            arrow_length * np.cos(angle) / longx + 2 * offset_text / 1.5,
-            -arrow_length * np.sin(angle) / longx - offset_text / 1.5,
+            arrow_length * np.cos(angle) / longx + 2 * text_offset / 1.5,
+            -arrow_length * np.sin(angle) / longx - text_offset / 1.5,
             "y",
             fontsize=12,
             ha="right",
@@ -1646,45 +1705,51 @@ def draw_three_axes_rotated(
 
 
 def draw_double_arrowhead(
-    start_point: tuple,
-    end_point: tuple,
+    start: Tuple[float, float],
+    end: Tuple[float, float],
     color: str = "black",
     line_thickness: float = 1,
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
     >>> draw_double_arrowhead(
-        start_point: tuple,
-        end_point: tuple,
+        start: Tuple[float, float],
+        end: Tuple[float, float],
         color: str = 'black',
         line_thickness: float = 1
+        ax: Optional[plt.Axes] = None
     ) -> None
 
     Draws a double arrowhead between two points.
 
     Parameters
     ----------
-    start_point : tuple
+    start : Tuple[float, float]
         Coordinates of the start point (x, y).
-    end_point : tuple
+    end : Tuple[float, float]
         Coordinates of the end point (x, y).
     color : str, optional
         Color of the arrow and line. (Default is 'black')
     line_thickness : float, optional
         Thickness of the line. (Default is 1)
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the plot on. If None, uses the current Axes.
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_double_arrowhead(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
+    >>> pltdraw.draw_double_arrowhead(start=(0, 0), end=(1, 1))
     >>> plt.show()
     """
-    start_point = list(start_point)
-    end_point = list(end_point)
-    modified_start = start_point.copy()
-    modified_end = end_point.copy()
-    dx = end_point[0] - start_point[0]
-    dy = end_point[1] - start_point[1]
+    ax = ax or plt.gca()
+
+    start = list(start)
+    end = list(end)
+    modified_start = start.copy()
+    modified_end = end.copy()
+    dx = end[0] - start[0]
+    dy = end[1] - start[1]
     modified_start[0] += 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
     modified_start[1] += 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
     modified_end[0] -= 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
@@ -1692,8 +1757,8 @@ def draw_double_arrowhead(
     dx = modified_end[0] - modified_start[0]
     dy = modified_end[1] - modified_start[1]
     plt.plot(
-        [start_point[0], end_point[0]],
-        [start_point[1], end_point[1]],
+        [start[0], end[0]],
+        [start[1], end[1]],
         color=color,
         linewidth=line_thickness,
     )
@@ -1720,15 +1785,15 @@ def draw_double_arrowhead(
 
 
 def draw_custom_arrow_end(
-    start_point: tuple,
-    end_point: tuple,
+    start: Tuple[float, float],
+    end: Tuple[float, float],
     color: str = "black",
     line_thickness: float = 1,
 ) -> None:
     """
     >>> draw_custom_arrow_end(
-        start_point: tuple,
-        end_point: tuple,
+        start: tuple,
+        end: tuple,
         color: str = 'black',
         line_thickness: float = 1
     ) -> None
@@ -1737,9 +1802,9 @@ def draw_custom_arrow_end(
 
     Parameters
     ----------
-    start_point : tuple
+    start : Tuple[float, float]
         Coordinates of the start point (x, y).
-    end_point : tuple
+    end : Tuple[float, float]
         Coordinates of the end point (x, y).
     color : str, optional
         Color of the arrow and line. (Default is 'black')
@@ -1750,15 +1815,15 @@ def draw_custom_arrow_end(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_custom_arrow_end(start_point=(0, 0), end_point=(1, 1), color='black', line_thickness=1)
+    >>> pltdraw.draw_custom_arrow_end(start=(0, 0), end=(1, 1), color='black', line_thickness=1)
     >>> plt.show()
     """
-    start_point = list(start_point)
-    end_point = list(end_point)
-    modified_start = start_point.copy()
-    modified_end = end_point.copy()
-    dx = end_point[0] - start_point[0]
-    dy = end_point[1] - start_point[1]
+    start = list(start)
+    end = list(end)
+    modified_start = start.copy()
+    modified_end = end.copy()
+    dx = end[0] - start[0]
+    dy = end[1] - start[1]
     modified_start[0] += 10 * dx / ((dx**2 + dy**2) ** 0.5)
     modified_start[1] += 10 * dy / ((dx**2 + dy**2) ** 0.5)
     modified_end[0] -= 10 * dx / ((dx**2 + dy**2) ** 0.5)
@@ -1766,8 +1831,8 @@ def draw_custom_arrow_end(
     dx = modified_end[0] - modified_start[0]
     dy = modified_end[1] - modified_start[1]
     plt.plot(
-        [start_point[0], end_point[0]],
-        [start_point[1], end_point[1]],
+        [start[0], end[0]],
+        [start[1], end[1]],
         color=color,
         linewidth=line_thickness,
     )
@@ -1785,21 +1850,23 @@ def draw_custom_arrow_end(
 
 def draw_two_axes(
     arrow_length: float,
-    line_thickness: float,
-    offset_text: float,
-    longx: float,
+    line_thickness: float = 1.5,
+    text_offset: float = 0.1,
+    longx: float = 1,
     negativeaxis_y: bool = False,
     negativeaxis_x: bool = False,
+    ax: Optional[plt.Axes] = None,
 ) -> plt.Axes:
     """
-    >>> draw_two_axes(
+    >>> def draw_two_axes(
         arrow_length: float,
-        line_thickness: float,
-        offset_text: float,
-        longx: float,
+        line_thickness: float = 1.5,
+        text_offset: float = 0.1,
+        longx: float = 1,
         negativeaxis_y: bool = False,
         negativeaxis_x: bool = False,
-    ) -> plt.Axes
+        ax: Optional[plt.Axes] = None
+    ) -> plt.Axes:
 
     Draws two axes representing the x and y directions.
 
@@ -1807,15 +1874,15 @@ def draw_two_axes(
     ----------
     arrow_length : float
         Length of the arrows representing the axes.
-    line_thickness : float
-        Thickness of the arrows representing the axes.
-    offset_text : float
-        Offset for the axis labels.
-    longx : float
+    line_thickness : float, optional
+        Thickness of the arrows representing the axes. (Default is 1.5)
+    text_offset : float, optional
+        Offset for the axis labels. (Default is 0.1)
+    longx : float, optional
         Length factor for the x-axis.
-    negativeaxis_y : bool
+    negativeaxis_y : bool, optional
         Indicating whether to draw the negative y-axis.
-    negativeaxis_x : bool
+    negativeaxis_x : bool, optional
         Indicating whether to draw the negative x-axis.
 
     Returns
@@ -1827,10 +1894,11 @@ def draw_two_axes(
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, line_thickness=1.5, offset_text=0.1, longx=1.5, negativeaxis_y=True, negativeaxis_x=True)
+    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, negativeaxis_y=True, negativeaxis_x=True)
     >>> plt.show()
     """
-    fig, ax = plt.subplots()
+    ax = ax or plt.gca()
+
     ax.arrow(
         0,
         0,
@@ -1842,7 +1910,7 @@ def draw_two_axes(
         ec="gray",
         lw=line_thickness,
     )
-    ax.text(0, arrow_length + offset_text, "y", fontsize=12, ha="center", va="bottom")
+    ax.text(0, arrow_length + text_offset, "y", fontsize=12, ha="center", va="bottom")
 
     if negativeaxis_y:
         ax.arrow(
@@ -1860,7 +1928,7 @@ def draw_two_axes(
     ax.arrow(
         0,
         0,
-        1.5 * arrow_length,
+        longx * arrow_length,
         0,
         head_width=0.05,
         head_length=0.1,
@@ -1869,7 +1937,7 @@ def draw_two_axes(
         lw=line_thickness,
     )
     ax.text(
-        1.5 * arrow_length + offset_text, 0, "x", fontsize=12, ha="left", va="center"
+        longx * arrow_length + text_offset, 0, "x", fontsize=12, ha="left", va="center"
     )
 
     if negativeaxis_x:
@@ -1895,65 +1963,113 @@ def draw_two_axes(
     return ax
 
 
+import matplotlib.pyplot as plt
+from typing import Tuple
+
+
 def vertical_arrow_rain(
-    quantity_arrows: int, start_point: tuple, final_point: tuple, y_origin: float
+    quantity_arrows: int,
+    start: Tuple[float, float],
+    end: Tuple[float, float],
+    y_origin: float = 0,
+    arrow_color: str = "blue",
+    head_width: float = 0.05,
+    head_length: float = 0.1,
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
-    >>> vertical_arrow_rain(
+    >>> def vertical_arrow_rain(
         quantity_arrows: int,
-        start_point: tuple,
-        final_point: tuple,
-        y_origin: float
-    ) -> None
+        start: Tuple[float, float],
+        end: Tuple[float, float],
+        y_origin: float = 0,
+        arrow_color: str = "blue",
+        head_width: float = 0.05,
+        head_length: float = 0.1,
+        ax: Optional[plt.Axes] = None
+    ) -> None:
 
-    Draws a specific quantity of arrows from equidistant points on a segment that extends from start_point to final_point, with all arrows pointing to y_origin.
+    Draws a specific quantity of arrows from equidistant points on a segment that extends from start to end,
+    with all arrows pointing to y_origin.
 
     Parameters
     ----------
     quantity_arrows : int
         Number of arrows to draw.
-    start_point : tuple
+    start : Tuple[float, float]
         Tuple (x, y) representing the starting point of the segment.
-    final_point : tuple
+    end : Tuple[float, float]
         Tuple (x, y) representing the final point of the segment.
-    y_origin : float
-        y-coordinate to which all arrows should point.
+    y_origin : float, optional
+        y-coordinate to which all arrows should point. Default is 0.
+    arrow_color : str, optional
+        Color of the arrows. Default is "blue".
+    head_width : float, optional
+        Width of the arrow heads. Default is 0.05.
+    head_length : float, optional
+        Length of the arrow heads. Default is 0.1.
+    ax : Optional[plt.Axes], optional
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.vertical_arrow_rain(quantity_arrows=5, start_point=(0, 1), final_point=(1, 1), y_origin=0)
+    >>> fig, ax = plt.subplots()
+    >>> vertical_arrow_rain(quantity_arrows=5, start=(0, 1), end=(1, 1), y_origin=0)
     >>> plt.show()
     """
-    x_start, y_start = start_point
-    x_final, y_final = final_point
+    ax = ax or plt.gca()
+
+    if quantity_arrows < 2:
+        raise ValueError("quantity_arrows must be at least 2.")
+
+    x_initial, y_initial = start
+    x_final, y_final = end
+
     x_points = [
-        x_start + i * (x_final - x_start) / (quantity_arrows - 1)
+        x_initial + i * (x_final - x_initial) / (quantity_arrows - 1)
         for i in range(quantity_arrows)
     ]
     y_points = [
-        y_start + i * (y_final - y_start) / (quantity_arrows - 1)
+        y_initial + i * (y_final - y_initial) / (quantity_arrows - 1)
         for i in range(quantity_arrows)
     ]
+
     for x, y in zip(x_points, y_points):
         plt.arrow(
-            x, y, 0, y_origin - y, head_width=5, head_length=10, fc="blue", ec="blue"
+            x,
+            y,
+            0,
+            y_origin - y,
+            head_width=head_width,
+            head_length=head_length,
+            fc=arrow_color,
+            ec=arrow_color,
         )
 
 
 def draw_rain_arrows_horizontal(
-    quantity_arrows: int, x_origin: float, start_point: tuple, final_point: tuple
+    quantity_arrows: int,
+    start: Tuple[float, float],
+    end: Tuple[float, float],
+    x_origin: float = 0,
+    arrow_color: str = "blue",
+    head_width: float = 0.05,
+    head_length: float = 0.1,
+    ax: Optional[plt.Axes] = None,
 ) -> None:
     """
-    >>> draw_rain_arrows_horizontal(
+    >>> def draw_rain_arrows_horizontal(
         quantity_arrows: int,
-        x_origin: float,
-        start_point: tuple,
-        final_point: tuple
-    ) -> None
+        start: Tuple[float, float],
+        end: Tuple[float, float],
+        x_origin: float = 0,
+        arrow_color: str = "blue",
+        head_width: float = 0.05,
+        head_length: float = 0.1,
+        ax: Optional[plt.Axes] = None,
+    ) -> None:
 
-    Draws a specific quantity of arrows from a vertical line at x_origin to equidistant points on a segment that extends from start_point to final_point.
+    Draws a specific quantity of arrows from a vertical line at x_origin to equidistant points on a segment that extends from start to end.
 
     Parameters
     ----------
@@ -1961,91 +2077,106 @@ def draw_rain_arrows_horizontal(
         Number of arrows to draw.
     x_origin : float
         x-coordinate from which all arrows originate.
-    start_point : tuple
+    start : Tuple[float, float]
         Tuple (x, y) representing the starting point of the segment.
-    final_point : tuple
+    end : Tuple[float, float]
         Tuple (x, y) representing the final point of the segment.
+    arrow_color : str, optional
+        Color of the arrows. Default is "blue".
+    head_width : float, optional
+        Width of the arrow heads. Default is 0.05.
+    head_length : float, optional
+        Length of the arrow heads. Default is 0.1.
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the plot on. If None, uses the current Axes.
 
     Examples
     --------
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_rain_arrows_horizontal(quantity_arrows=5, x_origin=0, start_point=(0, 1), final_point=(1, 1))
+    >>> pltdraw.draw_rain_arrows_horizontal(quantity_arrows=5, start=(0, 1), end=(1, 1))
     >>> plt.show()
     """
-    x_start, y_start = start_point
-    x_final, y_final = final_point
-    x_points = [
-        x_start + i * (x_final - x_start) / (quantity_arrows - 1)
-        for i in range(quantity_arrows - 1)
-    ]
+    if quantity_arrows < 2:
+        raise ValueError("quantity_arrows must be at least 2.")
+
+    ax = ax or plt.gca()
+
+    x_initial, y_initial = start
+    x_final, y_final = end
     y_points = [
-        y_start + i * (y_final - y_start) / (quantity_arrows - 1)
-        for i in range(quantity_arrows - 1)
+        y_initial + i * (y_final - y_initial) / (quantity_arrows - 1)
+        for i in range(quantity_arrows)
     ]
-    for x, y in zip(x_points, y_points):
-        plt.arrow(
+
+    for y in y_points:
+        ax.arrow(
             x_origin,
             y,
-            x - x_origin,
+            x_initial - x_origin,
             0,
-            head_width=5,
-            head_length=10,
-            fc="blue",
-            ec="blue",
+            head_width=head_width,
+            head_length=head_length,
+            fc=arrow_color,
+            ec=arrow_color,
         )
 
 
-def calculate_angle(start_point: tuple, final_point: tuple) -> float:
+def calculate_angle(
+    start: Tuple[float, float], end: Tuple[float, float], degrees: bool = False
+) -> float:
     """
     >>> calculate_angle(
-        start_point: tuple,
-        final_point: tuple
+        start: Tuple[float, float],
+        end: Tuple[float, float]
     ) -> float
 
-    Calculates the angle (in degrees) between two points.
+    Calculates the angle between two points.
 
     Parameters
     ----------
-    start_point : tuple
+    start : Tuple[float, float]
         Tuple (x, y) representing the starting point.
-    final_point : tuple
+    end : Tuple[float, float]
         Tuple (x, y) representing the final point.
+    degrees : bool, optional
+        Whether to return the angle in degrees (Default is False).
 
     Returns
     -------
     * `float` :
-        The angle in degrees between the two points.
+        The angle between the two points.
 
     Examples
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.calculate_angle(start_point=(0, 0), final_point=(1, 1))
+    >>> pltdraw.calculate_angle(start=(0, 0), end=(1, 1), degrees=True)
     45.0
     """
-    delta_x = final_point[0] - start_point[0]
-    delta_y = final_point[1] - start_point[1]
+    delta_x = end[0] - start[0]
+    delta_y = end[1] - start[1]
     angle_rad = math.atan2(delta_y, delta_x)
-    angle_degrees = math.degrees(angle_rad)
-    if angle_degrees < 0:
-        angle_degrees += 360
-    return angle_degrees
+
+    # normalize angle to [0, 2*pi)
+    angle_rad = angle_rad % (2 * math.pi)
+
+    return math.degrees(angle_rad) if degrees else angle_rad
 
 
-def draw_segment_1(start: Union[tuple, list], end: Union[tuple, list]) -> None:
+def draw_segment_1(start: Tuple[float, float], end: Tuple[float, float]) -> None:
     """
     >>> draw_segment_1(
-        start: Union[tuple, list],
-        end: Union[tuple, list]
+        start: Tuple[float, float],
+        end: Tuple[float, float]
     ) -> None
 
     Draws a line segment in black ('k').
 
     Parameters
     ----------
-    start : tuple or list
+    start : Tuple[float, float]
         The coordinates of the starting point [x1, y1].
-    end : tuple or list
+    end : Tuple[float, float]
         The coordinates of the ending point [x2, y2].
 
     Examples
@@ -2069,9 +2200,9 @@ def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
 
     Parameters
     ----------
-    start : tuple or list
+    start : Tuple[float, float]
         The coordinates of the starting point [x1, y1].
-    end : tuple or list
+    end : Tuple[float, float]
         The coordinates of the ending point [x2, y2].
 
     Examples
@@ -2084,11 +2215,11 @@ def draw_segment_2(start: Union[tuple, list], end: Union[tuple, list]) -> None:
     plt.plot([start[0], end[0]], [start[1], end[1]], color="r")
 
 
-def draw_segment_3(start: Union[tuple, list], end: Union[tuple, list]) -> None:
+def draw_segment_3(start: Tuple[float, float], end: Tuple[float, float]) -> None:
     """
     >>> draw_segment_3(
-        start: Union[tuple, list],
-        end: Union[tuple, list]
+        start: Tuple[float, float],
+        end: Tuple[float, float]
     ) -> None
 
     Draws a line segment in blue ('b').
@@ -2114,8 +2245,8 @@ def get_arc_points(
     start_angle: float,
     end_angle: float,
     radius: float,
-    center: Union[tuple, list],
-    degrees: bool = True,
+    center: Tuple[float, float] = (0, 0),
+    degrees: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Calculates points along a circular arc defined by a start angle and an end angle.
@@ -2128,14 +2259,14 @@ def get_arc_points(
         The ending angle of the arc in degrees or radians.
     radius : float
         The radius of the arc.
-    center : Union[tuple, list]
-        The coordinates of the center of the arc [cx, cy].
+    center : Tuple[float, float], optional
+        The coordinates of the center of the arc [cx, cy]. (Default is (0, 0))
     degrees : bool, optional
-        Whether the angles are given in degrees (Default is True).
+        Whether the angles are given in degrees (Default is False).
 
     Returns
     -------
-    Tuple[np.ndarray, np.ndarray]
+    * `Tuple[np.ndarray, np.ndarray]`
         The x and y coordinates of the arc points.
 
     Examples

@@ -13,6 +13,10 @@ sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc")
 from plot_draw import *
 
 
+def test_all_functions():
+    run_all_functions()
+
+
 def make_plt():
     x = np.linspace(0, 10, 1000)
     y = np.sin(x)
@@ -41,7 +45,7 @@ def run_all_functions():
     draw_three_axes(
         arrow_length=0.4,
         arrow_thickness=2,
-        offset_text=0.05,
+        text_offset=0.05,
         longx=1.5,
         axis_y_negative=True,
         axis_x_negative=True,
@@ -71,9 +75,8 @@ def run_all_functions():
 
     # Draw a custom arrow
     draw_custom_arrow(
-        plt,
-        start_point=(200, 200),
-        point_2=(300, 300),
+        start=(200, 200),
+        end=(300, 300),
         factor=0.5,
         max_value=400,
         arrow_vector_length=100,
@@ -99,10 +102,12 @@ def run_all_functions():
     draw_custom_circle((100, 100), radius=20, color="red")
 
     # Draw a rounded rectangle
-    draw_rounded_rectangle((0, 0), 4, 2, 0.5, color="blue")
+    draw_rounded_rectangle(4, 2, center=(0, 0), corner_radius=0.5, color="blue")
 
     # Calculate intersection point
-    intersection_point = calculate_intersection_point((0, 0), 45, (1, 1), 135)
+    intersection_point = calculate_intersection_point(
+        (0, 0), 45, (1, 1), 135, degrees=True
+    )
     assert intersection_point == (1.0, 0.9999999999999999)
 
     # Draw a segment
@@ -124,7 +129,7 @@ def run_all_functions():
     draw_three_axes_rotated(
         arrow_length=0.4,
         line_thickness=2,
-        offset_text=0.05,
+        text_offset=0.05,
         longx=1.5,
         negativeaxis_y=1,
         negativeaxis_x=1,
@@ -140,7 +145,7 @@ def run_all_functions():
     draw_two_axes(
         arrow_length=0.4,
         line_thickness=2,
-        offset_text=0.05,
+        text_offset=0.05,
         longx=1.5,
         negativeaxis_y=1,
         negativeaxis_x=1,
@@ -148,16 +153,16 @@ def run_all_functions():
 
     # Vertical arrow rain
     vertical_arrow_rain(
-        quantity_arrows=5, start_point=(0.1, 0.9), final_point=(0.9, 0.9), y_origin=0.5
+        quantity_arrows=5, start=(0.1, 0.9), end=(0.9, 0.9), y_origin=0.5
     )
 
     # Horizontal arrow rain
     draw_rain_arrows_horizontal(
-        quantity_arrows=5, x_origin=0.5, start_point=(0.1, 0.1), final_point=(0.1, 0.9)
+        quantity_arrows=5, x_origin=0.5, start=(0.1, 0.1), end=(0.1, 0.9)
     )
 
     # Calculate angle between two points
-    angle = calculate_angle((0, 0), (1, 1))
+    angle = calculate_angle((0, 0), (1, 1), degrees=True)
     assert angle == 45
 
     # Draw segments in different colors
