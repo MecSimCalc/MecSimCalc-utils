@@ -1,4 +1,4 @@
-# MecSimCalc File Utilities v2.0
+# MecSimCalc File Utilities v0.2.0
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
 - [GitHub Repository](https://github.com/MecSimCalc/MecSimCalc-utils)
@@ -8,7 +8,7 @@ This library is designed to provide a set of functions for handling and converti
 
 ### input_to_file
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
 
 ```python
 input_to_file(input_file, metadata = False)
@@ -55,7 +55,7 @@ def main(inputs):
 
 ### metadata_to_filetype
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
 
 ```python
 metadata_to_filetype(metadata):
@@ -96,7 +96,7 @@ def main(inputs):
 
 ### string_to_file
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/text_utils.py#L4C1-L63C85)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/text_utils.py#L4C1-L63C85)
 
 ```python
 string_to_file(
@@ -156,7 +156,7 @@ def main(inputs):
 
 ### file_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L9C1-L50C14)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/spreadsheet_utils.py#L9C1-L50C14)
 
 ```python
 file_to_dataframe(file_data):
@@ -204,7 +204,7 @@ def main(inputs):
 
 ### input_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L53C1-L92C44)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/spreadsheet_utils.py#L53C1-L92C44)
 
 ```python
 input_to_dataframe(file):
@@ -247,7 +247,7 @@ def main(inputs):
 
 ### print_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/spreadsheet_utils.py#L95C1-L186C39)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/spreadsheet_utils.py#L95C1-L186C39)
 
 ```python
 print_dataframe(
@@ -314,10 +314,10 @@ Downloading Table
 
 ### table_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/table_utils.py#L5C1-L45C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/table_utils.py#L5C1-L45C1)
 
 ```python
-table_to_dataframe(column_headers, rows) -> pd.DataFrame:
+table_to_dataframe(column_headers, rows):
 ```
 
 #### Description:
@@ -357,7 +357,7 @@ def main(inputs):
 
 ### print_table
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/table_utils.py#L47C1-L80C58)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/table_utils.py#L47C1-L80C58)
 
 ```python
 print_table(column_headers, rows):
@@ -406,7 +406,7 @@ Displaying Table
 
 ### file_to_PIL
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/image_utils.py#L23C1-L55C88)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/image_utils.py#L23C1-L55C88)
 
 ```python
 file_to_PIL(file):
@@ -461,7 +461,7 @@ Displaying Image
 
 ### input_to_PIL
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
 
 ```python
 input_to_PIL(input_file, get_file_type=False):
@@ -501,7 +501,7 @@ def main(inputs):
 
 ### print_image
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/image_utils.py#L110C1-L209C36)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/image_utils.py#L110C1-L209C36)
 
 ```python
 print_image(
@@ -574,7 +574,7 @@ Downloading Image
 
 ### print_plot
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/plotting_utils.py#L13C1-L97C35)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L15C1-L102C1)
 
 ```python
 print_plot(
@@ -628,8 +628,8 @@ def main(inputs):
     return {"image": image, "download": download}
 
 # Expected output:
-# {"image": "<img src='data:image/png;base64,...' width='500' height='...'>",
-#  "download": "<a href='data:image/png;base64,...' download='sin(x).png'>Download Sin Function Plot</a>"}
+# {"image": "<img src='data:image/jpeg;base64,...' width='500' height='...'>",
+#  "download": "<a href='data:image/jpeg;base64,...' download='sin(x).jpeg'>Download Sin Function Plot</a>"}
 ```
 
 #### Output using Jinja2 Template:
@@ -646,15 +646,18 @@ Downloading Image
 
 ### print_animation
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/plotting_utils.py#L99C1-L150C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L104C1-L156C63)
 
 ```python
-print_animation(ani: FuncAnimation, fps: int = 30, save_dir: str = "/tmp/temp_animation.gif") -> str:
+print_animation(
+    ani,
+    fps = 30,
+    save_dir = "/tmp/temp_animation.gif"):
 ```
 
 #### Description:
 
-Converts a matplotlib animation into an animated GIF and returns an HTML image tag to display it in your app.
+Converts a matplotlib animation into an animated GIF. Returns an HTML image tag to display it in your app.
 
 #### Arguments:
 
@@ -696,18 +699,23 @@ def main(inputs):
 
 ### animate_plot
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/plotting_utils.py#L152C1-L243C105)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L159C1-L278C1)
 
 ```python
 animate_plot(
-    x: np.ndarray,
-    y: np.ndarray,
-    duration: int = 5,
-    fps: int = None,
-    title: str = "y = f(x)",
-    show_axes: bool = True,
-    save_dir: str = "/tmp/temp_animation.gif",
-) -> str:
+    x,
+    y,
+    duration = 3,
+    fps = 15,
+    x_label = "x",
+    y_label = "y",
+    title = "y = f(x)",
+    show_axes = True,
+    follow_tip = False,
+    save_dir = "/tmp/temp_animation.gif",
+    follow_tip = False,
+    hold_last_frame = 1.0,
+)
 ```
 
 #### Description:
@@ -716,15 +724,19 @@ Creates an animated plot from given x and y data and returns it as an HTML image
 
 #### Arguments:
 
-| Argument        | Type                | Description                                                                                                                                                                                                       |
-| --------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`x`**         | **np.ndarray**      | The x-coordinates of the data points.                                                                                                                                                                             |
-| **`y`**         | **np.ndarray**      | The y-coordinates of the data points.                                                                                                                                                                             |
-| **`duration`**  | **int** (optional)  | The duration of the animation in seconds. Defaults to `5`.                                                                                                                                                        |
-| **`fps`**       | **int** (optional)  | Frames per second for the animation. Defaults to `None`. (fps = len(x) / duration if fps=None)                                                                                                                    |
-| **`title`**     | **str** (optional)  | Title of the plot. Defaults to `"y = f(x)"`.                                                                                                                                                                      |
-| **`show_axes`** | **bool** (optional) | Whether to show the x and y axes. Defaults to `True`.                                                                                                                                                             |
-| **`save_dir`**  | **str** (optional)  | The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.) You can only write to the tmp directory in mecsimcalc. |
+| Argument              | Type                 | Description                                                                                                                 |
+| --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **`x`**               | **np.ndarray**       | The x-coordinates of the data points.                                                                                       |
+| **`y`**               | **np.ndarray**       | The y-coordinates of the data points.                                                                                       |
+| **`duration`**        | **float** (optional) | The duration of the animation in seconds. Defaults to `3`.                                                                  |
+| **`fps`**             | **float** (optional) | Frames per second for the animation. Defaults to `15`.                                                                      |
+| **`x_label`**         | **str** (optional)   | The label for the x-axis. Defaults to `"x"`.                                                                                |
+| **`y_label`**         | **str** (optional)   | The label for the y-axis. Defaults to `"y"`.                                                                                |
+| **`title`**           | **str** (optional)   | Title of the plot. Defaults to `"y = f(x)"`.                                                                                |
+| **`show_axes`**       | **bool** (optional)  | Whether to show the x and y axes. Defaults to `True`.                                                                       |
+| **`follow_tip`**      | **bool** (optional)  | Whether to follow the tip of the line as it moves along the x-axis. Defaults to `False`.                                    |
+| **`hold_last_frame`** | **float** (optional) | The duration to hold the last frame in seconds. Defaults to `1.0`.                                                          |
+| **`save_dir`**        | **str** (optional)   | The directory to temporarily. Defaults to `"/tmp/temp_animation.gif" You can only write to the tmp directory in mecsimcalc. |
 
 #### Returns:
 
@@ -739,20 +751,80 @@ import numpy as np
 import mecsimcalc as msc
 
 def main(inputs):
-    x = np.linspace(0, 10, 1000)
+    x = np.linspace(0, 10, 100)
     y = np.sin(x)
-    animation_html = msc.animate_plot(x, y, duration=5, title="Sine Wave", show_axes=True)
+    animation_html = msc.animate_plot(x, y, duration=4, title="Sine Wave", show_axes=True)
     return {"animation": animation_html}
 
 # Expected output:
 # {"animation": "<img src='data:image/gif;base64,...'>"}
 ```
 
+### plot_slider
+
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L280C1-L423C45)
+
+```python
+plot_slider(
+    f_x,
+    x_range,
+    y_range = None,
+    title = "",
+    x_label = "x",
+    y_label = "y",
+    num_points = 250,
+    initial_value = 1,
+    step_size = 0.1,
+    slider_range = (-10, 10),
+):
+```
+
+#### Description:
+
+Creates an interactive plot with a slider using Plotly, allowing the user to dynamically update the plot based on a parameter.
+
+#### Arguments:
+
+| Argument            | Type                                          | Description                                                                               |
+| ------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **`f_x`**           | **Callable[[float, np.ndarray], np.ndarray]** | A function that takes a float and an array of x-values, and returns an array of y-values. |
+| **`x_range`**       | **Tuple[float, float]**                       | A tuple defining the range of x-values (start, end) for the plot.                         |
+| **`y_range`**       | **Tuple[float, float]** (optional)            | A tuple defining the range of y-values (start, end) for the plot. Defaults to `None`.     |
+| **`title`**         | **str** (optional)                            | Title of the plot. Defaults to `""`.                                                      |
+| **`x_label`**       | **str** (optional)                            | Label for the x-axis. Defaults to `"x"`.                                                  |
+| **`y_label`**       | **str** (optional)                            | Label for the y-axis. Defaults to `"y"`.                                                  |
+| **`num_points`**    | **int** (optional)                            | Number of points to plot (line resolution). Defaults to `250`.                            |
+| **`initial_value`** | **float** (optional)                          | Initial value of the slider. Defaults to `1`.                                             |
+| **`step_size`**     | **float** (optional)                          | Step size for the slider. Defaults to `0.1`.                                              |
+| **`slider_range`**  | **Tuple[float, float]** (optional)            | Range for the slider values (start, end). Defaults to `(-10, 10)`.                        |
+
+#### Returns:
+
+| Return Type | Description                                             |
+| ----------- | ------------------------------------------------------- |
+| **`str`**   | The HTML string containing the Plotly interactive plot. |
+
+#### Example:
+
+```python
+import mecsimcalc as msc
+
+def parabola(a, x):
+    return a * x ** 2
+
+def main(inputs):
+    plot_html = msc.plot_slider(parabola, x_range=(-10, 10), y_range=(-100, 100))
+    return {"plot": plot_html}
+
+# Expected output:
+# The `plot_html` can be used in a web page to display the interactive plot.
+```
+
 ## Quiz Toolkit
 
 ### append_to_google_sheet
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/quiz_utils.py#L11C1-L134C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/quiz_utils.py#L11C1-L134C1)
 
 ```python
 append_to_google_sheet(
@@ -810,7 +882,7 @@ def main(inputs):
 
 ### send_gmail
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.1.9/mecsimcalc/file_utils/quiz_utils.py#L136C1-L207C21)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/quiz_utils.py#L136C1-L207C21)
 
 ```python
 send_gmail(
