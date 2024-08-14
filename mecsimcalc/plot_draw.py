@@ -4,20 +4,18 @@ import numpy as np
 import math
 
 
-def create_blank_canvas(
-    width: int = 1000, height: int = 1000, color: str = "white"
-) -> plt.Axes:
+def blank_canvas(width: int = 800, height: int = 600, color: str = "white") -> plt.Axes:
     """
-    >>> create_blank_canvas(width: int = 1000, height: int = 1000, color: str = "white") -> plt.Axes
+    >>> blank_canvas(width: int = 800, height: int = 600, color: str = "white") -> plt.Axes
 
     Creates a blank canvas with specified width, height, and background color.
 
     Parameters
     ----------
     width : int, optional
-        The width of the canvas in pixels (Default is 1000).
+        The width of the canvas in pixels (Default is 800).
     height : int, optional
-        The height of the canvas in pixels (Default is 1000).
+        The height of the canvas in pixels (Default is 600).
     color : str, optional
         The background color of the canvas (Default is 'white').
 
@@ -30,7 +28,7 @@ def create_blank_canvas(
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
-    >>> ax = pltdraw.create_blank_canvas()
+    >>> ax = pltdraw.blank_canvas()
     >>> plt.show()
     """
     fig, ax = plt.subplots(figsize=(width / 100, height / 100))
@@ -114,7 +112,7 @@ def draw_line(
 def draw_arrow(
     start: Union[tuple, list],
     end: Union[tuple, list],
-    thickness: float = 5.5,
+    thickness: float = 5,
     color: str = "black",
     text: str = "",
     text_offset: float = 0.1,
@@ -191,8 +189,88 @@ def draw_arrow(
         ax.text(text_position[0], text_position[1], text, fontsize=fontsize)
 
 
+def draw_double_arrowhead(
+    start: Tuple[float, float],
+    end: Tuple[float, float],
+    color: str = "black",
+    line_thickness: float = 1,
+    ax: Optional[plt.Axes] = None,
+) -> None:
+    """
+    >>> draw_double_arrowhead(
+        start: Tuple[float, float],
+        end: Tuple[float, float],
+        color: str = 'black',
+        line_thickness: float = 1
+        ax: Optional[plt.Axes] = None
+    ) -> None
+
+    Draws a double arrowhead between two points.
+
+    Parameters
+    ----------
+    start : Tuple[float, float]
+        Coordinates of the start point (x, y).
+    end : Tuple[float, float]
+        Coordinates of the end point (x, y).
+    color : str, optional
+        Color of the arrow and line. (Default is 'black')
+    line_thickness : float, optional
+        Thickness of the line. (Default is 1)
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the plot on. If None, uses the current Axes.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_double_arrowhead(start=(0, 0), end=(1, 1))
+    >>> plt.show()
+    """
+    ax = ax or plt.gca()
+
+    start = list(start)
+    end = list(end)
+    modified_start = start.copy()
+    modified_end = end.copy()
+    dx = end[0] - start[0]
+    dy = end[1] - start[1]
+    modified_start[0] += 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
+    modified_start[1] += 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
+    modified_end[0] -= 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
+    modified_end[1] -= 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
+    dx = modified_end[0] - modified_start[0]
+    dy = modified_end[1] - modified_start[1]
+    plt.plot(
+        [start[0], end[0]],
+        [start[1], end[1]],
+        color=color,
+        linewidth=line_thickness,
+    )
+    plt.arrow(
+        modified_start[0],
+        modified_start[1],
+        dx,
+        dy,
+        head_width=0.05,
+        head_length=0.08,
+        color=color,
+        linewidth=line_thickness,
+    )
+    plt.arrow(
+        modified_end[0],
+        modified_end[1],
+        -dx,
+        -dy,
+        head_width=0.05,
+        head_length=0.08,
+        color=color,
+        linewidth=line_thickness,
+    )
+
+
 def vertical_arrow_rain(
-    quantity_arrows: int,
+    quantity: int,
     start: Tuple[float, float],
     end: Tuple[float, float],
     y_origin: float = 0,
@@ -203,7 +281,7 @@ def vertical_arrow_rain(
 ) -> None:
     """
     >>> def vertical_arrow_rain(
-        quantity_arrows: int,
+        quantity: int,
         start: Tuple[float, float],
         end: Tuple[float, float],
         y_origin: float = 0,
@@ -218,7 +296,7 @@ def vertical_arrow_rain(
 
     Parameters
     ----------
-    quantity_arrows : int
+    quantity : int
         Number of arrows to draw.
     start : Tuple[float, float]
         Tuple (x, y) representing the starting point of the segment.
@@ -239,24 +317,22 @@ def vertical_arrow_rain(
     >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> fig, ax = plt.subplots()
-    >>> pltdraw.vertical_arrow_rain(quantity_arrows=5, start=(0, 1), end=(1, 1), y_origin=0)
+    >>> pltdraw.vertical_arrow_rain(quantity=5, start=(0, 1), end=(1, 1), y_origin=0)
     >>> plt.show()
     """
     ax = ax or plt.gca()
 
-    if quantity_arrows < 2:
-        raise ValueError("quantity_arrows must be at least 2.")
+    if quantity < 2:
+        raise ValueError("quantity must be at least 2.")
 
     x_initial, y_initial = start
     x_final, y_final = end
 
     x_points = [
-        x_initial + i * (x_final - x_initial) / (quantity_arrows - 1)
-        for i in range(quantity_arrows)
+        x_initial + i * (x_final - x_initial) / (quantity - 1) for i in range(quantity)
     ]
     y_points = [
-        y_initial + i * (y_final - y_initial) / (quantity_arrows - 1)
-        for i in range(quantity_arrows)
+        y_initial + i * (y_final - y_initial) / (quantity - 1) for i in range(quantity)
     ]
 
     for x, y in zip(x_points, y_points):
@@ -273,7 +349,7 @@ def vertical_arrow_rain(
 
 
 def horizontal_arrow_rain(
-    quantity_arrows: int,
+    quantity: int,
     start: Tuple[float, float],
     end: Tuple[float, float],
     x_origin: float = 0,
@@ -284,7 +360,7 @@ def horizontal_arrow_rain(
 ) -> None:
     """
     >>> def horizontal_arrow_rain(
-        quantity_arrows: int,
+        quantity: int,
         start: Tuple[float, float],
         end: Tuple[float, float],
         x_origin: float = 0,
@@ -299,7 +375,7 @@ def horizontal_arrow_rain(
 
     Parameters
     ----------
-    quantity_arrows : int
+    quantity : int
         Number of arrows to draw.
     start : Tuple[float, float]
         Tuple (x, y) representing the starting point of the segment.
@@ -319,24 +395,22 @@ def horizontal_arrow_rain(
     --------
     >>> import matplotlib.pyplot as plt
     >>> fig, ax = plt.subplots()
-    >>> horizontal_arrow_rain(quantity_arrows=5, start=(1, 0), end=(1, 1), x_origin=0)
+    >>> horizontal_arrow_rain(quantity=5, start=(1, 0), end=(1, 1), x_origin=0)
     >>> plt.show()
     """
     ax = ax or plt.gca()
 
-    if quantity_arrows < 2:
-        raise ValueError("quantity_arrows must be at least 2.")
+    if quantity < 2:
+        raise ValueError("quantity must be at least 2.")
 
     x_initial, y_initial = start
     x_final, y_final = end
 
     x_points = [
-        x_initial + i * (x_final - x_initial) / (quantity_arrows - 1)
-        for i in range(quantity_arrows)
+        x_initial + i * (x_final - x_initial) / (quantity - 1) for i in range(quantity)
     ]
     y_points = [
-        y_initial + i * (y_final - y_initial) / (quantity_arrows - 1)
-        for i in range(quantity_arrows)
+        y_initial + i * (y_final - y_initial) / (quantity - 1) for i in range(quantity)
     ]
 
     for x, y in zip(x_points, y_points):
@@ -352,6 +426,48 @@ def horizontal_arrow_rain(
         )
 
 
+def draw_circle(
+    center: Tuple[float, float] = (0, 0),
+    radius: float = 10,
+    color: str = "black",
+    ax: Optional[plt.Axes] = None,
+) -> None:
+    """
+    >>> draw_circle(
+        center: Tuple[float, float] = (0, 0),
+        radius: float = 10,
+        color: str = "black",
+        ax: Optional[plt.Axes] = None
+    ) -> None:
+
+    Draws a custom circle on a given axis.
+
+    Parameters
+    ----------
+    center : Tuple[float, float], optional
+        The center point of the circle (x, y). Default is (0, 0).
+    radius : float, optional
+        The radius of the circle. (Default is 10)
+    color : str, optional
+        The color of the circle. (Default is 'black')
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the circle on. If None, creates a new figure and axis.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> pltdraw.draw_circle((100, 100), radius=20, color='red')
+    >>> plt.show()
+    """
+    ax = ax or plt.gca()
+
+    # Calculate the area in points^2 for the scatter size parameter
+    area = np.pi * (radius**2)
+
+    ax.scatter(center[0], center[1], s=area, color=color)
+
+
 def draw_semicircle(
     radius: float,
     start_angle: float,
@@ -361,7 +477,7 @@ def draw_semicircle(
     color: str = "red",
     text: str = "",
     text_offset: float = 0.1,
-    fontsize: int = 12,
+    fontsize: float = 12,
     ax: Optional[plt.Axes] = None,
 ) -> None:
     """
@@ -374,7 +490,7 @@ def draw_semicircle(
         color: str = "red",
         text: str = "",
         text_offset: float = 0.1,
-        fontsize: int = 12,
+        fontsize: float = 12,
         ax: Optional[plt.Axes] = None,
     ) -> None:
 
@@ -439,48 +555,6 @@ def draw_semicircle(
             ha="center",
             va="center",
         )
-
-
-def draw_circle(
-    center: Tuple[float, float] = (0, 0),
-    radius: float = 10,
-    color: str = "black",
-    ax: Optional[plt.Axes] = None,
-) -> None:
-    """
-    >>> draw_circle(
-        center: Tuple[float, float] = (0, 0),
-        radius: float = 10,
-        color: str = "black",
-        ax: Optional[plt.Axes] = None
-    ) -> None:
-
-    Draws a custom circle on a given axis.
-
-    Parameters
-    ----------
-    center : Tuple[float, float], optional
-        The center point of the circle (x, y). Default is (0, 0).
-    radius : float, optional
-        The radius of the circle. (Default is 10)
-    color : str, optional
-        The color of the circle. (Default is 'black')
-    ax : Optional[plt.Axes], optional
-        The Axes object to draw the circle on. If None, creates a new figure and axis.
-
-    Examples
-    --------
-    >>> import matplotlib.pyplot as plt
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_circle((100, 100), radius=20, color='red')
-    >>> plt.show()
-    """
-    ax = ax or plt.gca()
-
-    # Calculate the area in points^2 for the scatter size parameter
-    area = np.pi * (radius**2)
-
-    ax.scatter(center[0], center[1], s=area, color=color)
 
 
 def draw_rounded_rectangle(
@@ -569,58 +643,54 @@ def draw_rounded_rectangle(
     )  # top-left corner
 
 
-def draw_three_axes(
+def draw_two_axes(
     arrow_length: float,
-    arrow_thickness: float = 2.0,
+    line_thickness: float = 1.5,
     text_offset: float = 0.1,
-    longx: float = 1.5,
-    axis_y_negative: bool = False,
-    axis_x_negative: bool = False,
+    negative_y: bool = False,
+    negative_x: bool = False,
     ax: Optional[plt.Axes] = None,
 ) -> plt.Axes:
     """
-    >>> def draw_three_axes(
+    >>> def draw_two_axes(
         arrow_length: float,
-        arrow_thickness: float = 2.0,
+        line_thickness: float = 1.5,
         text_offset: float = 0.1,
-        longx: float = 1.5,
-        axis_y_negative: bool = False,
-        axis_x_negative: bool = False,
+        negative_y: bool = False,
+        negative_x: bool = False,
         ax: Optional[plt.Axes] = None
     ) -> plt.Axes:
 
-    Draws a set of three axes (x, y, z) with optional negative directions for x and y.
+    Draws two axes representing the x and y directions.
 
     Parameters
     ----------
     arrow_length : float
-        The length of the arrows representing the axes.
-    arrow_thickness : float, optional
-        The thickness of the arrows (Default is 2.0).
+        Length of the arrows representing the axes.
+    line_thickness : float, optional
+        Thickness of the arrows representing the axes. (Default is 1.5)
     text_offset : float, optional
-        The distance between the end of the arrow and the label text (Default is 0.1).
-    longx : float, optional
-        The factor to adjust the length of the diagonal x-axis (Default is 1.5).
-    axis_y_negative : bool, optional
-        Whether to draw the negative y-axis (Default is False).
-    axis_x_negative : bool, optional
-        Whether to draw the negative x-axis (Default is False).
-    ax : Optional[plt.Axes], optional
-        Matplotlib Axes object to draw on. If None, uses current Axes (Default is None).
+        Offset for the axis labels. (Default is 0.1)
+    negative_y : bool, optional
+        Indicating whether to draw the negative y-axis.
+    negative_x : bool, optional
+        Indicating whether to draw the negative x-axis.
 
     Returns
     -------
-    * `plt.Axes`
-        The Axes object with the drawn axes.
+    * `plt.Axes` :
+        Axes object.
 
     Examples
     --------
-    >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
-    >>> ax = pltdraw.draw_three_axes(arrow_length=1, arrow_thickness=2, text_offset=0.1, longx=1.5, axis_y_negative=True, axis_x_negative=True)
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, negative_y=True, negative_x=True)
     >>> plt.show()
     """
+    longx = 1
     ax = ax or plt.gca()
+
     ax.arrow(
         0,
         0,
@@ -630,24 +700,39 @@ def draw_three_axes(
         head_length=0.1,
         fc="gray",
         ec="gray",
-        lw=arrow_thickness,
+        lw=line_thickness,
     )
-    ax.text(0, arrow_length + text_offset, "z", fontsize=12, ha="center", va="bottom")
+    ax.text(0, arrow_length + text_offset, "y", fontsize=12, ha="center", va="bottom")
+
+    if negative_y:
+        ax.arrow(
+            0,
+            0,
+            0,
+            -arrow_length,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
 
     ax.arrow(
         0,
         0,
-        arrow_length,
+        longx * arrow_length,
         0,
         head_width=0.05,
         head_length=0.1,
         fc="gray",
         ec="gray",
-        lw=arrow_thickness,
+        lw=line_thickness,
     )
-    ax.text(arrow_length + text_offset, 0, "y", fontsize=12, ha="left", va="center")
+    ax.text(
+        longx * arrow_length + text_offset, 0, "x", fontsize=12, ha="left", va="center"
+    )
 
-    if axis_y_negative:
+    if negative_x:
         ax.arrow(
             0,
             0,
@@ -657,40 +742,7 @@ def draw_three_axes(
             head_length=0.1,
             fc="gray",
             ec="gray",
-            lw=arrow_thickness,
-        )
-
-    ax.arrow(
-        0,
-        0,
-        -arrow_length / longx,
-        -arrow_length / longx,
-        head_width=0.05,
-        head_length=0.1,
-        fc="gray",
-        ec="gray",
-        lw=arrow_thickness,
-    )
-    ax.text(
-        -arrow_length / longx - text_offset / 1.5,
-        -arrow_length / longx - text_offset / 1.5,
-        "x",
-        fontsize=12,
-        ha="right",
-        va="top",
-    )
-
-    if axis_x_negative:
-        ax.arrow(
-            0,
-            0,
-            arrow_length / longx,
-            arrow_length / longx,
-            head_width=0.05,
-            head_length=0.1,
-            fc="gray",
-            ec="gray",
-            lw=arrow_thickness,
+            lw=line_thickness,
         )
 
     ax.set_xticks([])
@@ -699,7 +751,7 @@ def draw_three_axes(
     ax.spines["right"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
     ax.spines["left"].set_visible(False)
-    ax.axis("equal")
+    plt.axis("equal")
     return ax
 
 
@@ -707,9 +759,8 @@ def draw_two_inclined_axes(
     arrow_length: float,
     arrow_thickness: float = 2.0,
     text_offset: float = 0.1,
-    longx: float = 1.5,
-    draw_negative_y: bool = False,
-    draw_negative_x: bool = False,
+    negative_y: bool = False,
+    negative_x: bool = False,
     ax: Optional[plt.Axes] = None,
 ) -> plt.Axes:
     """
@@ -717,9 +768,8 @@ def draw_two_inclined_axes(
         arrow_length: float,
         arrow_thickness: float = 2.0,
         text_offset: float = 0.1,
-        longx: float = 1.5,
-        draw_negative_y: bool = False,
-        draw_negative_x: bool = False,
+        negative_y: bool = False,
+        negative_x: bool = False,
         ax: Optional[plt.Axes] = None
     ) -> plt.Axes:
 
@@ -733,11 +783,9 @@ def draw_two_inclined_axes(
         The thickness of the arrows (Default is 2.0).
     text_offset : float, optional
         The distance between the end of the arrow and the label text (Default is 0.1).
-    longx : float, optional
-        The factor to adjust the length of the diagonal y-axis (Default is 1.5).
-    draw_negative_y : bool, optional
+    negative_y : bool, optional
         Whether to draw the negative y-axis (Default is False).
-    draw_negative_x : bool, optional
+    negative_x : bool, optional
         Whether to draw the negative x-axis (Default is False).
     ax : Optional[plt.Axes], optional
         Matplotlib Axes object to draw on. If None, uses current Axes (Default is None).
@@ -751,9 +799,10 @@ def draw_two_inclined_axes(
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
-    >>> ax = pltdraw.draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, text_offset=0.1, longx=1.5, draw_negative_y=True, draw_negative_x=True)
+    >>> ax = pltdraw.draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, text_offset=0.1, negative_y=True, negative_x=True)
     >>> plt.show()
     """
+    longx = 1.5
     ax = ax or plt.gca()
     ax.arrow(
         0,
@@ -768,7 +817,7 @@ def draw_two_inclined_axes(
     )
     ax.text(arrow_length + text_offset, 0, "x", fontsize=12, ha="left", va="center")
 
-    if draw_negative_x:
+    if negative_x:
         ax.arrow(
             0,
             0,
@@ -801,7 +850,7 @@ def draw_two_inclined_axes(
         va="bottom",
     )
 
-    if draw_negative_y:
+    if negative_y:
         ax.arrow(
             0,
             0,
@@ -822,6 +871,313 @@ def draw_two_inclined_axes(
     ax.spines["left"].set_visible(False)
     ax.axis("equal")
     return ax
+
+
+def draw_three_axes(
+    arrow_length: float,
+    arrow_thickness: float = 2.0,
+    text_offset: float = 0.1,
+    negative_y: bool = False,
+    negative_x: bool = False,
+    ax: Optional[plt.Axes] = None,
+) -> plt.Axes:
+    """
+    >>> def draw_three_axes(
+        arrow_length: float,
+        arrow_thickness: float = 2.0,
+        text_offset: float = 0.1,
+        negative_y: bool = False,
+        negative_x: bool = False,
+        ax: Optional[plt.Axes] = None
+    ) -> plt.Axes:
+
+    Draws a set of three axes (x, y, z) with optional negative directions for x and y.
+
+    Parameters
+    ----------
+    arrow_length : float
+        The length of the arrows representing the axes.
+    arrow_thickness : float, optional
+        The thickness of the arrows (Default is 2.0).
+    text_offset : float, optional
+        The distance between the end of the arrow and the label text (Default is 0.1).
+    negative_y : bool, optional
+        Whether to draw the negative y-axis (Default is False).
+    negative_x : bool, optional
+        Whether to draw the negative x-axis (Default is False).
+    ax : Optional[plt.Axes], optional
+        Matplotlib Axes object to draw on. If None, uses current Axes (Default is None).
+
+    Returns
+    -------
+    * `plt.Axes`
+        The Axes object with the drawn axes.
+
+    Examples
+    --------
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> import matplotlib.pyplot as plt
+    >>> ax = pltdraw.draw_three_axes(arrow_length=1, arrow_thickness=2, text_offset=0.1, negative_y=True, negative_x=True)
+    >>> plt.show()
+    """
+    longx = 2
+    ax = ax or plt.gca()
+    ax.arrow(
+        0,
+        0,
+        0,
+        arrow_length,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(0, arrow_length + text_offset, "z", fontsize=12, ha="center", va="bottom")
+
+    ax.arrow(
+        0,
+        0,
+        arrow_length,
+        0,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(arrow_length + text_offset, 0, "y", fontsize=12, ha="left", va="center")
+
+    if negative_y:
+        ax.arrow(
+            0,
+            0,
+            -arrow_length,
+            0,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
+        )
+
+    ax.arrow(
+        0,
+        0,
+        -arrow_length / longx,
+        -arrow_length / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=arrow_thickness,
+    )
+    ax.text(
+        -arrow_length / longx - text_offset / 1.5,
+        -arrow_length / longx - text_offset / 1.5,
+        "x",
+        fontsize=12,
+        ha="right",
+        va="top",
+    )
+
+    if negative_x:
+        ax.arrow(
+            0,
+            0,
+            arrow_length / longx,
+            arrow_length / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=arrow_thickness,
+        )
+
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    ax.axis("equal")
+    return ax
+
+
+def draw_three_axes_rotated(
+    arrow_length: float,
+    line_thickness: float = 1.5,
+    text_offset: float = 0.2,
+    negative_y: bool = False,
+    negative_x: bool = False,
+    ax: Optional[plt.Axes] = None,
+) -> plt.Axes:
+    """
+    >>> draw_three_axes_rotated(
+        arrow_length: float,
+        line_thickness: float = 1.5,
+        text_offset: float = 0.2,
+        negative_y: bool = False,
+        negative_x: bool = False,
+        ax: Optional[plt.Axes] = None
+    ) -> plt.Axes
+
+    Draws three rotated axes in a 3D coordinate system.
+
+    Parameters
+    ----------
+    arrow_length : float
+        The length of the arrow.
+    line_thickness : float
+        The thickness of the line. (Default is 1.5)
+    text_offset : float
+        The offset of the text from the arrow. (Default is 0.2)
+    negative_y : bool
+        Whether to include negative y-axis (default is False).
+    negative_x : bool
+        Whether to include negative x-axis (default is False).
+    ax : Optional[plt.Axes], optional
+        The Axes object to draw the plot on. If None, uses the current Axes.
+
+    Returns
+    -------
+    * `plt.Axes` :
+        The matplotlib Axes object containing the plot.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, negative_y=True, negative_x=True)
+    >>> plt.show()
+    """
+    ax = ax or plt.gca()
+
+    angle = np.radians(30)
+
+    longx = 1
+
+    ax.arrow(
+        0,
+        0,
+        0,
+        arrow_length,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=line_thickness,
+    )
+    ax.text(0, arrow_length + text_offset, "z", fontsize=12, ha="center", va="bottom")
+
+    ax.arrow(
+        0,
+        0,
+        -arrow_length * np.cos(angle) / longx,
+        -arrow_length * np.sin(angle) / longx,
+        head_width=0.05,
+        head_length=0.1,
+        fc="gray",
+        ec="gray",
+        lw=line_thickness,
+    )
+    ax.text(
+        -arrow_length * np.cos(angle) / longx - text_offset,
+        -arrow_length * np.sin(angle) / longx - text_offset,
+        "x",
+        fontsize=12,
+        ha="left",
+        va="center",
+    )
+
+    if negative_x:
+        ax.arrow(
+            0,
+            0,
+            arrow_length * np.cos(angle) / longx,
+            arrow_length * np.sin(angle) / longx,
+            head_width=0,
+            head_length=0,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
+        ax.arrow(
+            0,
+            0,
+            arrow_length * np.cos(angle) / longx,
+            -arrow_length * np.sin(angle) / longx,
+            head_width=0.05,
+            head_length=0.1,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
+        ax.text(
+            arrow_length * np.cos(angle) / longx + 2 * text_offset / 1.5,
+            -arrow_length * np.sin(angle) / longx - text_offset / 1.5,
+            "y",
+            fontsize=12,
+            ha="right",
+            va="top",
+        )
+
+    if negative_y:
+        ax.arrow(
+            0,
+            0,
+            -arrow_length * np.cos(angle) / longx,
+            arrow_length * np.sin(angle) / longx,
+            head_width=0,
+            head_length=0,
+            fc="gray",
+            ec="gray",
+            lw=line_thickness,
+        )
+
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    plt.axis("equal")
+    return ax
+
+
+def calculate_midpoint(
+    coord1: Tuple[float, float], coord2: Tuple[float, float]
+) -> Tuple[float, float]:
+    """
+    >>> calculate_midpoint(
+        coord1: Tuple[float, float],
+        coord2: Tuple[float, float]
+    ) -> Tuple[float, float]
+
+    Calculates the midpoint between two coordinates.
+
+    Parameters
+    ----------
+    coord1 : Tuple[float, float]
+        The first coordinate (x, y).
+    coord2 : Tuple[float, float]
+        The second coordinate (x, y).
+
+    Returns
+    -------
+    * `Tuple[float, float]`
+        The midpoint (x, y).
+
+    Examples
+    --------
+    >>> import mecsimcalc.plot_draw as pltdraw
+    >>> midpoint = pltdraw.calculate_midpoint((0, 0), (2, 2))
+    >>> print(midpoint)
+    (1.0, 1.0)
+    """
+    x1, y1 = coord1
+    x2, y2 = coord2
+    return (x1 + x2) / 2, (y1 + y2) / 2
 
 
 def calculate_intersection_point(
@@ -890,342 +1246,90 @@ def calculate_intersection_point(
     return intersection_x, intersection_y
 
 
-def draw_three_axes_rotated(
-    arrow_length: float,
-    line_thickness: float = 1.5,
-    text_offset: float = 0.2,
-    longx: float = 1,
-    negativeaxis_y: bool = False,
-    negativeaxis_x: bool = False,
-    ax: Optional[plt.Axes] = None,
-) -> plt.Axes:
+def calculate_arrow_endpoint(
+    start: tuple, angle: float, length: float, degrees: bool = False
+) -> tuple:
     """
-    >>> draw_three_axes_rotated(
-        arrow_length: float,
-        line_thickness: float = 1.5,
-        text_offset: float = 0.2,
-        longx: float = 1,
-        negativeaxis_y: bool = False,
-        negativeaxis_x: bool = False,
-        ax: Optional[plt.Axes] = None
-    ) -> plt.Axes
+    >>> def calculate_arrow_endpoint(
+        start: tuple, angle: float, length: float, degrees: bool = False
+    ) -> tuple:
 
-    Draws three rotated axes in a 3D coordinate system.
+    Calculates the end point of an arrow in pixel coordinates.
 
     Parameters
     ----------
-    arrow_length : float
+    start : tuple
+        The starting point of the arrow (x, y) in pixel coordinates.
+    angle : float
+        The angle of the arrow in degrees or radians.
+    length : float
         The length of the arrow.
-    line_thickness : float
-        The thickness of the line. (Default is 1.5)
-    text_offset : float
-        The offset of the text from the arrow. (Default is 0.2)
-    longx : float
-        The length of the x-axis. (Default is 1)
-    negativeaxis_y : bool
-        Whether to include negative y-axis (default is False).
-    negativeaxis_x : bool
-        Whether to include negative x-axis (default is False).
-    ax : Optional[plt.Axes], optional
-        The Axes object to draw the plot on. If None, uses the current Axes.
+    degrees : bool, optional
+        Whether the angle is given in degrees (Default is False).
 
     Returns
     -------
-    * `plt.Axes` :
-        The matplotlib Axes object containing the plot.
+    * `Tuple[float, float]`
+        The end point of the arrow (x, y) in pixel coordinates.
 
     Examples
     --------
-    >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> ax = pltdraw.draw_three_axes_rotated(arrow_length=1.0, negativeaxis_y=True, negativeaxis_x=True)
-    >>> plt.show()
+    >>> pltdraw.calculate_arrow_endpoint((100, 200), 45, 50, degrees=True)
+    (135.35533905932738, 235.35533905932738)
     """
-    ax = ax or plt.gca()
+    if degrees:
+        angle = np.radians(angle)
 
-    angle = np.radians(30)
+    # Normalize angle to [0, 2*pi)
+    angle = angle % (2 * np.pi)
 
-    ax.arrow(
-        0,
-        0,
-        0,
-        arrow_length,
-        head_width=0.05,
-        head_length=0.1,
-        fc="gray",
-        ec="gray",
-        lw=line_thickness,
-    )
-    ax.text(0, arrow_length + text_offset, "z", fontsize=12, ha="center", va="bottom")
+    end_x = float(start[0] + length * np.cos(angle))
+    end_y = float(start[1] + length * np.sin(angle))
 
-    ax.arrow(
-        0,
-        0,
-        -arrow_length * np.cos(angle) / longx,
-        -arrow_length * np.sin(angle) / longx,
-        head_width=0.05,
-        head_length=0.1,
-        fc="gray",
-        ec="gray",
-        lw=line_thickness,
-    )
-    ax.text(
-        -arrow_length * np.cos(angle) / longx - text_offset,
-        -arrow_length * np.sin(angle) / longx - text_offset,
-        "x",
-        fontsize=12,
-        ha="left",
-        va="center",
-    )
-
-    if negativeaxis_x:
-        ax.arrow(
-            0,
-            0,
-            arrow_length * np.cos(angle) / longx,
-            arrow_length * np.sin(angle) / longx,
-            head_width=0,
-            head_length=0,
-            fc="gray",
-            ec="gray",
-            lw=line_thickness,
-        )
-        ax.arrow(
-            0,
-            0,
-            arrow_length * np.cos(angle) / longx,
-            -arrow_length * np.sin(angle) / longx,
-            head_width=0.05,
-            head_length=0.1,
-            fc="gray",
-            ec="gray",
-            lw=line_thickness,
-        )
-        ax.text(
-            arrow_length * np.cos(angle) / longx + 2 * text_offset / 1.5,
-            -arrow_length * np.sin(angle) / longx - text_offset / 1.5,
-            "y",
-            fontsize=12,
-            ha="right",
-            va="top",
-        )
-
-    if negativeaxis_y:
-        ax.arrow(
-            0,
-            0,
-            -arrow_length * np.cos(angle) / longx,
-            arrow_length * np.sin(angle) / longx,
-            head_width=0,
-            head_length=0,
-            fc="gray",
-            ec="gray",
-            lw=line_thickness,
-        )
-
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["bottom"].set_visible(False)
-    ax.spines["left"].set_visible(False)
-    plt.axis("equal")
-    return ax
+    return end_x, end_y
 
 
-def draw_double_arrowhead(
-    start: Tuple[float, float],
-    end: Tuple[float, float],
-    color: str = "black",
-    line_thickness: float = 1,
-    ax: Optional[plt.Axes] = None,
-) -> None:
+def calculate_angle(
+    start: Tuple[float, float], end: Tuple[float, float], degrees: bool = False
+) -> float:
     """
-    >>> draw_double_arrowhead(
+    >>> calculate_angle(
         start: Tuple[float, float],
         end: Tuple[float, float],
-        color: str = 'black',
-        line_thickness: float = 1
-        ax: Optional[plt.Axes] = None
-    ) -> None
+        degrees: bool = False
+    ) -> float
 
-    Draws a double arrowhead between two points.
+    Calculates the angle between two points.
 
     Parameters
     ----------
     start : Tuple[float, float]
-        Coordinates of the start point (x, y).
+        Tuple (x, y) representing the starting point.
     end : Tuple[float, float]
-        Coordinates of the end point (x, y).
-    color : str, optional
-        Color of the arrow and line. (Default is 'black')
-    line_thickness : float, optional
-        Thickness of the line. (Default is 1)
-    ax : Optional[plt.Axes], optional
-        The Axes object to draw the plot on. If None, uses the current Axes.
-
-    Examples
-    --------
-    >>> import matplotlib.pyplot as plt
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.draw_double_arrowhead(start=(0, 0), end=(1, 1))
-    >>> plt.show()
-    """
-    ax = ax or plt.gca()
-
-    start = list(start)
-    end = list(end)
-    modified_start = start.copy()
-    modified_end = end.copy()
-    dx = end[0] - start[0]
-    dy = end[1] - start[1]
-    modified_start[0] += 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
-    modified_start[1] += 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
-    modified_end[0] -= 0.08 * dx / ((dx**2 + dy**2) ** 0.5)
-    modified_end[1] -= 0.08 * dy / ((dx**2 + dy**2) ** 0.5)
-    dx = modified_end[0] - modified_start[0]
-    dy = modified_end[1] - modified_start[1]
-    plt.plot(
-        [start[0], end[0]],
-        [start[1], end[1]],
-        color=color,
-        linewidth=line_thickness,
-    )
-    plt.arrow(
-        modified_start[0],
-        modified_start[1],
-        dx,
-        dy,
-        head_width=0.05,
-        head_length=0.08,
-        color=color,
-        linewidth=line_thickness,
-    )
-    plt.arrow(
-        modified_end[0],
-        modified_end[1],
-        -dx,
-        -dy,
-        head_width=0.05,
-        head_length=0.08,
-        color=color,
-        linewidth=line_thickness,
-    )
-
-
-def draw_two_axes(
-    arrow_length: float,
-    line_thickness: float = 1.5,
-    text_offset: float = 0.1,
-    longx: float = 1,
-    negativeaxis_y: bool = False,
-    negativeaxis_x: bool = False,
-    ax: Optional[plt.Axes] = None,
-) -> plt.Axes:
-    """
-    >>> def draw_two_axes(
-        arrow_length: float,
-        line_thickness: float = 1.5,
-        text_offset: float = 0.1,
-        longx: float = 1,
-        negativeaxis_y: bool = False,
-        negativeaxis_x: bool = False,
-        ax: Optional[plt.Axes] = None
-    ) -> plt.Axes:
-
-    Draws two axes representing the x and y directions.
-
-    Parameters
-    ----------
-    arrow_length : float
-        Length of the arrows representing the axes.
-    line_thickness : float, optional
-        Thickness of the arrows representing the axes. (Default is 1.5)
-    text_offset : float, optional
-        Offset for the axis labels. (Default is 0.1)
-    longx : float, optional
-        Length factor for the x-axis.
-    negativeaxis_y : bool, optional
-        Indicating whether to draw the negative y-axis.
-    negativeaxis_x : bool, optional
-        Indicating whether to draw the negative x-axis.
+        Tuple (x, y) representing the final point.
+    degrees : bool, optional
+        Whether to return the angle in degrees (Default is False).
 
     Returns
     -------
-    * `plt.Axes` :
-        Axes object.
+    * `float` :
+        The angle between the two points.
 
     Examples
     --------
-    >>> import matplotlib.pyplot as plt
     >>> import mecsimcalc.plot_draw as pltdraw
-    >>> ax = pltdraw.draw_two_axes(arrow_length=1.0, negativeaxis_y=True, negativeaxis_x=True)
-    >>> plt.show()
+    >>> pltdraw.calculate_angle(start=(0, 0), end=(1, 1), degrees=True)
+    45.0
     """
-    ax = ax or plt.gca()
+    delta_x = end[0] - start[0]
+    delta_y = end[1] - start[1]
+    angle_rad = math.atan2(delta_y, delta_x)
 
-    ax.arrow(
-        0,
-        0,
-        0,
-        arrow_length,
-        head_width=0.05,
-        head_length=0.1,
-        fc="gray",
-        ec="gray",
-        lw=line_thickness,
-    )
-    ax.text(0, arrow_length + text_offset, "y", fontsize=12, ha="center", va="bottom")
+    # normalize angle to [0, 2*pi)
+    angle_rad = angle_rad % (2 * math.pi)
 
-    if negativeaxis_y:
-        ax.arrow(
-            0,
-            0,
-            0,
-            -arrow_length,
-            head_width=0.05,
-            head_length=0.1,
-            fc="gray",
-            ec="gray",
-            lw=line_thickness,
-        )
-
-    ax.arrow(
-        0,
-        0,
-        longx * arrow_length,
-        0,
-        head_width=0.05,
-        head_length=0.1,
-        fc="gray",
-        ec="gray",
-        lw=line_thickness,
-    )
-    ax.text(
-        longx * arrow_length + text_offset, 0, "x", fontsize=12, ha="left", va="center"
-    )
-
-    if negativeaxis_x:
-        ax.arrow(
-            0,
-            0,
-            -arrow_length,
-            0,
-            head_width=0.05,
-            head_length=0.1,
-            fc="gray",
-            ec="gray",
-            lw=line_thickness,
-        )
-
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["bottom"].set_visible(False)
-    ax.spines["left"].set_visible(False)
-    plt.axis("equal")
-    return ax
+    return math.degrees(angle_rad) if degrees else angle_rad
 
 
 def get_arc_points(
@@ -1283,132 +1387,11 @@ def get_arc_points(
     return x, y
 
 
-def calculate_midpoint(
-    coord1: Tuple[float, float], coord2: Tuple[float, float]
-) -> Tuple[float, float]:
-    """
-    >>> calculate_midpoint(
-        coord1: Tuple[float, float],
-        coord2: Tuple[float, float]
-    ) -> Tuple[float, float]
-
-    Calculates the midpoint between two coordinates.
-
-    Parameters
-    ----------
-    coord1 : Tuple[float, float]
-        The first coordinate (x, y).
-    coord2 : Tuple[float, float]
-        The second coordinate (x, y).
-
-    Returns
-    -------
-    * `Tuple[float, float]`
-        The midpoint (x, y).
-
-    Examples
-    --------
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> midpoint = pltdraw.calculate_midpoint((0, 0), (2, 2))
-    >>> print(midpoint)
-    (1.0, 1.0)
-    """
-    x1, y1 = coord1
-    x2, y2 = coord2
-    return (x1 + x2) / 2, (y1 + y2) / 2
-
-
-def calculate_angle(
-    start: Tuple[float, float], end: Tuple[float, float], degrees: bool = False
-) -> float:
-    """
-    >>> calculate_angle(
-        start: Tuple[float, float],
-        end: Tuple[float, float],
-        degrees: bool = False
-    ) -> float
-
-    Calculates the angle between two points.
-
-    Parameters
-    ----------
-    start : Tuple[float, float]
-        Tuple (x, y) representing the starting point.
-    end : Tuple[float, float]
-        Tuple (x, y) representing the final point.
-    degrees : bool, optional
-        Whether to return the angle in degrees (Default is False).
-
-    Returns
-    -------
-    * `float` :
-        The angle between the two points.
-
-    Examples
-    --------
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.calculate_angle(start=(0, 0), end=(1, 1), degrees=True)
-    45.0
-    """
-    delta_x = end[0] - start[0]
-    delta_y = end[1] - start[1]
-    angle_rad = math.atan2(delta_y, delta_x)
-
-    # normalize angle to [0, 2*pi)
-    angle_rad = angle_rad % (2 * math.pi)
-
-    return math.degrees(angle_rad) if degrees else angle_rad
-
-
-def calculate_arrow_endpoint(
-    start: tuple, angle: float, length: float, degrees: bool = False
-) -> tuple:
-    """
-    >>> def calculate_arrow_endpoint(
-        start: tuple, angle: float, length: float, degrees: bool = False
-    ) -> tuple:
-
-    Calculates the end point of an arrow in pixel coordinates.
-
-    Parameters
-    ----------
-    start : tuple
-        The starting point of the arrow (x, y) in pixel coordinates.
-    angle : float
-        The angle of the arrow in degrees or radians.
-    length : float
-        The length of the arrow.
-    degrees : bool, optional
-        Whether the angle is given in degrees (Default is False).
-
-    Returns
-    -------
-    * `Tuple[float, float]`
-        The end point of the arrow (x, y) in pixel coordinates.
-
-    Examples
-    --------
-    >>> import mecsimcalc.plot_draw as pltdraw
-    >>> pltdraw.calculate_arrow_endpoint((100, 200), 45, 50, degrees=True)
-    (135.35533905932738, 235.35533905932738)
-    """
-    if degrees:
-        angle = np.radians(angle)
-
-    # Normalize angle to [0, 2*pi)
-    angle = angle % (2 * np.pi)
-
-    end_x = float(start[0] + length * np.cos(angle))
-    end_y = float(start[1] + length * np.sin(angle))
-
-    return end_x, end_y
-
-
 __all__ = [
     "draw_arrow",
     "calculate_midpoint",
     "draw_semicircle",
-    "create_blank_canvas",
+    "blank_canvas",
     "draw_three_axes",
     "draw_two_inclined_axes",
     "calculate_arrow_endpoint",
