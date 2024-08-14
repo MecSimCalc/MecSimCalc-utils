@@ -1,4 +1,5 @@
 # Plot Draw v0.2.0
+
 This library is designed to provide a set of functions for drawing various types of plots, arrows, segments, and shapes using Matplotlib. These functions allow for customized plotting and annotation of graphical elements.
 
 ## General
@@ -12,7 +13,7 @@ blank_canvas(
     width = 800,
     height = 600,
     color = "white"
-) -> plt.Axes
+)
 ```
 
 #### Description:
@@ -63,7 +64,7 @@ draw_line(
     color = "black",
     line_width = None,
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -113,7 +114,7 @@ draw_arrow(
     head_length = 0.08,
     fontsize = 12,
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -143,7 +144,7 @@ import mecsimcalc as msc
 import mecsimcalc.plot_draw as plot_draw
 
 def main(inputs):
-    plot_draw.draw_arrow((0, 0), (1, 1), thickness=2, color='red', text='Arrow', text_offset=0.1, head_width=0.1, head_length=0.1, fontsize=10)
+    plot_draw.draw_arrow((0, 0), (1, 1), color='red', text='Arrow')
     plt.xlim(-1, 2)
     plt.ylim(-1, 2)
     plot = msc.print_plot(plt)
@@ -167,7 +168,7 @@ draw_double_arrowhead(
     color = "black",
     line_thickness = 1,
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -215,7 +216,7 @@ vertical_arrow_rain(
     head_width = 0.05,
     head_length = 0.1,
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -266,7 +267,7 @@ horizontal_arrow_rain(
     head_width = 0.05,
     head_length = 0.1,
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -315,7 +316,7 @@ draw_circle(
     radius = 10,
     color = "black",
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -366,7 +367,7 @@ draw_semicircle(
     text_offset = 0.1,
     fontsize = 12,
     ax = None,
-) -> None
+)
 ```
 
 #### Description:
@@ -417,7 +418,7 @@ draw_rounded_rectangle(
     corner_radius = 0.5,
     color = "black",
     ax = None
-) -> None
+)
 ```
 
 #### Description:
@@ -466,7 +467,7 @@ draw_two_axes(
     negative_y = False,
     negative_x = False,
     ax = None
-) -> plt.Axes
+)
 ```
 
 #### Description:
@@ -519,7 +520,7 @@ draw_two_inclined_axes(
     negative_y = False,
     negative_x = False,
     ax = None
-) -> plt.Axes
+)
 ```
 
 #### Description:
@@ -551,7 +552,7 @@ import mecsimcalc as msc
 import mecsimcalc.plot_draw as plot_draw
 
 def main(inputs):
-    ax = plot_draw.draw_two_inclined_axes(arrow_length=1, arrow_thickness=2, text_offset=0.1, negative_y=True, negative_x=True)
+    ax = plot_draw.draw_two_inclined_axes(arrow_length=1, negative_y=True, negative_x=True)
     plot = msc.print_plot(plt)
     return {'plot': plot}
 ```
@@ -572,7 +573,7 @@ draw_three_axes(
     negative_y = False,
     negative_x = False,
     ax = None
-) -> plt.Axes
+)
 ```
 
 #### Description:
@@ -619,7 +620,7 @@ draw_three_axes_rotated(
     negative_y = False,
     negative_x = False,
     ax = None
-) -> plt.Axes
+)
 ```
 
 #### Description:
@@ -669,7 +670,7 @@ def main(inputs):
 calculate_midpoint(
     coord1,
     coord2
-) -> Tuple[float, float]
+)
 ```
 
 #### Description:
@@ -713,7 +714,7 @@ calculate_intersection_point(
     point2,
     angle2,
     degrees = False
-) -> tuple[float, float]
+)
 ```
 
 #### Description:
@@ -758,7 +759,7 @@ calculate_arrow_endpoint(
     angle,
     length,
     degrees = False
-) -> tuple[float, float]
+)
 ```
 
 #### Description:
@@ -801,7 +802,7 @@ calculate_angle(
     start: tuple,
     end: tuple,
     degrees: bool = False
-) -> float
+)
 ```
 
 #### Description:
@@ -844,7 +845,7 @@ get_arc_points(
     end_angle,
     radius,
     center: Union[tuple, list]
-) -> tuple[np.ndarray, np.ndarray]
+)
 ```
 
 #### Description:

@@ -1,4 +1,5 @@
 # MecSimCalc File Utilities v0.2.0
+
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
 - [GitHub Repository](https://github.com/MecSimCalc/MecSimCalc-utils)
@@ -661,11 +662,11 @@ Converts a matplotlib animation into an animated GIF. Returns an HTML image tag 
 
 #### Arguments:
 
-| Argument       | Type               | Description                                                                                                                                                                                                       |
-| -------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`ani`**      | **FuncAnimation**  | The matplotlib animation to be converted.                                                                                                                                                                         |
-| **`fps`**      | **int** (optional) | Frames per second for the animation. Defaults to `30`.                                                                                                                                                            |
-| **`save_dir`** | **str** (optional) | The directory to save the animation. Defaults to `"/tmp/temp_animation.gif"`. (Note: The file will be deleted after the execution of the app is finished.) You can only write to the tmp directory in mecsimcalc. |
+| Argument       | Type               | Description                                                                                                                             |
+| -------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **`ani`**      | **FuncAnimation**  | The matplotlib animation to be converted.                                                                                               |
+| **`fps`**      | **int** (optional) | Frames per second for the animation. (Defaults to 30)                                                                                   |
+| **`save_dir`** | **str** (optional) | The directory to temporarily save files. You can only write to the tmp directory in mecsimcalc. Defaults to `"/tmp/temp_animation.gif"` |
 
 #### Returns:
 
@@ -724,19 +725,19 @@ Creates an animated plot from given x and y data and returns it as an HTML image
 
 #### Arguments:
 
-| Argument              | Type                 | Description                                                                                                                 |
-| --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **`x`**               | **np.ndarray**       | The x-coordinates of the data points.                                                                                       |
-| **`y`**               | **np.ndarray**       | The y-coordinates of the data points.                                                                                       |
-| **`duration`**        | **float** (optional) | The duration of the animation in seconds. Defaults to `3`.                                                                  |
-| **`fps`**             | **float** (optional) | Frames per second for the animation. Defaults to `15`.                                                                      |
-| **`x_label`**         | **str** (optional)   | The label for the x-axis. Defaults to `"x"`.                                                                                |
-| **`y_label`**         | **str** (optional)   | The label for the y-axis. Defaults to `"y"`.                                                                                |
-| **`title`**           | **str** (optional)   | Title of the plot. Defaults to `"y = f(x)"`.                                                                                |
-| **`show_axes`**       | **bool** (optional)  | Whether to show the x and y axes. Defaults to `True`.                                                                       |
-| **`follow_tip`**      | **bool** (optional)  | Whether to follow the tip of the line as it moves along the x-axis. Defaults to `False`.                                    |
-| **`hold_last_frame`** | **float** (optional) | The duration to hold the last frame in seconds. Defaults to `1.0`.                                                          |
-| **`save_dir`**        | **str** (optional)   | The directory to temporarily. Defaults to `"/tmp/temp_animation.gif" You can only write to the tmp directory in mecsimcalc. |
+| Argument              | Type                 | Description                                                                                                                             |
+| --------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **`x`**               | **np.ndarray**       | The x-coordinates of the data points.                                                                                                   |
+| **`y`**               | **np.ndarray**       | The y-coordinates of the data points.                                                                                                   |
+| **`duration`**        | **float** (optional) | The duration of the animation in seconds. Defaults to `3`.                                                                              |
+| **`fps`**             | **float** (optional) | Frames per second for the animation. Defaults to `15`.                                                                                  |
+| **`x_label`**         | **str** (optional)   | The label for the x-axis. Defaults to `"x"`.                                                                                            |
+| **`y_label`**         | **str** (optional)   | The label for the y-axis. Defaults to `"y"`.                                                                                            |
+| **`title`**           | **str** (optional)   | Title of the plot. Defaults to `"y = f(x)"`.                                                                                            |
+| **`show_axes`**       | **bool** (optional)  | Whether to show the x and y axes. Defaults to `True`.                                                                                   |
+| **`follow_tip`**      | **bool** (optional)  | Whether to follow the tip of the line as it moves along the x-axis. Defaults to `False`.                                                |
+| **`hold_last_frame`** | **float** (optional) | The duration to hold the last frame in seconds. Defaults to `1.0`.                                                                      |
+| **`save_dir`**        | **str** (optional)   | The directory to temporarily save files. You can only write to the tmp directory in mecsimcalc. Defaults to `"/tmp/temp_animation.gif"` |
 
 #### Returns:
 
@@ -831,7 +832,7 @@ append_to_google_sheet(
     service_account_info = {...},
     spreadsheet_id = "123abc...",
     values = [["name", 12837, ...]],
-    range_name = 'Sheet1!A1',
+    range_name = "Sheet1!A1",
     include_timestamp = True
 )
 ```
@@ -842,13 +843,13 @@ This function appends given values to a specified Google Sheet and optionally in
 
 #### Arguments:
 
-| Argument                   | Type                | Description                                                                     |
-| -------------------------- | ------------------- | ------------------------------------------------------------------------------- |
-| **`service_account_info`** | **dict**            | The service account credentials used for Google Sheets API authentication.      |
-| **`spreadsheet_id`**       | **str**             | The unique identifier of the target Google Spreadsheet.                         |
-| **`values`**               | **list of lists**   | The data to append. Each list element represents a row of data.                 |
-| **`range_name`**           | **str** (optional)  | The A1 notation of the range to start appending data (Defaults to 'Sheet1!A1'). |
-| **`include_timestamp`**    | **bool** (optional) | If True, appends the current timestamp to each row of data (Defaults to True).  |
+| Argument                   | Type                | Description                                                                      |
+| -------------------------- | ------------------- | -------------------------------------------------------------------------------- |
+| **`service_account_info`** | **dict**            | The service account credentials used for Google Sheets API authentication.       |
+| **`spreadsheet_id`**       | **str**             | The unique identifier of the target Google Spreadsheet.                          |
+| **`values`**               | **list of lists**   | The data to append. Each list element represents a row of data.                  |
+| **`range_name`**           | **str** (optional)  | The A1 notation of the range to start appending data. Defaults to `"Sheet1!A1"`. |
+| **`include_timestamp`**    | **bool** (optional) | If True, appends the current timestamp to each row of data. Defaults to `True`.  |
 
 #### Returns:
 
