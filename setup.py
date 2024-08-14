@@ -28,6 +28,7 @@ setup(
         "PyJWT",
         "cryptography",
         "requests",
+        "plotly",
     ],
     keywords=["python", "MecSimCalc", "Calculator", "Simple"],
     classifiers=[
