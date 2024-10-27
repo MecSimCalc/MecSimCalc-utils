@@ -66,7 +66,7 @@ def input_to_dataframe(
     input_file : str
         The base64 encoded file data.
     get_file_extension : bool, optional
-        If True, the function also returns the file type. Defaults to `False`.
+        If True, the function also returns the file extension. Defaults to `False`.
 
     Returns
     -------
@@ -154,7 +154,7 @@ def print_dataframe(
     # -------- Creating Downloadable File --------#
 
     buf = io.BytesIO()
-    download_file_type = download_file_type.lower()
+    download_file_type = download_file_type.lower().strip('.')
 
     # excel
     if download_file_type in {

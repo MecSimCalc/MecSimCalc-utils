@@ -1,6 +1,6 @@
 # included in __all__: import using "from mecsimcalc import *" or "import mecsimcalc"
 
-from .file_utils.general_utils import input_to_file, metadata_to_filetype
+from .file_utils.general_utils import input_to_file
 
 from .file_utils.image_utils import input_to_PIL, file_to_PIL, print_image
 
@@ -40,7 +40,6 @@ __all__ = [
     "string_to_file",
     "print_table",
     "print_plot",
-    "metadata_to_filetype",
     "file_to_PIL",
     "append_to_google_sheet",
     "send_gmail",

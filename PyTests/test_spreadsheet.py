@@ -12,7 +12,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 # add parent directory to path so we can import mecsimcalc
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
-from general_utils import input_to_file, metadata_to_filetype
+from general_utils import input_to_file
 from spreadsheet_utils import input_to_dataframe, file_to_dataframe, print_dataframe
 
 
@@ -22,8 +22,8 @@ def test_input_to_file():
     inputXLSX = get_xlsx()
 
     # convert encoded file to usable file
-    fileCSV, file_extensionCSV = input_to_file(inputCSV, file_extension = True)
-    fileXLSX, file_extensionXLSX = input_to_file(inputXLSX, file_extension = True)
+    fileCSV, file_extensionCSV = input_to_file(inputCSV, get_file_extension = True)
+    fileXLSX, file_extensionXLSX = input_to_file(inputXLSX, get_file_extension = True)
 
     assert file_extensionCSV == ".csv"
     assert file_extensionXLSX in [".xls", ".xlsx"]

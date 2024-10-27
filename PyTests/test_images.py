@@ -11,7 +11,7 @@ PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
 
-from general_utils import input_to_file, metadata_to_filetype
+from general_utils import input_to_file
 from image_utils import input_to_PIL, file_to_PIL, print_image
 
 # tests decode_file_data
@@ -22,7 +22,7 @@ def test_decode_file_data():
     input_data = get_input()
 
     # try decoding data with file extension
-    file, file_extension = input_to_file(input_data, file_extension=True)
+    file, file_extension = input_to_file(input_data, get_file_extension=True)
 
     # for coconut.jpg, file_extension should be ".jpg"
     assert file_extension == ".jpg"

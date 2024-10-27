@@ -19,10 +19,10 @@ def test_input_to_file():
   html = readHTML()
   
   # convert encoded file to usable file
-  fileImg, file_extensionImg = input_to_file(img, file_extension = True)
-  fileXML, file_extensionXML = input_to_file(xml, file_extension = True)
-  fileCSV, file_extensionCSV = input_to_file(csv, file_extension = True)
-  fileHTML, file_extensionHTML = input_to_file(html, file_extension = True)
+  fileImg, file_extensionImg = input_to_file(img, get_file_extension = True)
+  fileXML, file_extensionXML = input_to_file(xml, get_file_extension = True)
+  fileCSV, file_extensionCSV = input_to_file(csv, get_file_extension = True)
+  fileHTML, file_extensionHTML = input_to_file(html, get_file_extension = True)
   
   assert file_extensionImg == ".jpg"
   assert isinstance(fileImg, io.BytesIO)

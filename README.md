@@ -1,4 +1,4 @@
-# MecSimCalc File Utilities v0.2.1
+# MecSimCalc File Utilities v0.3.0
 
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
@@ -12,19 +12,19 @@ This library is designed to provide a set of functions for handling and converti
 [**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
 
 ```python
-input_to_file(input_file, metadata = False)
+input_to_file(input_file, file_extension = False)
 ```
 
 #### Description:
 
-Converts a base64 encoded string into a file object and metadata
+Converts a base64 encoded string into a file object and file extension
 
 #### Arguments:
 
 | Argument         | Type                | Description                                                |
 | ---------------- | ------------------- | ---------------------------------------------------------- |
-| **`input_file`** | **str**             | Base64 encoded string, prefixed with metadata              |
-| **`metadata`**   | **bool** (optional) | Flag to return metadata with the file. (Defaults to False) |
+| **`input_file`** | **str**             | Base64 encoded string (file you get from inputs['file'])            |
+| **`get_file_extension`**   | **bool** (optional) | Flag to return the file extension with the file. (Defaults to False) |
 
 #### Raises:
 
@@ -36,8 +36,8 @@ Converts a base64 encoded string into a file object and metadata
 
 | Return Type             | Description                                                              | Condition         |
 | ----------------------- | ------------------------------------------------------------------------ | ----------------- |
-| **`io.BytesIO`**        | The decoded file data (The thing you get when you open a file in Python) | metadata is False |
-| **`(io.BytesIO, str)`** | The decoded file data and its metadata                                   | metadata is True  |
+| **`io.BytesIO`**        | The decoded file data (The thing you get when you open a file in Python) | get_file_extension is False |
+| **`(io.BytesIO, str)`** | The decoded file data and its file extension                                   | get_file_extension is True  |
 
 #### Example:
 
@@ -47,50 +47,11 @@ import mecsimcalc as msc
 
 def main(inputs):
     input_file = inputs['file']
-    file, metadata = msc.input_to_file(input_file, metadata=True)
-    return {"file_type": type(file).__name__, "metadata": metadata}
+    file, file_extension = msc.input_to_file(input_file, get_file_extension=True)
+    return {"file_type": type(file).__name__, "extension": file_extension}
 
 # Expected output:
-# {"file_type": "_io.BytesIO", "metadata": "data:image/jpeg;base64,"}
-```
-
-### metadata_to_filetype
-
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
-
-```python
-metadata_to_filetype(metadata):
-```
-
-#### Description:
-
-Extracts the file type from the metadata
-
-#### Arguments:
-
-| Argument       | Type    | Description                                                                                   |
-| -------------- | ------- | --------------------------------------------------------------------------------------------- |
-| **`metadata`** | **str** | The metadata string in the form "Data:(MIME type);base64,"(returned from **`input_to_file`**) |
-
-#### Returns:
-
-| Return Type | Description                 |
-| ----------- | --------------------------- |
-| **`str`**   | The file type (e.g. "jpeg") |
-
-#### Example:
-
-```python
-import mecsimcalc as msc
-
-def main(inputs):
-    input_file = inputs['file']
-    file, metadata = msc.input_to_file(input_file, metadata=True)
-    download_file_type = msc.metadata_to_filetype(metadata)
-    return {"file_type": download_file_type}
-
-# Expected output:
-# {"file_type": "jpeg"}
+# {"file_type": "_io.BytesIO", "extension": ".jpg"}
 ```
 
 ## Text
@@ -171,7 +132,7 @@ Converts a base64 encoded file data into a pandas DataFrame
 
 | Argument        | Type           | Description                                       |
 | --------------- | -------------- | ------------------------------------------------- |
-| **`file_data`** | **io.BytesIO** | Decoded file data (e.g. from **`input_to_file`**) |
+| **`file_data`** | **io.BytesIO** | An open file (e.g. from **`input_to_file`** or **`file.open()`**) |
 
 #### Raises:
 
@@ -192,8 +153,8 @@ import mecsimcalc as msc
 
 def main(inputs):
     input_file = inputs['file']
-    decoded_file = msc.input_to_file(input_file)
-    df = msc.file_to_dataframe(decoded_file)
+    open_file = msc.input_to_file(input_file)
+    df = msc.file_to_dataframe(open_file)
     return {"dataframe": df.to_dict()}
 
 # Expected output:
@@ -219,15 +180,15 @@ Converts a base64 encoded file data into a pandas DataFrame
 
 | Argument            | Type     | Description                                                          |
 | ------------------- | -------- | -------------------------------------------------------------------- |
-| **`input_file`**    | **str**  | Base64 encoded file data                                             |
-| **`get_file_type`** | **bool** | If True, the function also returns the file type (Defaults to False) |
+| **`input_file`**    | **str**  | Base64 encoded file data (file you get from inputs['file'])                                            |
+| **`get_file_extension`** | **bool** | If True, the function also returns the file extension (Defaults to False) |
 
 #### Returns:
 
 | Return Type               | Description                                      | Condition              |
 | ------------------------- | ------------------------------------------------ | ---------------------- |
-| **`pd.DataFrame`**        | DataFrame created from file data                 | get_file_type is False |
-| **`(pd.DataFrame, str)`** | Tuple containing the DataFrame and the file type | get_file_type is True  |
+| **`pd.DataFrame`**        | DataFrame created from file data                 | get_file_extension is False |
+| **`(pd.DataFrame, str)`** | Tuple containing the DataFrame and the file extension | get_file_extension is True  |
 
 #### Example:
 
@@ -236,14 +197,14 @@ import mecsimcalc as msc
 
 def main(inputs):
     input_file = inputs['file']
-    df, file_type = msc.input_to_dataframe(input_file, get_file_type=True)
-    return {"dataframe": df.to_dict(), "file_type": file_type}
+    df, get_file_extension = msc.input_to_dataframe(input_file, get_file_type=True)
+    return {"dataframe": df.to_dict(), "extension": get_file_extension}
 
 # Expected output:
 # {"dataframe": {
 # "A": {0: "a", 1: "d"},
 # "B": {0: "b", 1: "e"},
-# "C": {0: "c", 1: "f"}}, "file_type": "csv"}
+# "C": {0: "c", 1: "f"}}, "extension": ".csv"}
 ```
 
 ### print_dataframe
@@ -465,7 +426,7 @@ Displaying Image
 [**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
 
 ```python
-input_to_PIL(input_file, get_file_type=False):
+input_to_PIL(input_file, get_file_extension=False):
 ```
 
 #### Description:
@@ -477,14 +438,14 @@ Converts a base64 encoded file data into a pillow image
 | Argument            | Type     | Description                                                          |
 | ------------------- | -------- | -------------------------------------------------------------------- |
 | **`input_file`**    | **str**  | Base64 encoded file data                                             |
-| **`get_file_type`** | **bool** | If True, the function also returns the file type (Defaults to False) |
+| **`get_file_extension`** | **bool** | If True, the function also returns the file extension (Defaults to False) |
 
 #### Returns:
 
 | Return Type                       | Description              | Condition              |
 | --------------------------------- | ------------------------ | ---------------------- |
-| **`PIL.Image.Image`**             | Pillow Image object      | get_file_type is False |
-| **`Tuple[PIL.Image.Image, str]`** | (pillow image, metadata) | get_file_type is True  |
+| **`PIL.Image.Image`**             | Pillow Image object      | get_file_extension is False |
+| **`Tuple[PIL.Image.Image, str]`** | (pillow image, metadata) | get_file_extension is True  |
 
 #### Example:
 
@@ -493,11 +454,11 @@ import mecsimcalc as msc
 
 def main(inputs):
     input_file = inputs['file']
-    image, file_type = msc.input_to_PIL(input_file, get_file_type=True)
-    return {"image": image, "file_type": file_type}
+    image, file_extension = msc.input_to_PIL(input_file, get_file_extension=True)
+    return {"image": image, "file_extension": file_extension}
 
 # Expected output:
-# {"image": <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=...>, "file_type": "jpeg"}
+# {"image": <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=...>, "file_extension": "jpeg"}
 ```
 
 ### print_image
@@ -513,7 +474,6 @@ print_image(
     download = False,
     download_text = "Download Image",
     download_file_name= "myimg",
-    download_file_type = "png",
 ):
 ```
 
@@ -532,7 +492,6 @@ Transforms a Pillow image into an HTML image, with an optional download link
 | **`download`**           | **bool** (optional) | If True, function returns a download link (Defaults to False)                      |
 | **`download_text`**      | **str** (optional)  | The text to be displayed on the download link (Defaults to "Download Image")       |
 | **`download_file_name`** | **str** (optional)  | The name of the image file when downloaded (Defaults to "myimg")                   |
-| **`download_file_type`** | **str** (optional)  | The file type of the image when downloaded (Defaults to "png")                     |
 
 #### Returns:
 
@@ -551,12 +510,12 @@ import mecsimcalc as msc
 def main(inputs):
     input_file = inputs['file']
     image, metadata = msc.input_to_PIL(input_file)
-    html_image, download = msc.print_image(image, original_size=True, download=True, download_text="Download Image Here", download_file_name="myimage", download_file_type="jpeg")
+    html_image, download = msc.print_image(image, original_size=True, download=True, download_text="Download Image Here", download_file_name="myimage")
     return {"image": html_image, "download": download}
 
 # Expected output:
 # {"image": "<img src='data:image/jpeg;base64,...' width='...' height='...'>",
-# "download": "<a href='data:image/jpeg;base64,...' download='myimage.jpeg'>Download Image Here</a>"}
+# "download": "<a href='data:image/jpeg;base64,...' download='myimage.png'>Download Image Here</a>"}
 ```
 
 #### Output using Jinja2 Template:
