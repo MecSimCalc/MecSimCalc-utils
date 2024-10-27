@@ -65,7 +65,7 @@ def input_to_file(
     mime_type = mime.from_buffer(file_data.getvalue())
     
     # Get the file extension
-    extension = f".{mime_type.split('/')[-1]}"
+    extension = guess_extension(mime_type)
 
     return (file_data, extension) if file_extension else file_data
 
