@@ -10,7 +10,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(THIS_DIR)
 
 sys.path.insert(1, f"{PARENT_DIR}/mecsimcalc/file_utils")
-from general_utils import input_to_file, metadata_to_filetype
+from general_utils import input_to_file
 
 def test_input_to_file():
   img = readImg()
@@ -41,7 +41,7 @@ def get_mime_type(file_path):
 def readImg():
     return getInput(os.path.join(THIS_DIR, "./test_files/coconut.jpg"))
 def readXML():
-    return getInput(os.path.join(THIS_DIR, "./test_files/XlsxFile.xlsx"), xlsx=True)
+    return getInput(os.path.join(THIS_DIR, "./test_files/xlsxFile.xlsx"), xlsx=True)
 def readCSV():
     return getInput(os.path.join(THIS_DIR, "./test_files/csvFile.csv"))
 def readHTML():
