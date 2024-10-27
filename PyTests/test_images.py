@@ -25,7 +25,7 @@ def test_decode_file_data():
     file, file_extension = input_to_file(input_data, file_extension=True)
 
     # for coconut.jpg, file_extension should be ".jpg"
-    assert file_extension == ".jpeg"
+    assert file_extension == ".jpg"
     assert isinstance(file, io.BytesIO)
 
     # try decoding data without file extension
@@ -95,6 +95,3 @@ def getInputImg(path):
 # returns part of the image metadata
 def get_mime_type(file_path):
     return mimetypes.guess_type(file_path)[0]
-
-
-test_print_image()
