@@ -22,23 +22,13 @@ def test_input_to_file():
     inputXLSX = get_xlsx()
 
     # convert encoded file to usable file
-    fileCSV, metadataCSV = input_to_file(inputCSV, metadata=True)
-    fileXLSX, metadataXLSX = input_to_file(inputXLSX, metadata=True)
+    fileCSV, file_extensionCSV = input_to_file(inputCSV, file_extension = True)
+    fileXLSX, file_extensionXLSX = input_to_file(inputXLSX, file_extension = True)
 
-    assert metadataCSV == "data:text/csv;base64,"
-    assert (
-        metadataXLSX
-        == "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"
-    )
+    assert file_extensionCSV == ".csv"
+    assert file_extensionXLSX in [".xls", ".xlsx"]
     assert isinstance(fileCSV, io.BytesIO)
     assert isinstance(fileXLSX, io.BytesIO)
-
-    # try converting metadata to file type
-    fileType = metadata_to_filetype(metadataCSV)
-    assert fileType == "csv"
-
-    fileType = metadata_to_filetype(metadataXLSX)
-    assert fileType == "xlsx"
 
     # try decoding data without metadata
     file = input_to_file(inputCSV)

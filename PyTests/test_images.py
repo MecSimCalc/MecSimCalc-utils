@@ -21,18 +21,14 @@ def test_decode_file_data():
     # decode file data
     input_data = get_input()
 
-    # try decoding data with metadata
-    file, metadata = input_to_file(input_data, metadata=True)
+    # try decoding data with file extension
+    file, file_extension = input_to_file(input_data, file_extension=True)
 
-    # for coconut.jpg, metadata should be "data:image/jpeg;base64,"
-    assert metadata == "data:image/jpeg;base64,"
+    # for coconut.jpg, file_extension should be ".jpg"
+    assert file_extension == ".jpg"
     assert isinstance(file, io.BytesIO)
 
-    # try converting metadata to file type
-    file_type = metadata_to_filetype(metadata)
-    assert file_type == "jpeg"
-
-    # try decoding data without metadata
+    # try decoding data without file extension
     file = input_to_file(input_data)
     assert isinstance(file, io.BytesIO)
 
@@ -42,12 +38,11 @@ def test_input_to_PIL():
     input_data = get_input()
 
     # try converting data and getting image type
-    pillow, file_type = input_to_PIL(input_data, get_file_type=True)
+    pillow = input_to_PIL(input_data)
 
     assert isinstance(pillow, Image.Image)
-    assert file_type == "jpeg"
 
-    # try converting data without getting image type
+    # try converting data
     pillow2 = input_to_PIL(input_data)
     assert isinstance(pillow2, Image.Image)
 
@@ -63,7 +58,7 @@ def test_file_to_PIL():
 def test_print_image():
     # convert file data to pillow image
     input_data = get_input()
-    pillow, file_type = input_to_PIL(input_data, get_file_type=True)
+    pillow = input_to_PIL(input_data)
 
     # making sure print_image returns a string that starts with "<img src="
     displayHTML = print_image(pillow)
@@ -72,8 +67,7 @@ def test_print_image():
 
     # making sure print_image returns a string that starts with "<img src=" and "<a href="
     displayHTML, downloadHTML = print_image(
-        pillow, download=True, download_file_type=file_type
-    )
+        pillow, download=True)
 
     assert displayHTML.startswith("<img src=")
     assert displayHTML.endswith(">")

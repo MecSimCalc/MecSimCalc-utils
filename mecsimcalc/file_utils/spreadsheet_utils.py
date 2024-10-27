@@ -3,7 +3,7 @@ import base64
 import pandas as pd
 from typing import Union, Tuple
 
-from mecsimcalc import input_to_file, metadata_to_filetype
+from mecsimcalc import input_to_file
 
 
 def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
@@ -51,12 +51,12 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
 
 
 def input_to_dataframe(
-    input_file: str, get_file_type: bool = False
+    input_file: str, get_file_extension: bool = False
 ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]:
     """
     >>> input_to_dataframe(
         input_file: str,
-        get_file_type: bool = False
+        get_file_extension: bool = False
     ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]
 
     Converts base64 encoded file data into a pandas DataFrame.
@@ -65,14 +65,14 @@ def input_to_dataframe(
     ----------
     input_file : str
         The base64 encoded file data.
-    get_file_type : bool, optional
+    get_file_extension : bool, optional
         If True, the function also returns the file type. Defaults to `False`.
 
     Returns
     -------
     * `Union[pd.DataFrame, Tuple[pd.DataFrame, str]]` :
-        * If `get_file_type` is False, returns a DataFrame created from the file data.
-        * If `get_file_type` is True, returns a tuple containing the DataFrame and the file type.
+        * If `get_file_extension` is False, returns a DataFrame created from the file data.
+        * If `get_file_extension` is True, returns a tuple containing the DataFrame and the file extension.
 
     Examples
     --------
@@ -84,10 +84,10 @@ def input_to_dataframe(
     1  4  5  6
     """
     # converts input file into a dataframe
-    file_data, metadata = input_to_file(input_file, metadata=True)
+    file_data, file_extension = input_to_file(input_file, file_extension=True)
 
-    if get_file_type:
-        return file_to_dataframe(file_data), metadata_to_filetype(metadata)
+    if get_file_extension:
+        return file_to_dataframe(file_data), file_extension
     else:
         return file_to_dataframe(file_data)
 
