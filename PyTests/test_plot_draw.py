@@ -37,7 +37,7 @@ def run_all_functions():
     assert calculate_midpoint((0, 0), (1, 1)) == (0.5, 0.5)
 
     # Draw an arc of a circumference
-    draw_semicircle(radius=0.5, start_angle=0, end_angle=np.pi / 2)
+    draw_arc(radius=0.5, start_angle=0, end_angle=np.pi / 2)
 
     blank_canvas()
 

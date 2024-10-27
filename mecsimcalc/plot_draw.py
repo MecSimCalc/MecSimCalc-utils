@@ -468,7 +468,7 @@ def draw_circle(
     ax.scatter(center[0], center[1], s=area, color=color)
 
 
-def draw_semicircle(
+def draw_arc(
     radius: float,
     start_angle: float,
     end_angle: float,
@@ -481,7 +481,7 @@ def draw_semicircle(
     ax: Optional[plt.Axes] = None,
 ) -> None:
     """
-    >>> def draw_semicircle(
+    >>> def draw_arc(
         radius: float,
         start_angle: float,
         end_angle: float,
@@ -524,7 +524,7 @@ def draw_semicircle(
     --------
     >>> import mecsimcalc.plot_draw as pltdraw
     >>> import matplotlib.pyplot as plt
-    >>> pltdraw.draw_semicircle(5, 0, 90, degrees=True)
+    >>> pltdraw.draw_arc(5, 0, 90, degrees=True)
     >>> plt.show()
     """
     ax = ax or plt.gca()
@@ -1390,7 +1390,7 @@ def get_arc_points(
 __all__ = [
     "draw_arrow",
     "calculate_midpoint",
-    "draw_semicircle",
+    "draw_arc",
     "blank_canvas",
     "draw_three_axes",
     "draw_two_inclined_axes",

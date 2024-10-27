@@ -1,4 +1,4 @@
-# MecSimCalc File Utilities v0.2.0
+# MecSimCalc File Utilities v0.2.1
 
 This library is designed to provide a set of functions for handling and converting various types of data, such as base64 encoded data, Pandas DataFrames, and Pillow images.
 
@@ -9,7 +9,7 @@ This library is designed to provide a set of functions for handling and converti
 
 ### input_to_file
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/general_utils.py#L7C1-L66C1)
 
 ```python
 input_to_file(input_file, metadata = False)
@@ -56,7 +56,7 @@ def main(inputs):
 
 ### metadata_to_filetype
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/general_utils.py#L68C1-L100C21)
 
 ```python
 metadata_to_filetype(metadata):
@@ -97,7 +97,7 @@ def main(inputs):
 
 ### string_to_file
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/text_utils.py#L4C1-L63C85)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/text_utils.py#L4C1-L63C85)
 
 ```python
 string_to_file(
@@ -157,7 +157,7 @@ def main(inputs):
 
 ### file_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/spreadsheet_utils.py#L9C1-L50C14)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/spreadsheet_utils.py#L9C1-L50C14)
 
 ```python
 file_to_dataframe(file_data):
@@ -205,7 +205,7 @@ def main(inputs):
 
 ### input_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/spreadsheet_utils.py#L53C1-L92C44)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/spreadsheet_utils.py#L53C1-L92C44)
 
 ```python
 input_to_dataframe(file):
@@ -248,7 +248,7 @@ def main(inputs):
 
 ### print_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/spreadsheet_utils.py#L95C1-L186C39)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/spreadsheet_utils.py#L95C1-L186C39)
 
 ```python
 print_dataframe(
@@ -315,7 +315,7 @@ Downloading Table
 
 ### table_to_dataframe
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/table_utils.py#L5C1-L45C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/table_utils.py#L5C1-L45C1)
 
 ```python
 table_to_dataframe(column_headers, rows):
@@ -358,7 +358,7 @@ def main(inputs):
 
 ### print_table
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/table_utils.py#L47C1-L80C58)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/table_utils.py#L47C1-L80C58)
 
 ```python
 print_table(column_headers, rows):
@@ -407,7 +407,7 @@ Displaying Table
 
 ### file_to_PIL
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/image_utils.py#L23C1-L55C88)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/image_utils.py#L23C1-L55C88)
 
 ```python
 file_to_PIL(file):
@@ -462,7 +462,7 @@ Displaying Image
 
 ### input_to_PIL
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/image_utils.py#L58C1-L109C1)
 
 ```python
 input_to_PIL(input_file, get_file_type=False):
@@ -502,7 +502,7 @@ def main(inputs):
 
 ### print_image
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/image_utils.py#L110C1-L209C36)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/image_utils.py#L110C1-L209C36)
 
 ```python
 print_image(
@@ -575,7 +575,7 @@ Downloading Image
 
 ### print_plot
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L15C1-L102C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/plotting_utils.py#L15C1-L102C1)
 
 ```python
 print_plot(
@@ -647,7 +647,7 @@ Downloading Image
 
 ### print_animation
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L104C1-L156C63)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/plotting_utils.py#L104C1-L156C63)
 
 ```python
 print_animation(
@@ -700,7 +700,7 @@ def main(inputs):
 
 ### animate_plot
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L159C1-L278C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/plotting_utils.py#L159C1-L278C1)
 
 ```python
 animate_plot(
@@ -763,7 +763,7 @@ def main(inputs):
 
 ### plot_slider
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/plotting_utils.py#L280C1-L423C45)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/plotting_utils.py#L280C1-L423C45)
 
 ```python
 plot_slider(
@@ -825,7 +825,7 @@ def main(inputs):
 
 ### append_to_google_sheet
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/quiz_utils.py#L11C1-L134C1)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/quiz_utils.py#L11C1-L134C1)
 
 ```python
 append_to_google_sheet(
@@ -883,7 +883,7 @@ def main(inputs):
 
 ### send_gmail
 
-[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.0/mecsimcalc/file_utils/quiz_utils.py#L136C1-L207C21)
+[**[Source]**](https://github.com/MecSimCalc/MecSimCalc-utils/blob/v0.2.1/mecsimcalc/file_utils/quiz_utils.py#L136C1-L207C21)
 
 ```python
 send_gmail(
