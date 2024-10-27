@@ -5,7 +5,7 @@ from mimetypes import guess_type
 
 from PIL import Image
 
-from mecsimcalc import input_to_file, metadata_to_filetype
+from mecsimcalc import input_to_file
 
 
 def file_to_PIL(file: io.BytesIO) -> Image.Image:
@@ -85,13 +85,13 @@ def input_to_PIL(
     (image is now ready to be used with Pillow functions)
     """
     # Get file extension from metadata
+    file_data = input_to_file(input_file)
+    image = file_to_PIL(file_data)
+    
     if get_file_extension:
         file_data, file_extension = input_to_file(input_file, get_file_extension=True)
         return image, file_extension
     
-    # Get image data from input
-    file_data = input_to_file(input_file)
-    image = file_to_PIL(file_data)
     return image
 
 
