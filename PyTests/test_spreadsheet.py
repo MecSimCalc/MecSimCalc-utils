@@ -97,8 +97,8 @@ def test_print_dataframe():
     dfXLSX, fileTypeXLSX = input_to_dataframe(inputXLSX, get_file_extension=True)
 
     # make sure dataframe is a pandas dataframe and file type is correct
-    assert fileTypeCSV == "csv"
-    assert fileTypeXLSX == "xlsx"
+    assert fileTypeCSV == ".csv"
+    assert fileTypeXLSX == ".xlsx"
     assert isinstance(dfCSV, pd.DataFrame)
     assert isinstance(dfXLSX, pd.DataFrame)
 
