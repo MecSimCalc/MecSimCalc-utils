@@ -3,6 +3,7 @@ import base64
 import re
 from typing import Union, Tuple
 from mimetypes import guess_type, guess_extension
+import magic
 
 
 def input_to_file(
@@ -55,11 +56,16 @@ def input_to_file(
     if ";base64," not in input_file:
         raise ValueError("Invalid input: must contain ';base64,'")
     
-
+    # Split metadata and data
     meta, data = input_file.split(";base64,")
     file_data = io.BytesIO(base64.b64decode(data))
-    meta_data = f"{meta};base64,"
-    extension = guess_extension(guess_type(meta_data)[0])
+
+    # Use magic to get the file extension
+    mime = magic.Magic(mime=True)
+    mime_type = mime.from_buffer(file_data.getvalue())
+    
+    # Get the file extension
+    extension = mime_type.split("/")[-1]
 
     return (file_data, extension) if file_extension else file_data
 

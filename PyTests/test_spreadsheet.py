@@ -93,8 +93,8 @@ def test_print_dataframe():
     assert dfHTMLxlsx.startswith("<table")
 
     # convert input data to dataframe with metadata
-    dfCSV, fileTypeCSV = input_to_dataframe(inputCSV, get_file_type=True)
-    dfXLSX, fileTypeXLSX = input_to_dataframe(inputXLSX, get_file_type=True)
+    dfCSV, fileTypeCSV = input_to_dataframe(inputCSV, get_file_extension=True)
+    dfXLSX, fileTypeXLSX = input_to_dataframe(inputXLSX, get_file_extension=True)
 
     # make sure dataframe is a pandas dataframe and file type is correct
     assert fileTypeCSV == "csv"
