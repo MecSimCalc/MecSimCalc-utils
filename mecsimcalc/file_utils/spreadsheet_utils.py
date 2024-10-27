@@ -84,7 +84,7 @@ def input_to_dataframe(
     1  4  5  6
     """
     # converts input file into a dataframe
-    file_data, file_extension = input_to_file(input_file, file_extension=True)
+    file_data, file_extension = input_to_file(input_file, get_file_extension=True)
 
     if get_file_extension:
         return file_to_dataframe(file_data), file_extension
