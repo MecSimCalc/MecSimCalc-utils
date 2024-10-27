@@ -25,7 +25,7 @@ def test_input_to_file():
   fileHTML, file_extensionHTML = input_to_file(html, file_extension = True)
   
   assert file_extensionImg == ".jpg"
-  assert isinstance(img, io.BytesIO)
+  assert isinstance(fileImg, io.BytesIO)
   assert file_extensionXML == ".xlsx"
   assert isinstance(fileXML, io.BytesIO)
   assert file_extensionCSV == ".csv"
