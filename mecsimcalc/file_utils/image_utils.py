@@ -184,6 +184,5 @@ def print_image(
 
     if not download:
         return image_tag
-    
     download_link = f"<a href='{encoded_data}' download='{download_file_name}.{(image.format or 'png').lower()}'>{download_text}</a>"
     return image_tag, download_link

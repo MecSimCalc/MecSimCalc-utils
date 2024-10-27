@@ -43,7 +43,7 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
         df = pd.read_csv(file)
     except Exception:
         try:
-            df = pd.read_excel(file, engine="openpyxl")
+            df = pd.read_excel(file, engine="openpyxl") # engine="openpyxl" is necessary for python 3.6
         except Exception as e:
             raise pd.errors.ParserError("File Type Not Supported") from e
 
@@ -167,6 +167,7 @@ def print_dataframe(
         "ods",
         "odt",
         "vnd.openxmlformats-officedocument.spreadsheetml.sheet",  # MIME type
+        "vnd.ms-excel",
     }:
         df.to_excel(buf, index=False, engine="openpyxl")
         encoded_file = (
