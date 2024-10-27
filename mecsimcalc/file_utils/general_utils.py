@@ -4,6 +4,14 @@ import re
 from typing import Union, Tuple
 from mimetypes import guess_type, guess_extension
 
+# This is only nessesary for python 3.6
+EXTENSION_MAP = {
+    ".jpe": ".jpg",
+    ".htm": ".html",
+    ".jpeg": ".jpg",  # Optional if you want to standardize to .jpg
+    # Add more mappings as necessary
+}
+
 def input_to_file(
     input_file: str, file_extension: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
@@ -59,7 +67,7 @@ def input_to_file(
     meta_data = f"{meta};base64,"
     
     extension = guess_extension(guess_type(meta_data)[0])
-    extension = '.jpg' if extension=='.jpe' else extension
+    extension = EXTENSION_MAP.get(extension, extension) # Only necessary for python 3.6
 
     return (file_data, extension) if file_extension else file_data
 
