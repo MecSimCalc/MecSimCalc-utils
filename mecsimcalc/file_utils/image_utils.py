@@ -44,7 +44,7 @@ def file_to_PIL(file: io.BytesIO) -> Image.Image:
 
 
 def input_to_PIL(
-    input_file: str, get_file_extension: bool = False
+    input_file: str, get_file_extension: bool = False, get_file_type: bool = False
 ) -> Union[Image.Image, Tuple[Image.Image, str]]:
     """
     >>> input_to_PIL(
@@ -84,6 +84,9 @@ def input_to_PIL(
 
     (image is now ready to be used with Pillow functions)
     """
+    # get_file_type is deprecated
+    get_file_extension = get_file_extension or get_file_type
+    
     # Get file extension from metadata
     file_data = input_to_file(input_file)
     image = file_to_PIL(file_data)
@@ -103,6 +106,7 @@ def print_image(
     download: bool = False,
     download_text: str = "Download Image",
     download_file_name: str = "myimg",
+    download_file_type: str = None,
 ) -> Union[str, Tuple[str, str]]:
     """
     >>> print_image(
@@ -158,6 +162,8 @@ def print_image(
     }
 
     """
+    # download_file_type is deprecated
+    
     # get metadata (file type) from image
     dummy_filename = f"dummy.{image.format.lower()}"
     mime_type, _ = guess_type(dummy_filename)

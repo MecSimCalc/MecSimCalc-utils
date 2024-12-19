@@ -1,6 +1,6 @@
 # included in __all__: import using "from mecsimcalc import *" or "import mecsimcalc"
 
-from .file_utils.general_utils import input_to_file
+from .file_utils.general_utils import input_to_file, metadata_to_filetype
 
 from .file_utils.image_utils import input_to_PIL, file_to_PIL, print_image
 
@@ -33,6 +33,7 @@ __all__ = [
     "input_to_dataframe",
     "file_to_dataframe",
     "input_to_file",
+    "metadata_to_filetype" # Deprecated
     "input_to_PIL",
     "table_to_dataframe",
     "print_dataframe",

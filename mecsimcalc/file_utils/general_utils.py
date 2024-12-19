@@ -3,8 +3,9 @@ import base64
 import re
 from typing import Union, Tuple
 from mimetypes import guess_type, guess_extension
+from warnings import warn
 
-# This is only nessesary for python 3.6
+# This is only necessary for python 3.6
 EXTENSION_MAP = {
     ".jpe": ".jpg",
     ".htm": ".html",
@@ -13,7 +14,7 @@ EXTENSION_MAP = {
 }
 
 def input_to_file(
-    input_file: str, get_file_extension: bool = False
+    input_file: str, get_file_extension: bool = False, metadata: bool = False
 ) -> Union[io.BytesIO, Tuple[io.BytesIO, str]]:
     """
     >>> input_to_file(
@@ -68,6 +69,47 @@ def input_to_file(
     
     extension = guess_extension(guess_type(meta_data)[0])
     extension = EXTENSION_MAP.get(extension, extension) # Only necessary for python 3.6
-
+    
+    # Deprecated
+    if metadata:
+        return (file_data, meta_data)
+    
     return (file_data, extension) if get_file_extension else file_data
 
+# Deprecated
+def metadata_to_filetype(metadata: str) -> str:
+    """
+    # Deprecated
+    >>> metadata_to_filetype(metadata: str) -> str
+
+    Extracts the file type from the metadata string.
+
+    Parameters
+    ----------
+    metadata : str
+        A metadata string typically in the form `Data:<MIME type>;base64,`
+
+    Returns
+    -------
+    * `str` :
+        The extracted file type (e.g., 'csv'). For a Microsoft Excel file, it returns 'xlsx'.
+
+    Examples
+    --------
+    >>> input_file = inputs["input_file"]
+    >>> open_file, metadata = msc.input_to_file(input_file, metadata=True)
+    >>> file_type = msc.metadata_to_filetype(metadata)
+    >>> print(file_type)
+    'jpeg'
+    """
+    warn("metadata_to_filetype is deprecated. Use guess_extension instead.", DeprecationWarning)
+    
+    # Extract mime type from metadata
+    match = re.search(r"/(.+);base64,", metadata)
+    file_type = match[1] if match else ""
+
+    # Convert the file type to a more common format
+    if file_type == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        file_type = "xlsx"
+        
+    return file_type

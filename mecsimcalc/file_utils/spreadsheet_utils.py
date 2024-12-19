@@ -51,7 +51,7 @@ def file_to_dataframe(file: io.BytesIO) -> pd.DataFrame:
 
 
 def input_to_dataframe(
-    input_file: str, get_file_extension: bool = False
+    input_file: str, get_file_extension: bool = False, get_file_type: bool = False
 ) -> Union[pd.DataFrame, Tuple[pd.DataFrame, str]]:
     """
     >>> input_to_dataframe(
@@ -83,6 +83,9 @@ def input_to_dataframe(
     0  1  2  3
     1  4  5  6
     """
+    # get_file_type is deprecated
+    get_file_extension = get_file_extension or get_file_type
+    
     # converts input file into a dataframe
     file_data, file_extension = input_to_file(input_file, get_file_extension=True)
 
